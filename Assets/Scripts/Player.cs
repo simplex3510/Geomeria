@@ -9,8 +9,8 @@ public class Player : MonoBehaviour
     Camera m_camera;
     Rigidbody2D m_rigidbody2D;
     
-    Vector2 minDistance = new Vector2(-5, -5);
-    Vector2 maxDistance = new Vector2(5, 5);
+    Vector2 minDistance = new Vector2(-3, -3);
+    Vector2 maxDistance = new Vector2(3, 3);
     Vector2 force;
     Vector3 startPoint;
     Vector3 endPoint;
