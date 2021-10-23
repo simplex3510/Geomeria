@@ -15,9 +15,4 @@ public class Title : MonoBehaviour
     {
         SceneManager.LoadScene("GameTest");
     }
-
-    public void OnClickExit()
-    {
-        Application.Quit();
-    }
 }

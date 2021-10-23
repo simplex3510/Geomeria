@@ -26,4 +26,9 @@ public class SureExit : MonoBehaviour
         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         // Debug.Log(height);
     }
+    
+    public void OnClickExit()
+    {
+        Application.Quit();
+    }
 }

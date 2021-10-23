@@ -1240,7 +1240,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1879205615}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b0fa37874d35b448b8b76630dc6b1b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c8af256bd32209438c0e20d2f23fe48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1879205618
@@ -1288,7 +1288,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1879205617}
-        m_TargetAssemblyTypeName: Title, Assembly-CSharp
+        m_TargetAssemblyTypeName: SureExit, Assembly-CSharp
         m_MethodName: OnClickExit
         m_Mode: 1
         m_Arguments:
