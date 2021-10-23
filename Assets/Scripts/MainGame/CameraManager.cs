@@ -19,8 +19,10 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         isZoom = false;
-        playerPosition = GetComponent<Transform>();
         mainCamera = Camera.main;
+        mainCamera.orthographicSize = 5f;
+        playerPosition = GetComponent<Transform>();
+        
     }
 
     private void Update()

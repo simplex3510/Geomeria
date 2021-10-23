@@ -25,18 +25,19 @@ public class Player : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            startPoint = m_camera.WorldToScreenPoint(Input.mousePosition);
+            startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             startPoint.z = 1f;
+            Debug.Log("startPoint: " + startPoint.ToString());
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            endPoint = m_camera.WorldToScreenPoint(Input.mousePosition);
-            startPoint.z = 1f;
+            endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
+            endPoint.z = 1f;
+            Debug.Log("endPoint: " + endPoint.ToString());
 
             force = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minDistance.x, maxDistance.x),
                                 Mathf.Clamp(startPoint.y - endPoint.y, minDistance.y, maxDistance.y));
-            Debug.Log(force.ToString());
 
             m_rigidbody2D.velocity = force * moveSpeed;
         }
