@@ -27,14 +27,14 @@ public class Player : MonoBehaviour
         {
             startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             startPoint.z = 1f;
-            Debug.Log("startPoint: " + startPoint.ToString());
+            // Debug.Log("startPoint: " + startPoint.ToString());
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             endPoint.z = 1f;
-            Debug.Log("endPoint: " + endPoint.ToString());
+            // Debug.Log("endPoint: " + endPoint.ToString());
 
             force = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minDistance.x, maxDistance.x),
                                 Mathf.Clamp(startPoint.y - endPoint.y, minDistance.y, maxDistance.y));
