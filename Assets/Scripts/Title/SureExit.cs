@@ -15,7 +15,7 @@ public class SureExit : MonoBehaviour
 
     void Update()
     {
-        height = Mathf.Lerp(height, 250f, 0.1f);
+        height = Mathf.Lerp(height, 250f, 0.3f);
         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
         // Debug.Log(height);
     }
