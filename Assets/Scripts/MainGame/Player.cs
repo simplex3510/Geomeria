@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public ParticleSystem chargeEffect;
+
     public float moveSpeed;
 
     Camera m_camera;
@@ -27,13 +29,22 @@ public class Player : MonoBehaviour
         {
             startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             startPoint.z = 1f;
+            chargeEffect.gameObject.SetActive(true);
             // Debug.Log("startPoint: " + startPoint.ToString());
+        }
+
+        if(Input.GetMouseButton(0))
+        {
+            
+            chargeEffect.Play();
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             endPoint.z = 1f;
+            chargeEffect.Stop();
+            chargeEffect.gameObject.SetActive(false);
             // Debug.Log("endPoint: " + endPoint.ToString());
 
             force = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minDistance.x, maxDistance.x),
