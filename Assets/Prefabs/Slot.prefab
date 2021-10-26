@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6081503504220711939}
   - component: {fileID: 8677704896636287789}
   - component: {fileID: 9190396312120630598}
-  - component: {fileID: 6013236541499270871}
+  - component: {fileID: 4131915188360587497}
   m_Layer: 5
   m_Name: Slot
   m_TagString: Untagged
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6013236541499270871
+--- !u!114 &4131915188360587497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1535393428315542451}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ef2c950ba87ed24c8b35253103320f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d505ce42c76d0247b517e0b7c5b8809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6505936334091896791
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 1567063918466700040}
   - component: {fileID: 6881830100041448539}
   - component: {fileID: 6520441823879956830}
-  - component: {fileID: 2325286873759504911}
+  - component: {fileID: 6088599390670015760}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2325286873759504911
+--- !u!114 &6088599390670015760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6505936334091896791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99bca92050199854c83ea80c8d970acb, type: 3}
+  m_Script: {fileID: 11500000, guid: 01b8f482dc3f2f24b948b4db4649f063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startParent: {fileID: 5507387793095614126}
