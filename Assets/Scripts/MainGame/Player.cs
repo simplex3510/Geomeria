@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public ParticleSystem chargeEffect;
-
     public float moveSpeed;
 
+    bool isMove;
     Camera m_camera;
     Rigidbody2D m_rigidbody2D;
-    
+
     Vector2 minDistance = new Vector2(-3, -3);
     Vector2 maxDistance = new Vector2(3, 3);
     Vector2 force;
@@ -25,32 +26,41 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             startPoint.z = 1f;
+
+            chargeEffect.loop = true;
             chargeEffect.Play();
-            // chargeEffect.gameObject.SetActive(true);
             // Debug.Log("startPoint: " + startPoint.ToString());
         }
 
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
-            chargeEffect.Play();
+            // chargeEffect.Play();
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             endPoint.z = 1f;
-            // chargeEffect.Stop();
-            // chargeEffect.gameObject.SetActive(false);
-            // Debug.Log("endPoint: " + endPoint.ToString());
 
             force = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minDistance.x, maxDistance.x),
                                 Mathf.Clamp(startPoint.y - endPoint.y, minDistance.y, maxDistance.y));
 
             m_rigidbody2D.velocity = force * moveSpeed;
+            chargeEffect.loop = false;
         }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        isMove = false;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        isMove = false;
     }
 }

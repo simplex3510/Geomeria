@@ -46,9 +46,9 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -4814,7 +4814,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5174686158363029252}
   - component: {fileID: 5174686158363029275}
-  - component: {fileID: 5174686158363029274}
+  - component: {fileID: 2509650638003409263}
   - component: {fileID: 5174686158363029273}
   - component: {fileID: 5174686158363029272}
   - component: {fileID: 5174686158363029253}
@@ -4892,7 +4892,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5174686158363029274
+--- !u!61 &2509650638003409263
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4916,7 +4916,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.1}
+  m_Size: {x: 1.61, y: 1.61}
   m_EdgeRadius: 0
 --- !u!50 &5174686158363029273
 Rigidbody2D:
@@ -4982,7 +4982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2889862306547031590
 Transform:
   m_ObjectHideFlags: 0
@@ -5013,7 +5013,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
