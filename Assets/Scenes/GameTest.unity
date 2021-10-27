@@ -1797,13 +1797,25 @@ PrefabInstance:
       propertyPath: looping
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 575077664931028643, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+    - target: {fileID: 951081995110980244, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760421064353163248, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760421064353163248, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: lengthInSec
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 575077664931028643, guid: 8813848357595f945b7b3099aebefda3, type: 3}
-      propertyPath: playOnAwake
-      value: 0
+    - target: {fileID: 4760421064353163248, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: ShapeModule.angle
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4760421064353163248, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029252, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_RootOrder
