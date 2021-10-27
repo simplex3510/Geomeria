@@ -10,11 +10,12 @@ public class CameraManager : MonoBehaviour
         set;
     }
 
+    bool isCharge = false;
     float fullChargeTime = 1f;
     float currentChargeTime;
     float zoomIn = 10f;
     float zoomOut = 13f;
-    float zoomSpeed = 0.1f;
+    float zoomPower = 0.1f;
     
 
     Transform playerPosition;
@@ -38,26 +39,32 @@ public class CameraManager : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             currentChargeTime += Time.deltaTime;
-            if (fullChargeTime <= currentChargeTime)
+            if (fullChargeTime <= currentChargeTime && isCharge == false)
             {
-                Debug.Log("mainCamera.orthographicSize = 12f;");
                 mainCamera.orthographicSize = 12f;
+                isCharge = true;
             }
         }
 
-        if(Input.GetMouseButton(0))
+        if(isCharge)
+        {
+            CameraZoomEffect(zoomOut, 0.01f);
+        }
+
+        if(Input.GetMouseButtonDown(0))
         {
             currentChargeTime = 0f;
+            isCharge = false;
         }
         #endregion
 
         if (isZoom)
         {
-            CameraZoomEffect(zoomIn, zoomSpeed);
+            CameraZoomEffect(zoomIn, zoomPower);
         }
         else
         {
-            CameraZoomEffect(zoomOut, zoomSpeed);
+            CameraZoomEffect(zoomOut, zoomPower);
         }
 
     }
@@ -67,7 +74,7 @@ public class CameraManager : MonoBehaviour
         mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, _zoom, _zoomSpeed);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Enemy")
         {
@@ -75,7 +82,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Enemy")
         {

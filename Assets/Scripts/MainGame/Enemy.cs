@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    
+    bool isSuccess;
+
     void Start()
     {
         
@@ -13,5 +14,19 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            // Enter Battle Mode
+            
+            if(isSuccess)
+            {
+                Destroy(this.gameObject);
+                CameraManager.isZoom = false;
+            }
+        }
     }
 }
