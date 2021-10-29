@@ -37,8 +37,6 @@ public class Enemy : MonoBehaviour
                 GameObject.Destroy(this.gameObject);
             }
         }
-
-
     }
 
     private void OnCollisionEnter2D(Collision2D other)

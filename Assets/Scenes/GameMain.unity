@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &509860584
 RectTransform:
   m_ObjectHideFlags: 0
@@ -490,6 +490,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1647746797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5174686158363029279, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+  m_PrefabInstance: {fileID: 5174686156953046772}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1647746798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647746797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f97d64ca61403140ace2090bceba380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1681900992
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +801,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 575077664931028643, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 575077664931028643, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 575077664931028643, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 575077664931028643, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 2219766239526960051, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029252, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -827,10 +864,6 @@ PrefabInstance:
     - target: {fileID: 5174686158363029252, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174686158363029272, guid: 8813848357595f945b7b3099aebefda3, type: 3}
-      propertyPath: speed
-      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029279, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_Name
