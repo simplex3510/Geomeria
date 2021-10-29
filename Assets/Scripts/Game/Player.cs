@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public ParticleSystem chargedEffect;
     public float speed;
 
+    bool isCharge;
     float currentChargeTime;
     float fullChargeTime = 1f;
     Camera m_camera;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            isCharge = true;
             startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             startPoint.z = 1f;
 
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            isCharge = false;
             endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             endPoint.z = 1f;
 
@@ -79,5 +82,10 @@ public class Player : MonoBehaviour
                 currentChargeTime = 0f;
             }
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        
     }
 }
