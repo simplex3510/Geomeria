@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//enum Input
-//{
-//    Up = 0,
-//    Down,
-//    Left,
-//    Right,
-//}
+enum Command
+{
+    Up = 'w',
+    Down = 's',
+    Left = 'a',
+    Right = 'd',
+}
 
 public class Enemy : MonoBehaviour
 {
@@ -29,11 +29,16 @@ public class Enemy : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (isBattle)
         {
-            Time.timeScale = 1;
-            GameObject.Destroy(this.gameObject);
+            if (Input.GetKeyDown((KeyCode)Command.Down))
+            {
+                Time.timeScale = 1;
+                GameObject.Destroy(this.gameObject);
+            }
         }
+
+
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -42,8 +47,8 @@ public class Enemy : MonoBehaviour
         {
             // Enter Battle Mode
             isBattle = true;
-            CameraManager.isZoom = false;
-            // Time.timeScale = 0;
+
+            Time.timeScale = 0;
         }
     }
 }

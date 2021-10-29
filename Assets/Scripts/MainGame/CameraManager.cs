@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public static bool isZoom
-    {
-        get;
-        set;
-    }
-
+    bool isZoom = false;
     bool isCharge = false;
     float fullChargeTime = 1f;
     float currentChargeTime;
