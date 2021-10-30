@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     Camera m_camera;
     Rigidbody2D m_rigidbody2D;
     SpriteRenderer spriteRenderer;
+    DrawArrow drawArrow;
 
     Vector2 minDistance = new Vector2(-3, -3);
     Vector2 maxDistance = new Vector2(3, 3);
     Vector2 distance;
     Vector3 startPoint;
+    Vector3 currentPoint;
     Vector3 endPoint;
 
     void Start()
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
         m_camera = Camera.main;
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        drawArrow = GetComponentInChildren<DrawArrow>();
     }
 
     void Update()
@@ -35,7 +38,7 @@ public class Player : MonoBehaviour
         {
             isCharge = true;
             startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
-            startPoint.z = 1f;
+            startPoint.z = 0f;
 
             // var chargingEffectMain = chargingEffect.main;
             // chargingEffectMain.loop = true;
@@ -44,8 +47,12 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            currentChargeTime += Time.deltaTime;
+            currentPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
+            currentPoint.z = 0f;
 
+            drawArrow.RenderLine(currentPoint * -1, currentPoint);
+
+            currentChargeTime += Time.deltaTime;
             if (fullChargeTime - 0.15f <= currentChargeTime)
             {
                 // spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player_Charged");
@@ -65,7 +72,11 @@ public class Player : MonoBehaviour
         {
             isCharge = false;
             endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
-            endPoint.z = 1f;
+            startPoint = endPoint * -1;
+            // endPoint = -startPoint;
+            endPoint.z = 0f;
+
+            drawArrow.EndLine();
 
             distance = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minDistance.x, maxDistance.x),
                                    Mathf.Clamp(startPoint.y - endPoint.y, minDistance.y, maxDistance.y));

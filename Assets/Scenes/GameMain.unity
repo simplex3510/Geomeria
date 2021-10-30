@@ -814,6 +814,8 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+<<<<<<< HEAD
+=======
     - target: {fileID: 2219766239526960051, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_LengthScale
       value: 1.5
@@ -826,6 +828,7 @@ PrefabInstance:
       propertyPath: looping
       value: 0
       objectReference: {fileID: 0}
+>>>>>>> 469aff9fbe204618b29d5dab61db0ddde54b8b73
     - target: {fileID: 5174686158363029252, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_RootOrder
       value: 3
