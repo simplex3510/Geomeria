@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DrawArrow : MonoBehaviour
 {
-    public LineRenderer lineRenderer;
+    LineRenderer lineRenderer;
 
     private void Awake()
     {

@@ -5128,6 +5128,7 @@ MonoBehaviour:
   chargingEffect: {fileID: 575077664931028643}
   chargedEffect: {fileID: 4760421064353163248}
   speed: 30
+  offsetSpeed: 0
 --- !u!114 &1647746798
 MonoBehaviour:
   m_ObjectHideFlags: 0

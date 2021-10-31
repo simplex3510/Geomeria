@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public ParticleSystem chargingEffect;
     public ParticleSystem chargedEffect;
     public float speed;
+    public float offsetSpeed;
 
     bool isCharge;
     float currentChargeTime;
@@ -17,9 +18,11 @@ public class Player : MonoBehaviour
     SpriteRenderer spriteRenderer;
     DrawArrow drawArrow;
 
-    Vector2 minDistance = new Vector2(-3, -3);
-    Vector2 maxDistance = new Vector2(3, 3);
-    Vector2 distance;
+    Vector3 startPosition;
+    Vector3 movePosition;
+    Vector3 currentPosition;
+
+    Vector3 direction;
     Vector3 startPoint;
     Vector3 currentPoint;
     Vector3 endPoint;
@@ -40,8 +43,8 @@ public class Player : MonoBehaviour
             startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             startPoint.z = 0f;
 
-            // var chargingEffectMain = chargingEffect.main;
-            // chargingEffectMain.loop = true;
+            startPosition = transform.position;
+
             chargingEffect.Play();
         }
 
@@ -50,41 +53,45 @@ public class Player : MonoBehaviour
             currentPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = 0f;
 
+            #region 드로우 라인 on
             drawArrow.RenderLine(currentPoint * -1, currentPoint);
+            #endregion
 
+            #region 이펙트 및 이미지 렌더러
             currentChargeTime += Time.deltaTime;
             if (fullChargeTime - 0.15f <= currentChargeTime)
             {
-                // spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player_Charged");
-                // var chargingEffectMain = chargingEffect.main;
-                // chargingEffectMain.loop = false;
                 chargingEffect.Stop();
             }
             
-            if (fullChargeTime <= currentChargeTime)
+            if (fullChargeTime <= currentChargeTime && currentChargeTime < currentChargeTime + 1f)
             {
-                spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player_Charged");
                 // chargedEffect.Play();
+                spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player_Charged");
             }
+            #endregion
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             isCharge = false;
-            endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
+            // endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
+            endPoint = currentPoint;
             startPoint = endPoint * -1;
-            // endPoint = -startPoint;
             endPoint.z = 0f;
 
+            #region 드로우 라인 off
             drawArrow.EndLine();
+            #endregion
 
-            distance = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minDistance.x, maxDistance.x),
-                                   Mathf.Clamp(startPoint.y - endPoint.y, minDistance.y, maxDistance.y));
+            direction = new Vector2(startPoint.x - endPoint.x, startPoint.y - endPoint.y);
+            movePosition = direction;   // 이동 해야 할 거리
+            direction = direction.normalized;
 
             if (fullChargeTime <= currentChargeTime)
             {
                 spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player");
-                m_rigidbody2D.velocity = distance * speed;
+                m_rigidbody2D.velocity = direction * speed * offsetSpeed;
                 currentChargeTime = 0f;
             }
             else
@@ -93,10 +100,15 @@ public class Player : MonoBehaviour
                 currentChargeTime = 0f;
             }
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        
+        currentPosition = transform.position;
+        // 이동해야 할 거리와 실재 이동 거리 비교 연산
+        if(movePosition.magnitude <= (currentPosition - startPosition).magnitude)
+        {
+            Debug.Log($"CP-SP: {(currentPosition - startPosition).magnitude}");
+            Debug.Log($"MP: {movePosition.magnitude}");
+            Debug.Log("Move Stop");
+            m_rigidbody2D.velocity = new Vector2(0, 0);
+        }
     }
 }

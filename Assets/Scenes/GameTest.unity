@@ -1738,7 +1738,7 @@ Camera:
   m_GameObject: {fileID: 1290824548}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -1779,7 +1779,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290824548}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1793,6 +1793,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 60586404, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_Name
+      value: DrawDirection_Line
+      objectReference: {fileID: 0}
+    - target: {fileID: 60586404, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 60586406, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_Positions.Array.size
       value: 2
@@ -1804,6 +1812,10 @@ PrefabInstance:
     - target: {fileID: 60586406, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.a
       value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 60586406, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.44354334
       objectReference: {fileID: 0}
     - target: {fileID: 60586407, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_BodyType
@@ -1879,6 +1891,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029252, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174686158363029272, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174686158363029273, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174686158363029273, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_LinearDrag
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174686158363029273, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_AngularDrag
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029279, guid: 8813848357595f945b7b3099aebefda3, type: 3}
