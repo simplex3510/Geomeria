@@ -52,19 +52,20 @@ public class Player : MonoBehaviour
         {
             currentPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = 0f;
+            Debug.Log(currentPoint);
 
             #region 드로우 라인 on
             drawArrow.RenderLine(currentPoint * -1, currentPoint);
             #endregion
 
-            #region 이펙트 및 이미지 렌더러
+            #region 이펙트 및 이미지 로드
             currentChargeTime += Time.deltaTime;
             if (fullChargeTime - 0.15f <= currentChargeTime)
             {
                 chargingEffect.Stop();
             }
             
-            if (fullChargeTime <= currentChargeTime && currentChargeTime < currentChargeTime + 1f)
+            if (fullChargeTime <= currentChargeTime)
             {
                 // chargedEffect.Play();
                 spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player_Charged");
@@ -74,19 +75,22 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            isCharge = false;
+            // isCharge = false;
             // endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
+            startPoint = currentPoint * -1;
             endPoint = currentPoint;
-            startPoint = endPoint * -1;
-            endPoint.z = 0f;
+            // endPoint.z = 0f;
 
             #region 드로우 라인 off
             drawArrow.EndLine();
             #endregion
 
-            direction = new Vector2(startPoint.x - endPoint.x, startPoint.y - endPoint.y);
-            movePosition = direction;   // 이동 해야 할 거리
-            direction = direction.normalized;
+            // 방향 설정 및 이동 거리 제한
+            direction = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, -10f, 10f),
+                                    Mathf.Clamp(startPoint.y - endPoint.y, -10f, 10f));
+
+            movePosition = direction;           // 이동 해야 할 거리
+            direction = direction.normalized;   // 방향 벡터로 변환
 
             if (fullChargeTime <= currentChargeTime)
             {
@@ -105,9 +109,6 @@ public class Player : MonoBehaviour
         // 이동해야 할 거리와 실재 이동 거리 비교 연산
         if(movePosition.magnitude <= (currentPosition - startPosition).magnitude)
         {
-            Debug.Log($"CP-SP: {(currentPosition - startPosition).magnitude}");
-            Debug.Log($"MP: {movePosition.magnitude}");
-            Debug.Log("Move Stop");
             m_rigidbody2D.velocity = new Vector2(0, 0);
         }
     }
