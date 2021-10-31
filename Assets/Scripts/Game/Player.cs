@@ -39,9 +39,9 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            isCharge = true;
-            startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
-            startPoint.z = 0f;
+            // isCharge = true;
+            // startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
+            // startPoint.z = 0f;
 
             startPosition = transform.position;
 

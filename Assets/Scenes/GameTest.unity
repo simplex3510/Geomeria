@@ -1895,6 +1895,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029272, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: speed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174686158363029272, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: offsetSpeed
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029273, guid: 8813848357595f945b7b3099aebefda3, type: 3}
@@ -1903,11 +1907,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029273, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_LinearDrag
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029273, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_AngularDrag
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174686158363029273, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029279, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_Name
