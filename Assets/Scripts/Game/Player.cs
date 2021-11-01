@@ -10,7 +10,8 @@ public class Player : MonoBehaviour
     public float speed;
     public float offsetSpeed;
 
-    bool isCharge;
+    bool isCharged;
+    bool isCharging;
     float currentChargeTime;
     float fullChargeTime = 1f;
     Camera m_camera;
@@ -39,7 +40,8 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            // isCharge = true;
+            isCharging = true;
+            isCharged  = false;
             // startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             // startPoint.z = 0f;
 
@@ -67,7 +69,14 @@ public class Player : MonoBehaviour
             
             if (fullChargeTime <= currentChargeTime)
             {
-                // chargedEffect.Play();
+                // 한 번만 실행
+                if(isCharged)
+                {
+                    return;
+                }
+
+                isCharged = true;
+                chargedEffect.Play();
                 spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player_Charged");
             }
             #endregion
@@ -75,7 +84,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            // isCharge = false;
+            isCharging = false;
+            isCharged  = false;
             // endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
             startPoint = currentPoint * -1;
             endPoint = currentPoint;

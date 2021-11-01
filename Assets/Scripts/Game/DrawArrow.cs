@@ -21,9 +21,9 @@ public class DrawArrow : MonoBehaviour
         _startPoint = new Vector3(Mathf.Clamp(_startPoint.x, minOffset, maxOffset),
                                   Mathf.Clamp(_startPoint.y, minOffset, maxOffset),
                                   0f);
-        _endPoint = new Vector3(Mathf.Clamp(_endPoint.x, minOffset, maxOffset),
-                                Mathf.Clamp(_endPoint.y, minOffset, maxOffset),
-                                0f);
+        _endPoint   = new Vector3(Mathf.Clamp(_endPoint.x, minOffset, maxOffset),
+                                  Mathf.Clamp(_endPoint.y, minOffset, maxOffset),
+                                  0f);
 
         points[0] = _startPoint;
         points[1] = _endPoint;
