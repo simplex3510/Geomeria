@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 3b48ea79e7890fb4d822949498f2c85f
+guid: 5529c99a3af30be488d89c21ac38d355
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5063605252318705730
-    second: Full_0
+      213: 413248917955918174
+    second: Miss_0
   - first:
-      213: 3185913190622545783
-    second: Full_1
+      213: -5467319326771189541
+    second: Miss_1
   - first:
-      213: -4092597963734423077
-    second: Full_2
+      213: 401876147640993893
+    second: Miss_2
   - first:
-      213: -5770062243969143896
-    second: Full_3
+      213: -5172258718029712225
+    second: Miss_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Full_0
+      name: Miss_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 374
-        height: 714
+        width: 345
+        height: 687
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,20 +129,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb7cdb4e9d57ab9b0800000000000000
-      internalID: -5063605252318705730
+      spriteID: e59b39e83b72cb500800000000000000
+      internalID: 413248917955918174
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Full_1
+      name: Miss_1
       rect:
         serializedVersion: 2
-        x: 456
+        x: 455
         y: 170
-        width: 710
-        height: 374
+        width: 690
+        height: 347
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 777c94cca23a63c20800000000000000
-      internalID: 3185913190622545783
+      spriteID: bd8ec261a0e2024b0800000000000000
+      internalID: -5467319326771189541
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Full_2
+      name: Miss_2
       rect:
         serializedVersion: 2
         x: 1253
         y: 0
-        width: 376
-        height: 714
+        width: 347
+        height: 687
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd96f13e5db2437c0800000000000000
-      internalID: -4092597963734423077
+      spriteID: 56808df1a30c39500800000000000000
+      internalID: 401876147640993893
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Full_3
+      name: Miss_3
       rect:
         serializedVersion: 2
-        x: 1716
+        x: 1710
         y: 170
-        width: 709
-        height: 374
+        width: 688
+        height: 347
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,8 +192,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ab6350d5fe9cefa0800000000000000
-      internalID: -5770062243969143896
+      spriteID: f94fb6989127838b0800000000000000
+      internalID: -5172258718029712225
       vertices: []
       indices: 
       edges: []

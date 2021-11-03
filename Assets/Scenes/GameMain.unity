@@ -276,7 +276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1753aae332eb304a86c821ae241302d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorImage: {fileID: 2800000, guid: 826fb60a59ed270488a92ccef3ebda95, type: 3}
 --- !u!1001 &1374454694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -499,7 +498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
