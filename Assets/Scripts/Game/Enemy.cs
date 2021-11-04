@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum Command
+enum CommandKey
 {
     Up = 'w',
     Down = 's',
@@ -29,9 +29,10 @@ public class Enemy : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
 
+        // Battle Mode
         if (isBattle)
         {
-            if (Input.GetKeyDown((KeyCode)Command.Down))
+            if (Input.GetKeyDown((KeyCode)CommandKey.Down))
             {
                 Time.timeScale = 1;
                 GameObject.Destroy(this.gameObject);
