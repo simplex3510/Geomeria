@@ -13,11 +13,10 @@ enum CommandKey
 public class Enemy : MonoBehaviour
 {
     public Transform playerTransform;
+    public float speed = 1.5f;
 
     bool isBattle;
     bool isBattleWin;
-    [SerializeField]
-    float speed = 3;
     Transform enemyTransform;
 
     void Start()
@@ -32,6 +31,7 @@ public class Enemy : MonoBehaviour
         // Battle Mode
         if (isBattle)
         {
+
             if (Input.GetKeyDown((KeyCode)CommandKey.Down))
             {
                 Time.timeScale = 1;

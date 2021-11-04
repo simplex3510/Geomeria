@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     bool isCharging;
     float currentChargeTime;
     float fullChargeTime = 1f;
-    Camera m_camera;
+    Camera cameraMain;
     Rigidbody2D m_rigidbody2D;
     SpriteRenderer spriteRenderer;
     DrawArrow drawArrow;
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        m_camera = Camera.main;
+        cameraMain = Camera.main;
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         drawArrow = GetComponentInChildren<DrawArrow>();
@@ -42,8 +42,6 @@ public class Player : MonoBehaviour
         {
             isCharging = true;
             isCharged  = false;
-            // startPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
-            // startPoint.z = 0f;
 
             startPosition = transform.position;
 
@@ -52,9 +50,9 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            currentPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
-            currentPoint.z = 0f;
-            Debug.Log(currentPoint);
+            currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
+            currentPoint.z = -10f;
+            // Debug.Log(currentPoint);
 
             #region 드로우 라인 on
             drawArrow.RenderLine(currentPoint * -1, currentPoint);
@@ -86,10 +84,10 @@ public class Player : MonoBehaviour
         {
             isCharging = false;
             isCharged  = false;
-            // endPoint = m_camera.ScreenToWorldPoint(Input.mousePosition);
+
             startPoint = currentPoint * -1;
             endPoint = currentPoint;
-            // endPoint.z = 0f;
+
 
             #region 드로우 라인 off
             drawArrow.EndLine();
@@ -116,6 +114,7 @@ public class Player : MonoBehaviour
         }
 
         currentPosition = transform.position;
+        Debug.Log(m_rigidbody2D.velocity);
         // 이동해야 할 거리와 실재 이동 거리 비교 연산
         if(movePosition.magnitude <= (currentPosition - startPosition).magnitude)
         {
