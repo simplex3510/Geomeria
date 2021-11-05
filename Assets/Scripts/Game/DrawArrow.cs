@@ -17,8 +17,8 @@ public class DrawArrow : MonoBehaviour
     {
         lineRenderer.positionCount = 2;
 
-        points[0] = _startPoint.normalized * Mathf.Clamp(_startPoint.magnitude, -10, 10);
-        points[1] = _endPoint.normalized * Mathf.Clamp(_endPoint.magnitude, -10, 10);
+        points[0] = _startPoint.normalized * Mathf.Clamp(_startPoint.magnitude, -10f, 10f);
+        points[1] = _endPoint.normalized * Mathf.Clamp(_endPoint.magnitude, -10f, 10f);
 
         lineRenderer.SetPositions(points);
     }

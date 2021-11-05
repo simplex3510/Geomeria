@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum CommandKey
+enum ECommand
 {
     Up = 'w',
-    Down = 's',
     Left = 'a',
+    Down = 's',
     Right = 'd',
 }
 
@@ -31,8 +31,7 @@ public class Enemy : MonoBehaviour
         // Battle Mode
         if (isBattle)
         {
-
-            if (Input.GetKeyDown((KeyCode)CommandKey.Down))
+            if (Input.GetKeyDown((KeyCode)ECommand.Down))
             {
                 Time.timeScale = 1;
                 GameObject.Destroy(this.gameObject);

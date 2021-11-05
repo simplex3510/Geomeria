@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
     public ParticleSystem chargingEffect;
     public ParticleSystem chargedEffect;
     public float speed;
-    public float offsetSpeed;
 
     bool isCharged;
     bool isCharging;
@@ -93,17 +92,17 @@ public class Player : MonoBehaviour
             drawArrow.EndLine();
             #endregion
 
-            // 방향 설정 및 이동 거리 제한
+            // 방향 설정 및 이동 거리 설정
             direction = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, -10f, 10f),
                                     Mathf.Clamp(startPoint.y - endPoint.y, -10f, 10f));
 
             movePosition = direction;           // 이동 해야 할 거리
-            direction = direction.normalized;   // 방향 벡터로 변환
+            direction = direction.normalized;   // 방향 벡터로 설정
 
             if (fullChargeTime <= currentChargeTime)
             {
                 spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player");
-                m_rigidbody2D.velocity = direction * speed * offsetSpeed;
+                m_rigidbody2D.velocity = direction * speed;
                 currentChargeTime = 0f;
             }
             else
@@ -114,11 +113,13 @@ public class Player : MonoBehaviour
         }
 
         currentPosition = transform.position;
-        Debug.Log(m_rigidbody2D.velocity);
         // 이동해야 할 거리와 실재 이동 거리 비교 연산
         if(movePosition.magnitude <= (currentPosition - startPosition).magnitude)
         {
+            // Debug.Log("(currentPosition - startPosition).magnitude: " + (currentPosition - startPosition).magnitude);
+            // Debug.Log("movePosition.magnitude: " + movePosition.magnitude);
             m_rigidbody2D.velocity = new Vector2(0, 0);
+            
         }
     }
 }
