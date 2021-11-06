@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 enum ECommand
 {
@@ -12,6 +13,10 @@ enum ECommand
 
 public class Enemy : MonoBehaviour
 {
+    public RectTransform commandLine;
+    public GameObject[] commands;
+    public List<RectTransform> commandList;
+
     public Transform playerTransform;
     public float speed = 1.5f;
 
@@ -21,6 +26,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        commandList = new List<RectTransform>();
         enemyTransform = GetComponent<Transform>();
     }
 
@@ -45,6 +51,18 @@ public class Enemy : MonoBehaviour
         {
             // Enter Battle Mode
             isBattle = true;
+
+            #region Draw Arrow
+            int count = Random.Range(0, 4);
+            for (int i=0; i<count; i++)
+            {
+                var command = Instantiate(commands[Random.Range(0, commands.Length)]).GetComponent<RectTransform>();
+                command.transform.SetParent(commandLine);
+                commandList.Add(command);
+
+                commandLine.sizeDelta = new Vector2(command.sizeDelta.x * count, commandLine.sizeDelta.y);
+            }
+            #endregion
 
             Time.timeScale = 0;
         }
