@@ -40,6 +40,7 @@ public class Enemy : MonoBehaviour
             if (Input.GetKeyDown((KeyCode)ECommand.Down))
             {
                 Time.timeScale = 1;
+                commandList.Clear();
                 GameObject.Destroy(this.gameObject);
             }
         }
@@ -53,15 +54,14 @@ public class Enemy : MonoBehaviour
             isBattle = true;
 
             #region Draw Arrow
-            int count = Random.Range(0, 4);
+            int count = Random.Range(4, 5);
             for (int i=0; i<count; i++)
             {
                 var command = Instantiate(commands[Random.Range(0, commands.Length)]).GetComponent<RectTransform>();
-                command.transform.SetParent(commandLine);
+                command.SetParent(commandLine);
                 commandList.Add(command);
-
-                commandLine.sizeDelta = new Vector2(command.sizeDelta.x * count, commandLine.sizeDelta.y);
             }
+            commandLine.sizeDelta = new Vector2(200 * count, commandLine.sizeDelta.y);
             #endregion
 
             Time.timeScale = 0;
