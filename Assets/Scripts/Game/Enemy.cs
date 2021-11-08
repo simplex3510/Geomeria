@@ -13,8 +13,9 @@ enum ECommand
 
 public class Enemy : MonoBehaviour
 {
-    public RectTransform commandLine;
+    public GameObject commandWindow;
     public GameObject[] commands;
+    public RectTransform commandLine;
     public List<RectTransform> commandList;
 
     public Transform playerTransform;
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour
             {
                 Time.timeScale = 1;
                 commandList.Clear();
+                commandWindow.SetActive(false);
                 GameObject.Destroy(this.gameObject);
             }
         }
@@ -61,6 +63,7 @@ public class Enemy : MonoBehaviour
                 command.SetParent(commandLine);
                 commandList.Add(command);
             }
+            commandWindow.SetActive(true);
             commandLine.sizeDelta = new Vector2(200 * count, commandLine.sizeDelta.y);
             #endregion
 
