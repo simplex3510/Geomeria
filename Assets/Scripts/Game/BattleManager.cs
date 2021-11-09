@@ -15,12 +15,18 @@ public class BattleManager : MonoBehaviour
     public GameObject commandWindow;
     public GameObject[] commands;
     public RectTransform commandLine;
-    public List<RectTransform> commandList;
+    public bool isBattleResult
+    {
+        get
+        {
+            return isBattleWin;
+        }
+    }
 
-    [SerializeField]
-    Queue<ECommand> commandQueue;
+    [SerializeField] List<RectTransform> commandList;
+    [SerializeField] Queue<ECommand> commandQueue;
+    bool isBattleWin = false;
     bool isBattleMode;
-    bool isBattleWin;
 
     #region Singleton
     private static BattleManager _instance;
@@ -69,6 +75,7 @@ public class BattleManager : MonoBehaviour
         {
             if (Input.GetKeyDown((KeyCode)ECommand.Down))
             {
+                isBattleWin = true;
                 Time.timeScale = 1;
                 commandList.Clear();
                 commandWindow.SetActive(false);

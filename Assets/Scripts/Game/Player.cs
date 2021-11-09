@@ -116,10 +116,19 @@ public class Player : MonoBehaviour
         // 이동해야 할 거리와 실재 이동 거리 비교 연산
         if(movePosition.magnitude <= (currentPosition - startPosition).magnitude)
         {
-            // Debug.Log("(currentPosition - startPosition).magnitude: " + (currentPosition - startPosition).magnitude);
-            // Debug.Log("movePosition.magnitude: " + movePosition.magnitude);
             m_rigidbody2D.velocity = new Vector2(0, 0);
-            
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            BattleManager.Instance.EnterBattleMode();
+            if(BattleManager.Instance.isBattleResult == true)
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
 }

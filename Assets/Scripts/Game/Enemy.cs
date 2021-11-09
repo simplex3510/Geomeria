@@ -18,12 +18,4 @@ public class Enemy : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
     }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if(other.gameObject.CompareTag("Player"))
-        {
-            BattleManager.Instance.EnterBattleMode();
-        }
-    }
 }
