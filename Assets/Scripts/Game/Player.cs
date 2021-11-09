@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     Camera cameraMain;
     Rigidbody2D m_rigidbody2D;
     SpriteRenderer spriteRenderer;
-    DrawArrow drawArrow;
+    DrawLine drawLine;
 
     Vector3 startPosition;
     Vector3 movePosition;
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         cameraMain = Camera.main;
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        drawArrow = GetComponentInChildren<DrawArrow>();
+        drawLine = GetComponentInChildren<DrawLine>();
     }
 
     void Update()
@@ -54,7 +54,8 @@ public class Player : MonoBehaviour
             // Debug.Log(currentPoint);
 
             #region 드로우 라인 on
-            drawArrow.RenderLine(currentPoint * -1, currentPoint);
+            Vector3 linePoint = (currentPoint - this.transform.position);
+            drawLine.RenderLine(linePoint * -1, linePoint);
             #endregion
 
             #region 이펙트 및 이미지 로드
@@ -89,7 +90,7 @@ public class Player : MonoBehaviour
 
 
             #region 드로우 라인 off
-            drawArrow.EndLine();
+            drawLine.EndLine();
             #endregion
 
             // 방향 설정 및 이동 거리 설정

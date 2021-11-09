@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrawArrow : MonoBehaviour
+public class DrawLine : MonoBehaviour
 {
     LineRenderer lineRenderer;
     Vector3[] points;
