@@ -25,6 +25,7 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] List<RectTransform> commandList;
     [SerializeField] Queue<ECommand> commandQueue;
+    ECommand currentCommand;
     bool isBattleWin = false;
     bool isBattleMode;
 
@@ -77,7 +78,8 @@ public class BattleManager : MonoBehaviour
             {
                 isBattleWin = true;
                 Time.timeScale = 1;
-                commandList.Clear();
+                ExitBattleMode();
+                
                 commandWindow.SetActive(false);
             }
         }
@@ -122,5 +124,15 @@ public class BattleManager : MonoBehaviour
 
             Time.timeScale = 0;
         }
+    }
+
+    void ExitBattleMode()
+    {
+        for(int i=0; i < commandLine.childCount; i++)
+        {
+
+        }
+
+        commandList.Clear();
     }
 }

@@ -124,11 +124,20 @@ public class Player : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
+            CameraManager.Instance.isZoom = true;
             BattleManager.Instance.EnterBattleMode();
             if(BattleManager.Instance.isBattleResult == true)
             {
                 Destroy(other.gameObject);
             }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            CameraManager.Instance.isZoom = false;
         }
     }
 }
