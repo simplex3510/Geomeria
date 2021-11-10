@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             isCharging = true;
-            isCharged  = false;
+            isCharged = false;
 
             startPosition = transform.position;
 
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
             // Debug.Log(currentPoint);
 
             #region 드로우 라인 on
-            Vector3 linePoint = (currentPoint - this.transform.position);
+            Vector3 linePoint = (currentPoint - startPoint);
             drawLine.RenderLine(linePoint * -1, linePoint);
             #endregion
 
@@ -64,18 +64,19 @@ public class Player : MonoBehaviour
             {
                 chargingEffect.Stop();
             }
-            
+
             if (fullChargeTime <= currentChargeTime)
             {
                 // 한 번만 실행
-                if(isCharged)
+                if (isCharged)
                 {
-                    return;
+                    goto charged;
                 }
 
-                isCharged = true;
                 chargedEffect.Play();
                 spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player_Charged");
+            charged: 
+                isCharged = true;
             }
             #endregion
         }
@@ -83,11 +84,9 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isCharging = false;
-            isCharged  = false;
+            isCharged = false;
 
-            startPoint = currentPoint * -1;
             endPoint = currentPoint;
-
 
             #region 드로우 라인 off
             drawLine.EndLine();
@@ -115,7 +114,7 @@ public class Player : MonoBehaviour
 
         currentPosition = transform.position;
         // 이동해야 할 거리와 실재 이동 거리 비교 연산
-        if(movePosition.magnitude <= (currentPosition - startPosition).magnitude)
+        if (movePosition.magnitude <= (currentPosition - startPosition).magnitude)
         {
             m_rigidbody2D.velocity = new Vector2(0, 0);
         }
@@ -123,11 +122,11 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             CameraManager.Instance.isZoom = true;
             BattleManager.Instance.EnterBattleMode();
-            if(BattleManager.Instance.isBattleResult == true)
+            if (BattleManager.Instance.isBattleResult == true)
             {
                 Destroy(other.gameObject);
             }
