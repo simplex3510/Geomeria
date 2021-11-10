@@ -44,6 +44,9 @@ public class Player : MonoBehaviour
 
             startPosition = transform.position;
 
+            startPoint = transform.position;
+            startPoint.z = -10f;
+
             chargingEffect.Play();
         }
 
@@ -51,11 +54,13 @@ public class Player : MonoBehaviour
         {
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
-            // Debug.Log(currentPoint);
 
             #region 드로우 라인 on
-            Vector3 linePoint = (currentPoint - startPoint);
-            drawLine.RenderLine(linePoint * -1, linePoint);
+            Vector3 linePoint = (startPoint - currentPoint);
+            drawLine.RenderLine(linePoint, linePoint * -1);
+
+            //Vector3 dirNor = (this.transform.position - currentPoint);
+            //drawLine.RenderLine(dirNor, dirNor * -1);
             #endregion
 
             #region 이펙트 및 이미지 로드
@@ -126,10 +131,14 @@ public class Player : MonoBehaviour
         {
             CameraManager.Instance.isZoom = true;
             BattleManager.Instance.EnterBattleMode();
-            if (BattleManager.Instance.isBattleResult == true)
-            {
-                Destroy(other.gameObject);
-            }
+        }
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (BattleManager.Instance.isBattleResult == true)
+        {
+            Destroy(other.gameObject);
         }
     }
 

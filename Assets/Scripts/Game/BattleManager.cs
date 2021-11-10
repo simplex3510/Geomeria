@@ -24,8 +24,10 @@ public class BattleManager : MonoBehaviour
     }
 
     [SerializeField] List<RectTransform> commandList;
-    [SerializeField] Queue<ECommand> commandQueue;
+    [SerializeField] List<ECommand> commandInput;
     ECommand currentCommand;
+    int lastIndex;
+    int currentIndex;
     bool isBattleWin = false;
     bool isBattleMode;
 
@@ -65,22 +67,45 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        commandQueue = new Queue<ECommand>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isBattleWin == true)
+        {
+            commandWindow.SetActive(false);
+            ExitBattleMode();
+            Time.timeScale = 1;
+        }
+
         // Battle Mode
         if (isBattleMode)
         {
-            if (Input.GetKeyDown((KeyCode)ECommand.Down))
+            if (currentIndex < lastIndex)
+            {
+                currentCommand = commandInput[currentIndex];
+                if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
+                {
+                    currentIndex++;
+                }
+                else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
+                {
+                    currentIndex++;
+                }
+                else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
+                {
+                    currentIndex++;
+                }
+                else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
+                {
+                    currentIndex++;
+                }
+            }
+            else if (currentIndex == lastIndex)
             {
                 isBattleWin = true;
-                Time.timeScale = 1;
-                ExitBattleMode();
-                
-                commandWindow.SetActive(false);
             }
         }
     }
@@ -89,11 +114,12 @@ public class BattleManager : MonoBehaviour
     {
         if (true)
         {
+            Time.timeScale = 0;
             isBattleMode = true;
 
-            #region Draw Command
-            int count = Random.Range(4, 5);
-            for (int i = 0; i < count; i++)
+            #region Draw & Input Command
+            lastIndex = Random.Range(4, 5);
+            for (int i = 0; i < lastIndex; i++)
             {
                 int commandKey = Random.Range(0, commands.Length);
                 var command = Instantiate(commands[commandKey]).GetComponent<RectTransform>();
@@ -103,36 +129,36 @@ public class BattleManager : MonoBehaviour
                 switch (commandKey)
                 {
                     case 0:
-                        commandQueue.Enqueue(ECommand.Down);
+                        commandInput.Add(ECommand.Down);
                         break;
                     case 1:
-                        commandQueue.Enqueue(ECommand.Left);
+                        commandInput.Add(ECommand.Left);
                         break;
                     case 2:
-                        commandQueue.Enqueue(ECommand.Up);
+                        commandInput.Add(ECommand.Up);
                         break;
                     case 3:
-                        commandQueue.Enqueue(ECommand.Right);
+                        commandInput.Add(ECommand.Right);
                         break;
                     default:
                         break;
                 }
             }
-            commandLine.sizeDelta = new Vector2(200 * count, commandLine.sizeDelta.y);
+            commandLine.sizeDelta = new Vector2(200 * lastIndex, commandLine.sizeDelta.y);
             commandWindow.SetActive(true);
             #endregion
-
-            Time.timeScale = 0;
         }
     }
 
     void ExitBattleMode()
     {
-        for(int i=0; i < commandLine.childCount; i++)
+        for(int i=0; i<commandLine.childCount; i++)
         {
-
+            Destroy(commandLine.GetChild(i).gameObject);
         }
 
+        currentIndex = 0;
         commandList.Clear();
+        commandInput.Clear();
     }
 }
