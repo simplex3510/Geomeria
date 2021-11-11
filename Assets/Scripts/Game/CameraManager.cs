@@ -5,21 +5,28 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public GameObject player;
+    public Camera cameraMain
+    {
+        get
+        {
+            return _cameraMain;
+        }
+    }
     public bool isZoom
     {
         get;
         set;
     }
 
-    // bool isZoom = false;
+    Camera _cameraMain;
     bool isCharge = false;
     float fullChargeTime = 1f;
     float currentChargeTime;
-    float zoomIn = 10f;
-    float zoomOut = 13f;
-    float zoomPower = 0.1f;
-    
-    Camera cameraMain;
+
+    public float currentZoomSize;
+    public float zoomIn = 10f;
+    public float zoomOut = 13f;
+    public float zoomPower = 0.1f;
 
     #region CameraManager Singleton
     private static CameraManager _instance;
@@ -56,16 +63,18 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         isZoom = false;
-        cameraMain = Camera.main;
+        _cameraMain = Camera.main;
         cameraMain.orthographicSize = 5f;
-        CameraZoomEffect(zoomOut, 0.001f);
+        CameraZoomEffect(zoomOut, 0.00001f);
     }
 
     private void Update()
     {
-        #region camera view
+        #region Player Camera View
         cameraMain.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
         #endregion
+
+        currentZoomSize = cameraMain.orthographicSize;
 
         #region Charge Camera Effect
         if (Input.GetMouseButton(0))
@@ -73,14 +82,14 @@ public class CameraManager : MonoBehaviour
             currentChargeTime += Time.deltaTime;
             if (fullChargeTime <= currentChargeTime && isCharge == false)
             {
-                cameraMain.orthographicSize = 12f;
+                cameraMain.orthographicSize = currentZoomSize - 1;
                 isCharge = true;
             }
         }
 
         if(isCharge)
         {
-            CameraZoomEffect(zoomOut, 0.01f);
+            CameraZoomEffect(zoomOut, zoomPower * 0.1f);
         }
 
         if(Input.GetMouseButtonDown(0))
@@ -98,10 +107,9 @@ public class CameraManager : MonoBehaviour
         {
             CameraZoomEffect(zoomOut, zoomPower);
         }
-
     }
 
-    void CameraZoomEffect(float _zoom, float _zoomSpeed)
+    public void CameraZoomEffect(float _zoom, float _zoomSpeed)
     {
         cameraMain.orthographicSize = Mathf.Lerp(cameraMain.orthographicSize, _zoom, _zoomSpeed);
     }

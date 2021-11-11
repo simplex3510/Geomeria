@@ -153,13 +153,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commandWindow: {fileID: 1563256383}
-  commands:
-  - {fileID: 6926441693894227354, guid: b7cee540cb9ad1947843318653d2c72f, type: 3}
-  - {fileID: 1591813750079334365, guid: a2522248be4dd0742a8e9107f2c464cc, type: 3}
-  - {fileID: 7424013373374770791, guid: 2629117d617be4f48b17f79ac4747a35, type: 3}
-  - {fileID: 2367466312748508068, guid: 46f87f4eab5ef604093a9f2a81c357d8, type: 3}
   commandLine: {fileID: 1405903796}
-  commandList: []
+  commandType:
+  - {fileID: 1591813750079334365, guid: a2522248be4dd0742a8e9107f2c464cc, type: 3}
+  - {fileID: 2367466312748508068, guid: 46f87f4eab5ef604093a9f2a81c357d8, type: 3}
+  - {fileID: 6926441693894227354, guid: b7cee540cb9ad1947843318653d2c72f, type: 3}
+  - {fileID: 7424013373374770791, guid: 2629117d617be4f48b17f79ac4747a35, type: 3}
+  commandInput: 
 --- !u!4 &2402478
 Transform:
   m_ObjectHideFlags: 0

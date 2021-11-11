@@ -134,14 +134,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision other)
-    {
-        if (BattleManager.Instance.isBattleResult == true)
-        {
-            Destroy(other.gameObject);
-        }
-    }
-
     private void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Enemy"))

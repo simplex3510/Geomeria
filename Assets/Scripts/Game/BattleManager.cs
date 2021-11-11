@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum EState
+{
+    win = 0,
+    defeat,
+    battle,
+    idle
+}
+
 enum ECommand
 {
     Up = 'w',
@@ -13,23 +21,29 @@ enum ECommand
 public class BattleManager : MonoBehaviour
 {
     public GameObject commandWindow;
-    public GameObject[] commands;
     public RectTransform commandLine;
-    public bool isBattleResult
+    public GameObject[] commandType;
+
+    public bool battleResult
     {
         get
         {
-            return isBattleWin;
+            if (battleState == EState.win)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
-    [SerializeField] List<RectTransform> commandList;
     [SerializeField] List<ECommand> commandInput;
     ECommand currentCommand;
-    int lastIndex;
+    int count;
     int currentIndex;
-    bool isBattleWin = false;
-    bool isBattleMode;
+    EState battleState;
 
     #region Singleton
     private static BattleManager _instance;
@@ -67,45 +81,55 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        battleState = EState.idle;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isBattleWin == true)
+        if (battleState == EState.win)
         {
-            commandWindow.SetActive(false);
+            Destroy(transform.GetChild(0).gameObject);
+
             ExitBattleMode();
-            Time.timeScale = 1;
+        }
+        else if (battleState == EState.defeat)
+        {
+            ExitBattleMode();
         }
 
         // Battle Mode
-        if (isBattleMode)
+        if (battleState == EState.battle)
         {
-            if (currentIndex < lastIndex)
+            if (currentIndex < count)
             {
                 currentCommand = commandInput[currentIndex];
                 if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
                 {
                     currentIndex++;
+                    BattleCameraEffect();
                 }
                 else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
                 {
                     currentIndex++;
+                    BattleCameraEffect();
                 }
                 else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
                 {
                     currentIndex++;
+                    BattleCameraEffect();
                 }
                 else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
                 {
                     currentIndex++;
+                    BattleCameraEffect();
+                    
                 }
             }
-            else if (currentIndex == lastIndex)
+            else if (currentIndex == count)
             {
-                isBattleWin = true;
+                currentIndex = 0;
+                battleState = EState.win;
             }
         }
     }
@@ -115,36 +139,35 @@ public class BattleManager : MonoBehaviour
         if (true)
         {
             Time.timeScale = 0;
-            isBattleMode = true;
+            battleState = EState.battle;
 
             #region Draw & Input Command
-            lastIndex = Random.Range(4, 5);
-            for (int i = 0; i < lastIndex; i++)
+            count = Random.Range(1, 4);
+            for (int i = 0; i < count; i++)
             {
-                int commandKey = Random.Range(0, commands.Length);
-                var command = Instantiate(commands[commandKey]).GetComponent<RectTransform>();
+                int commandKey = Random.Range(0, commandType.Length);
+                var command = Instantiate(commandType[commandKey]).GetComponent<RectTransform>();
                 command.SetParent(commandLine);
-                commandList.Add(command);
 
                 switch (commandKey)
                 {
                     case 0:
-                        commandInput.Add(ECommand.Down);
-                        break;
-                    case 1:
                         commandInput.Add(ECommand.Left);
                         break;
+                    case 1:
+                        commandInput.Add(ECommand.Right);
+                        break;
                     case 2:
-                        commandInput.Add(ECommand.Up);
+                        commandInput.Add(ECommand.Down);
                         break;
                     case 3:
-                        commandInput.Add(ECommand.Right);
+                        commandInput.Add(ECommand.Up);
                         break;
                     default:
                         break;
                 }
             }
-            commandLine.sizeDelta = new Vector2(200 * lastIndex, commandLine.sizeDelta.y);
+            commandLine.sizeDelta = new Vector2(200 * count, commandLine.sizeDelta.y);
             commandWindow.SetActive(true);
             #endregion
         }
@@ -152,13 +175,21 @@ public class BattleManager : MonoBehaviour
 
     void ExitBattleMode()
     {
-        for(int i=0; i<commandLine.childCount; i++)
+        for (int i = 0; i < commandLine.childCount; i++)
         {
             Destroy(commandLine.GetChild(i).gameObject);
         }
+        battleState = EState.idle;
 
         currentIndex = 0;
-        commandList.Clear();
+        commandWindow.SetActive(false);
         commandInput.Clear();
+        Time.timeScale = 1;
+    }
+
+    void BattleCameraEffect()
+    {
+        CameraManager.Instance.cameraMain.orthographicSize = CameraManager.Instance.currentZoomSize-1;
+        CameraManager.Instance.CameraZoomEffect(CameraManager.Instance.currentZoomSize, CameraManager.Instance.zoomPower);
     }
 }
