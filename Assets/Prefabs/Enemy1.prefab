@@ -122,5 +122,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8590b9c76bb984daa367af0ea14cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 5174686158363029252, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+  playerTransform: {fileID: 0}
   speed: 1.5

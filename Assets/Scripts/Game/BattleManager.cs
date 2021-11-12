@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 enum EState
 {
@@ -124,6 +125,14 @@ public class BattleManager : MonoBehaviour
                     currentIndex++;
                     BattleCameraEffect();
                     
+                }
+                else if(Input.anyKeyDown)
+                {
+                    var missCommand = commandLine.GetChild(currentIndex).GetComponent<Image>();
+                    missCommand.color = Color.red;
+
+                    currentIndex++;
+                    BattleCameraEffect();
                 }
             }
             else if (currentIndex == count)

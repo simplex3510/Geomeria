@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            transform.SetParent(FindObjectOfType<BattleManager>().GetComponent<Transform>());
+            transform.SetParent(BattleManager.Instance.GetComponent<Transform>());
         }
     }
 }
