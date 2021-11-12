@@ -21,10 +21,12 @@ enum ECommand
 
 public class BattleManager : MonoBehaviour
 {
+
     public GameObject commandWindow;
     public RectTransform commandLine;
-    public GameObject[] commandType;
-
+    public GameObject[] commandDrawEmpty;
+    public Sprite[] commandDrawMiss;
+    public Sprite[] commandDrawSuccess;
     public bool battleResult
     {
         get
@@ -42,9 +44,11 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] List<ECommand> commandInput;
     ECommand currentCommand;
-    int count;
+    int commandCount;
     int currentIndex;
     EState battleState;
+    float delayTime = 0.5f;
+    float currentTime =0f;
 
     #region Singleton
     private static BattleManager _instance;
@@ -102,7 +106,7 @@ public class BattleManager : MonoBehaviour
         // Battle Mode
         if (battleState == EState.battle)
         {
-            if (currentIndex < count)
+            if (currentIndex < commandCount)
             {
                 currentCommand = commandInput[currentIndex];
                 if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
@@ -129,16 +133,40 @@ public class BattleManager : MonoBehaviour
                 else if(Input.anyKeyDown)
                 {
                     var missCommand = commandLine.GetChild(currentIndex).GetComponent<Image>();
-                    missCommand.color = Color.red;
 
+                    switch (currentCommand)
+                    {
+                        case ECommand.Left:
+                            missCommand.sprite = commandDrawMiss[0];
+                            break;
+                        case ECommand.Right:
+                            missCommand.sprite = commandDrawMiss[1];
+                            break;
+                        case ECommand.Down:
+                            missCommand.sprite = commandDrawMiss[2];
+                            break;
+                        case ECommand.Up:
+                            missCommand.sprite = commandDrawMiss[3];
+                            break;
+                        default:
+                            Debug.Log("커맨드 출력 오류 발생");
+                            break;
+                    }
                     currentIndex++;
                     BattleCameraEffect();
                 }
             }
-            else if (currentIndex == count)
+            else if (currentIndex == commandCount)
             {
-                currentIndex = 0;
-                battleState = EState.win;
+                currentTime += Time.deltaTime;
+                Debug.Log(currentTime);
+                if (delayTime < currentTime)
+                {
+                    // currentTime = 0;
+                    currentIndex = 0;
+                    battleState = EState.win;
+                }
+
             }
         }
     }
@@ -151,11 +179,11 @@ public class BattleManager : MonoBehaviour
             battleState = EState.battle;
 
             #region Draw & Input Command
-            count = Random.Range(1, 4);
-            for (int i = 0; i < count; i++)
+            commandCount = Random.Range(1, 4);
+            for (int i = 0; i < commandCount; i++)
             {
-                int commandKey = Random.Range(0, commandType.Length);
-                var command = Instantiate(commandType[commandKey]).GetComponent<RectTransform>();
+                int commandKey = Random.Range(0, commandDrawEmpty.Length);
+                var command = Instantiate(commandDrawEmpty[commandKey]).GetComponent<RectTransform>();
                 command.SetParent(commandLine);
 
                 switch (commandKey)
@@ -176,7 +204,7 @@ public class BattleManager : MonoBehaviour
                         break;
                 }
             }
-            commandLine.sizeDelta = new Vector2(200 * count, commandLine.sizeDelta.y);
+            commandLine.sizeDelta = new Vector2(200 * commandCount, commandLine.sizeDelta.y);
             commandWindow.SetActive(true);
             #endregion
         }
@@ -200,5 +228,10 @@ public class BattleManager : MonoBehaviour
     {
         CameraManager.Instance.cameraMain.orthographicSize = CameraManager.Instance.currentZoomSize-1;
         CameraManager.Instance.CameraZoomEffect(CameraManager.Instance.currentZoomSize, CameraManager.Instance.zoomPower);
+    }
+
+    IEnumerator CommandDisplayDelay()
+    {
+        yield return new WaitForSecondsRealtime(3f);
     }
 }

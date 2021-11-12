@@ -4,16 +4,16 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 413248917955918174
-    second: Miss_0
+    second: Miss_Down
   - first:
       213: -5467319326771189541
-    second: Miss_1
+    second: Miss_Left
   - first:
       213: 401876147640993893
-    second: Miss_2
+    second: Miss_Up
   - first:
       213: -5172258718029712225
-    second: Miss_3
+    second: Miss_Right
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,15 +115,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Miss_0
+      name: Miss_Down
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 345
-        height: 687
+        width: 727.25
+        height: 698
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -136,15 +136,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Miss_1
+      name: Miss_Left
       rect:
         serializedVersion: 2
-        x: 455
-        y: 170
-        width: 690
-        height: 347
+        x: 727
+        y: 0
+        width: 727.25
+        height: 698
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -157,15 +157,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Miss_2
+      name: Miss_Up
       rect:
         serializedVersion: 2
-        x: 1253
+        x: 1454
         y: 0
-        width: 347
-        height: 687
+        width: 727.25
+        height: 698
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -178,15 +178,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Miss_3
+      name: Miss_Right
       rect:
         serializedVersion: 2
-        x: 1710
-        y: 170
-        width: 688
-        height: 347
+        x: 2181
+        y: 0
+        width: 727.25
+        height: 698
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
