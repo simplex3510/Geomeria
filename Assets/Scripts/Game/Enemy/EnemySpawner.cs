@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public Transform enemySpawner;
     public float spawnRateMin;
     public float spawnRateMax;
     public GameObject[] enemys;
@@ -39,7 +38,6 @@ public class EnemySpawner : MonoBehaviour
             if (enemys[enemyIndex].gameObject.activeSelf == false)
             {
                 enemys[enemyIndex].transform.position = transform.position;
-                enemys[enemyIndex].transform.SetParent(enemySpawner);
                 enemys[enemyIndex].SetActive(true);
             }
 

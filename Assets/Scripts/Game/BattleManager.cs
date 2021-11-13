@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-enum EState
-{
-    idle = 0,
-    win,
-    defeat,
-    battle
-}
-
 enum ECommand
 {
     Up = 'w',
@@ -31,7 +23,7 @@ public class BattleManager : MonoBehaviour
     {
         get
         {
-            if (battleState == EState.win)
+            if (currentState == EState.win)
             {
                 return true;
             }
@@ -46,8 +38,8 @@ public class BattleManager : MonoBehaviour
     ECommand currentCommand;
     int commandCount;
     int currentIndex;
-    EState battleState;
-    bool displayDelay = true;
+    EState currentState;
+    // bool displayDelay = true;
 
     #region Singleton
     private static BattleManager _instance;
@@ -85,25 +77,25 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        battleState = EState.idle;
+        currentState = EState.idle;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (battleState == EState.win)
+        if (currentState == EState.win)
         {
             transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(0).transform.SetParent(EnemyManager.Instance.transform.GetChild(0));
+            transform.GetChild(0).transform.SetParent(EnemyManager.Instance.transform);
             ExitBattleMode();
         }
-        else if (battleState == EState.defeat)
+        else if (currentState == EState.defeat)
         {
             ExitBattleMode();
         }
 
         // Battle Mode
-        if (battleState == EState.battle)
+        if (currentState == EState.battle)
         {
             if (currentIndex < commandCount)
             {
@@ -160,7 +152,7 @@ public class BattleManager : MonoBehaviour
             }
             else if (currentIndex == commandCount)
             {
-                battleState = EState.win;
+                currentState = EState.win;
             }
         }
     }
@@ -170,10 +162,10 @@ public class BattleManager : MonoBehaviour
         if (true)
         {
             Time.timeScale = 0;
-            battleState = EState.battle;
+            currentState = EState.battle;
 
             #region Draw & Input Command
-            commandCount = Random.Range(1, 4);
+            commandCount = Random.Range(1, 5);
             for (int i = 0; i < commandCount; i++)
             {
                 int commandKey = Random.Range(0, commandDrawEmpty.Length);
@@ -206,14 +198,14 @@ public class BattleManager : MonoBehaviour
 
     void ExitBattleMode()
     {
-        battleState = EState.idle;
+        currentState = EState.idle;
 
         for (int i = 0; i < commandLine.childCount; i++)
         {
             Destroy(commandLine.GetChild(i).gameObject);
         }
 
-        displayDelay = true;
+        // displayDelay = true;
         currentIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();

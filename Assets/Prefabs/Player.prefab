@@ -4968,7 +4968,6 @@ GameObject:
   - component: {fileID: 2509650638003409263}
   - component: {fileID: 5174686158363029273}
   - component: {fileID: 5174686158363029272}
-  - component: {fileID: 1647746798}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5107,18 +5106,6 @@ MonoBehaviour:
   chargingEffect: {fileID: 575077664931028643}
   chargedEffect: {fileID: 4760421064353163248}
   speed: 100
---- !u!114 &1647746798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5174686158363029279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f97d64ca61403140ace2090bceba380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6438407697030287598
 GameObject:
   m_ObjectHideFlags: 0
