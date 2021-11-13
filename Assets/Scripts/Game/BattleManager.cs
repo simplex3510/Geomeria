@@ -93,8 +93,8 @@ public class BattleManager : MonoBehaviour
     {
         if (battleState == EState.win)
         {
-            Destroy(transform.GetChild(0).gameObject);
-            Debug.Log("Destroy(transform.GetChild(0).gameObject);");
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(0).transform.SetParent(EnemyManager.Instance.transform.GetChild(0));
             ExitBattleMode();
         }
         else if (battleState == EState.defeat)
