@@ -27,11 +27,14 @@ public class EnemySpawner : MonoBehaviour
         float x = radius * Mathf.Cos(runningTime);
         float y = radius * Mathf.Sin(runningTime);
         transform.position = new Vector2(x, y);
+        if(6.3f <= runningTime)
+        {
+            runningTime = 0f;
+        }
         #endregion
 
 
         timeAfterSpawn += Time.deltaTime;
-
         if (spawnRate <= timeAfterSpawn)
         {
             int enemyIndex = Random.Range(0, 10);

@@ -151,7 +151,6 @@ public class Player : MonoBehaviour
                     break;
             }
 
-            
             currentState = EState.idle;
         }
     }
