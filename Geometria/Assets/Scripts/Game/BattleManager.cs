@@ -23,7 +23,7 @@ public class BattleManager : MonoBehaviour
     {
         get
         {
-            if (currentState == EState.win)
+            if (Player.Instance.currentState == EState.win)
             {
                 return true;
             }
@@ -38,7 +38,6 @@ public class BattleManager : MonoBehaviour
     ECommand currentCommand;
     int commandCount;
     int currentIndex;
-    EState currentState;
     // bool displayDelay = true;
 
     #region Singleton
@@ -77,103 +76,111 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentState = EState.idle;
+        StartCoroutine(Update_FSM());
     }
 
     // Update is called once per frame
-    void Update()
+    IEnumerator Update_FSM()
     {
-        FSM();
-        if (currentState == EState.win)
+        Debug.Log("FSM");
+        while (true)
         {
-            transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(0).transform.SetParent(EnemyManager.Instance.transform);
-            ExitBattleMode();
-        }
-        else if (currentState == EState.defeat)
-        {
-            ExitBattleMode();
-        }
-
-        // Battle Mode
-        if (currentState == EState.battle)
-        {
-            
+            // Debug.Log(Player.Instance.currentState.ToString());
+            if (Player.Instance.currentState == EState.win)
+            {
+                yield return StartCoroutine(CWin());
+            }
+            else if (Player.Instance.currentState == EState.defeat)
+            {
+                yield return StartCoroutine(CDefeat());
+            }
+            // Battle Mode
+            else if (Player.Instance.currentState == EState.battle)
+            {
+                yield return StartCoroutine(CBattle());
+            }
+            yield return null;
         }
     }
 
-    IEnumerator FSM()
+    IEnumerator CWin()
     {
-        Debug.Log("FSM");
-        yield return StartCoroutine(CBattle());
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(0).transform.SetParent(EnemyManager.Instance.transform);
+        ExitBattleMode();
+        yield break;
+    }
+
+    IEnumerator CDefeat()
+    {
+        ExitBattleMode();
+        yield break;
     }
 
     IEnumerator CBattle()
     {
         Debug.Log("CBattle");
-        while(true)
+        if (currentIndex < commandCount)
         {
-            if (currentIndex < commandCount)
+            var commandSprite = commandLine.GetChild(currentIndex).GetComponent<Image>();
+            currentCommand = commandInput[currentIndex];
+            if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
             {
-                var commandSprite = commandLine.GetChild(currentIndex).GetComponent<Image>();
-                currentCommand = commandInput[currentIndex];
-                if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
-                {
-                    currentIndex++;
-                    BattleCameraEffect();
-                    commandSprite.sprite = commandDrawSuccess[0];
-                }
-                else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
-                {
-                    currentIndex++;
-                    BattleCameraEffect();
-                    commandSprite.sprite = commandDrawSuccess[1];
-                }
-                else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
-                {
-                    currentIndex++;
-                    BattleCameraEffect();
-                    commandSprite.sprite = commandDrawSuccess[2];
-                }
-                else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
-                {
-                    currentIndex++;
-                    BattleCameraEffect();
-                    commandSprite.sprite = commandDrawSuccess[3];
+                currentIndex++;
+                BattleCameraEffect();
+                commandSprite.sprite = commandDrawSuccess[0];
+            }
+            else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
+            {
+                currentIndex++;
+                BattleCameraEffect();
+                commandSprite.sprite = commandDrawSuccess[1];
+            }
+            else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
+            {
+                currentIndex++;
+                BattleCameraEffect();
+                commandSprite.sprite = commandDrawSuccess[2];
+            }
+            else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
+            {
+                currentIndex++;
+                BattleCameraEffect();
+                commandSprite.sprite = commandDrawSuccess[3];
 
-                }
-                else if (!Input.GetMouseButtonDown(0) &&
-                         !Input.GetMouseButtonDown(1) &&
-                         !Input.GetMouseButtonDown(2) && Input.anyKeyDown)
-                {
-                    switch (currentCommand)
-                    {
-                        case ECommand.Up:
-                            commandSprite.sprite = commandDrawMiss[0];
-                            break;
-                        case ECommand.Down:
-                            commandSprite.sprite = commandDrawMiss[1];
-                            break;
-                        case ECommand.Left:
-                            commandSprite.sprite = commandDrawMiss[2];
-                            break;
-                        case ECommand.Right:
-                            commandSprite.sprite = commandDrawMiss[3];
-                            break;
-                        default:
-                            Debug.Log("Ŀ�ǵ� ��� ���� �߻�");
-                            break;
-                    }
-                    currentIndex++;
-                    BattleCameraEffect();
-                }
             }
-            else if (currentIndex == commandCount)
+            else if (!Input.GetMouseButtonDown(0) &&
+                     !Input.GetMouseButtonDown(1) &&
+                     !Input.GetMouseButtonDown(2) && Input.anyKeyDown)
             {
-                currentState = EState.win;
+                switch (currentCommand)
+                {
+                    case ECommand.Up:
+                        commandSprite.sprite = commandDrawMiss[0];
+                        break;
+                    case ECommand.Down:
+                        commandSprite.sprite = commandDrawMiss[1];
+                        break;
+                    case ECommand.Left:
+                        commandSprite.sprite = commandDrawMiss[2];
+                        break;
+                    case ECommand.Right:
+                        commandSprite.sprite = commandDrawMiss[3];
+                        break;
+                    default:
+                        Debug.Log("Wrong Command");
+                        break;
+                }
+                currentIndex++;
+                BattleCameraEffect();
             }
-            yield return null;
         }
+        else if (currentIndex == commandCount)
+        {
+            // yield return WaitForSecondsRealtime(0.5f);
+            Player.Instance.currentState = EState.win;
+        }
+        yield return null;
     }
 
     public void EnterBattleMode()
@@ -181,7 +188,7 @@ public class BattleManager : MonoBehaviour
         if (true)
         {
             Time.timeScale = 0;
-            currentState = EState.battle;
+            Player.Instance.currentState = EState.battle;
 
             #region Draw & Input Command
             commandCount = Random.Range(1, 5);
@@ -217,7 +224,7 @@ public class BattleManager : MonoBehaviour
 
     void ExitBattleMode()
     {
-        currentState = EState.idle;
+        Player.Instance.currentState = EState.idle;
 
         for (int i = 0; i < commandLine.childCount; i++)
         {

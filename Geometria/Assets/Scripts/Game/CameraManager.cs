@@ -42,7 +42,6 @@ public class CameraManager : MonoBehaviour
                     Debug.Log("No CameraManager Singleton Object");
                 }
             }
-
             return _instance;
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-enum EState
+public enum EState
 {
     idle = 0,
     win,
@@ -19,10 +19,11 @@ public class Player : MonoBehaviour
     public ParticleSystem chargingEffect;
     public ParticleSystem chargedEffect;
     public float speed;
+    public EState currentState;
 
     float currentChargeTime;
     float fullChargeTime = 1f;
-    EState currentState;
+    
     Camera cameraMain;
     Rigidbody2D m_rigidbody2D;
     SpriteRenderer spriteRenderer;
@@ -37,6 +38,36 @@ public class Player : MonoBehaviour
     Vector3 currentPoint;
     Vector3 endPoint;
 
+    #region Singleton
+    private static Player _instance;
+    public  static Player Instance
+    {
+        get
+        {
+            if(_instance == null)
+            {
+                _instance = FindObjectOfType<Player>();
+                if(_instance == null)
+                {
+                    Debug.Log("No Player Singleton Object");
+                }
+            }
+            return _instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
     void Start()
     {
         cameraMain = Camera.main;
@@ -45,6 +76,7 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         drawLine = GetComponentInChildren<DrawLine>();
     }
+    #endregion
 
     void Update()
     {
@@ -144,14 +176,13 @@ public class Player : MonoBehaviour
                 case EState.charging:
                 case EState.charged:
                 case EState.moving:
+                    currentState = EState.battle;
                     BattleManager.Instance.EnterBattleMode();
                     break;
                 default:
                     // Game Over
                     break;
             }
-
-            currentState = EState.idle;
         }
     }
 
