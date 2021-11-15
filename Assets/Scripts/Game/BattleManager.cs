@@ -126,7 +126,9 @@ public class BattleManager : MonoBehaviour
                     commandSprite.sprite = commandDrawSuccess[3];
 
                 }
-                else if (Input.anyKeyDown)
+                else if (!Input.GetMouseButtonDown(0) &&
+                         !Input.GetMouseButtonDown(1) &&
+                         !Input.GetMouseButtonDown(2) && Input.anyKeyDown)
                 {
                     switch (currentCommand)
                     {
