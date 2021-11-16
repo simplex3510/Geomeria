@@ -31,9 +31,10 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if (BattleManager.Instance.battleResult == EState.win)
+            if (Player.Instance.currentState == EState.win)
             {
                 gameObject.SetActive(false);
+                Player.Instance.currentState = EState.idle;
                 BattleManager.Instance.enemies.Dequeue();
             }
         }

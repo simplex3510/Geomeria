@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
             _instance = this;
         }
     }
+    #endregion
 
     void Start()
     {
@@ -76,14 +77,16 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         drawLine = GetComponentInChildren<DrawLine>();
     }
-    #endregion
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            currentState = EState.charging;
-
+            if(currentState != EState.battle)
+            {
+                currentState = EState.charging;
+            }
+            
             startPosition = transform.position;
 
             startPoint = transform.position;
@@ -127,8 +130,12 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            currentState = EState.moving;
-
+            // 속도가 0 이상일 때만 moving
+            if(0 < m_rigidbody2D.velocity.magnitude)
+            {
+                currentState = EState.moving;
+            }
+            
             endPoint = currentPoint;
 
             #region 드로우 라인 off
@@ -148,9 +155,13 @@ public class Player : MonoBehaviour
                 m_rigidbody2D.velocity = direction * speed;
                 currentChargeTime = 0f;
             }
+            // charged 전에 charging을 그만두었을 때
             else
             {
-                currentState = EState.idle;
+                if (currentState != EState.battle)
+                {
+                    currentState = EState.idle;
+                }
                 chargingEffect.Stop();
                 currentChargeTime = 0f;
             }
@@ -161,7 +172,6 @@ public class Player : MonoBehaviour
         if (movePosition.magnitude <= (currentPosition - startPosition).magnitude)
         {
             m_rigidbody2D.velocity = new Vector2(0, 0);
-            currentState = EState.idle;
         }
     }
 

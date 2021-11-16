@@ -19,20 +19,6 @@ public class BattleManager : MonoBehaviour
     public Sprite[] commandDrawMiss;
     public Sprite[] commandDrawSuccess;
     public Queue<Enemy> enemies;
-    public EState battleResult
-    {
-        get
-        {
-            if (Player.Instance.currentState == EState.win)
-            {
-                return EState.win;
-            }
-            else
-            {
-                return EState.defeat;
-            }
-        }
-    }
 
     List<ECommand> commandInput;
     ECommand currentCommand;
@@ -179,8 +165,9 @@ public class BattleManager : MonoBehaviour
         }
         else if (currentIndex == commandCount)
         {
-            yield return new WaitForSecondsRealtime(0.2f);
             Player.Instance.currentState = EState.win;
+            yield return new WaitForSecondsRealtime(0.4f);
+            BattleCameraEffect();
         }
         yield return null;
     }
@@ -188,6 +175,11 @@ public class BattleManager : MonoBehaviour
     
     public void EnterBattleMode()
     {
+        //Debug.Assert(Player.Instance.currentState == EState.charging ||
+        //             Player.Instance.currentState == EState.charged  ||
+        //             Player.Instance.currentState == EState.moving   ||
+        //             Player.Instance.currentState == EState.battle, "Enter - State Wrong");
+
         Time.timeScale = 0;
         
         #region Draw & Input Command
@@ -222,11 +214,14 @@ public class BattleManager : MonoBehaviour
 
     void ExitBattleMode()
     {
-        Player.Instance.currentState = EState.idle;
+        //Debug.Assert(Player.Instance.currentState == EState.charging ||
+        //             Player.Instance.currentState == EState.charged  ||
+        //             Player.Instance.currentState == EState.moving   ||
+        //             Player.Instance.currentState == EState.battle, "Exit - State Wrong");
 
-        for (int i = 0; 0 <= commandLine.childCount; i++)
+        while (0 < commandLine.childCount)
         {
-            var command = commandLine.GetChild(i);
+            var command = commandLine.GetChild(0);
             if(command.tag == "Up")
             {
                 command.GetComponent<Image>().sprite = commandDrawEmpty[0];
@@ -243,7 +238,7 @@ public class BattleManager : MonoBehaviour
             {
                 command.GetComponent<Image>().sprite = commandDrawEmpty[3];
             }
-            commandLine.GetChild(i).transform.SetParent(transform);
+            commandLine.GetChild(0).transform.SetParent(transform);
         }
 
         currentIndex = 0;
