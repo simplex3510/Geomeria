@@ -23,7 +23,19 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            transform.SetParent(BattleManager.Instance.transform);
+            BattleManager.Instance.enemies.Enqueue(this);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (BattleManager.Instance.battleResult == EState.win)
+            {
+                gameObject.SetActive(false);
+                BattleManager.Instance.enemies.Dequeue();
+            }
         }
     }
 }

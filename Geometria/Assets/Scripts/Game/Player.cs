@@ -150,6 +150,7 @@ public class Player : MonoBehaviour
             }
             else
             {
+                currentState = EState.idle;
                 chargingEffect.Stop();
                 currentChargeTime = 0f;
             }

@@ -13,28 +13,28 @@ enum ECommand
 
 public class BattleManager : MonoBehaviour
 {
-
     public GameObject commandWindow;
     public RectTransform commandLine;
-    public GameObject[] commandDrawEmpty;
+    public Sprite[] commandDrawEmpty;
     public Sprite[] commandDrawMiss;
     public Sprite[] commandDrawSuccess;
-    public bool battleResult
+    public Queue<Enemy> enemies;
+    public EState battleResult
     {
         get
         {
             if (Player.Instance.currentState == EState.win)
             {
-                return true;
+                return EState.win;
             }
             else
             {
-                return false;
+                return EState.defeat;
             }
         }
     }
 
-    [SerializeField] List<ECommand> commandInput;
+    List<ECommand> commandInput;
     ECommand currentCommand;
     int commandCount;
     int currentIndex;
@@ -76,6 +76,8 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        enemies = new Queue<Enemy>();
+        commandInput = new List<ECommand>();
         StartCoroutine(Update_FSM());
     }
 
@@ -85,7 +87,6 @@ public class BattleManager : MonoBehaviour
         Debug.Log("FSM");
         while (true)
         {
-            // Debug.Log(Player.Instance.currentState.ToString());
             if (Player.Instance.currentState == EState.win)
             {
                 yield return StartCoroutine(CWin());
@@ -94,19 +95,20 @@ public class BattleManager : MonoBehaviour
             {
                 yield return StartCoroutine(CDefeat());
             }
-            // Battle Mode
+            // Battle Modes
             else if (Player.Instance.currentState == EState.battle)
             {
                 yield return StartCoroutine(CBattle());
             }
-            yield return null;
+            else
+            {
+                yield return null;
+            }
         }
     }
 
     IEnumerator CWin()
     {
-        transform.GetChild(0).gameObject.SetActive(false);
-        transform.GetChild(0).transform.SetParent(EnemyManager.Instance.transform);
         ExitBattleMode();
         yield break;
     }
@@ -177,61 +179,73 @@ public class BattleManager : MonoBehaviour
         }
         else if (currentIndex == commandCount)
         {
-            // yield return WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(0.2f);
             Player.Instance.currentState = EState.win;
         }
         yield return null;
     }
 
+    
     public void EnterBattleMode()
     {
-        if (true)
+        Time.timeScale = 0;
+        
+        #region Draw & Input Command
+        commandCount = Random.Range(1, 5);
+        for (int i = 0; i < commandCount; i++)
         {
-            Time.timeScale = 0;
-            Player.Instance.currentState = EState.battle;
+            int commandKey = Random.Range(0, transform.childCount);
 
-            #region Draw & Input Command
-            commandCount = Random.Range(1, 5);
-            for (int i = 0; i < commandCount; i++)
+            if (transform.GetChild(commandKey).tag == "Up")
             {
-                int commandKey = Random.Range(0, commandDrawEmpty.Length);
-                var command = Instantiate(commandDrawEmpty[commandKey]).GetComponent<RectTransform>();
-                command.SetParent(commandLine);
-
-                switch (commandKey)
-                {
-                    case 0:
-                        commandInput.Add(ECommand.Up);
-                        break;
-                    case 1:
-                        commandInput.Add(ECommand.Down);
-                        break;
-                    case 2:
-                        commandInput.Add(ECommand.Left);
-                        break;
-                    case 3:
-                        commandInput.Add(ECommand.Right);
-                        break;
-                    default:
-                        break;
-                }
+                commandInput.Add(ECommand.Up);
             }
-            commandLine.sizeDelta = new Vector2(200 * commandCount, commandLine.sizeDelta.y);
-            commandWindow.SetActive(true);
-            #endregion
+            else if (transform.GetChild(commandKey).tag == "Down")
+            {
+                commandInput.Add(ECommand.Down);
+            }
+            else if (transform.GetChild(commandKey).tag == "Left")
+            {
+                commandInput.Add(ECommand.Left);
+            }
+            else if (transform.GetChild(commandKey).tag == "Right")
+            {
+                commandInput.Add(ECommand.Right);
+            }
+
+            transform.GetChild(commandKey).SetParent(commandLine);
         }
+        commandLine.sizeDelta = new Vector2(200 * commandCount, commandLine.sizeDelta.y);
+        commandWindow.SetActive(true);
+        #endregion
     }
 
     void ExitBattleMode()
     {
         Player.Instance.currentState = EState.idle;
 
-        for (int i = 0; i < commandLine.childCount; i++)
+        for (int i = 0; 0 <= commandLine.childCount; i++)
         {
-            Destroy(commandLine.GetChild(i).gameObject);
+            var command = commandLine.GetChild(i);
+            if(command.tag == "Up")
+            {
+                command.GetComponent<Image>().sprite = commandDrawEmpty[0];
+            }
+            else if(command.tag == "Down")
+            {
+                command.GetComponent<Image>().sprite = commandDrawEmpty[1];
+            }
+            else if(command.tag == "Left")
+            {
+                command.GetComponent<Image>().sprite = commandDrawEmpty[2];
+            }
+            else if(command.tag == "Right")
+            {
+                command.GetComponent<Image>().sprite = commandDrawEmpty[3];
+            }
+            commandLine.GetChild(i).transform.SetParent(transform);
         }
 
-        // displayDelay = true;
         currentIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
