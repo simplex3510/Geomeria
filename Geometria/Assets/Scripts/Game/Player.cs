@@ -130,11 +130,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            // 속도가 0 이상일 때만 moving
-            if(0 < m_rigidbody2D.velocity.magnitude)
-            {
-                currentState = EState.moving;
-            }
+            currentState = EState.moving;
             
             endPoint = currentPoint;
 
@@ -172,6 +168,11 @@ public class Player : MonoBehaviour
         if (movePosition.magnitude <= (currentPosition - startPosition).magnitude)
         {
             m_rigidbody2D.velocity = new Vector2(0, 0);
+
+            if(currentState == EState.moving)
+            {
+                currentState = EState.idle;
+            }
         }
     }
 

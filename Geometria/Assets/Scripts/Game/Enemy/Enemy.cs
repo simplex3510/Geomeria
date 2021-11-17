@@ -8,15 +8,49 @@ public class Enemy : MonoBehaviour
     public float speed = 1.5f;
 
     Transform enemyTransform;
+    EState currentState;
 
     void Start()
     {
+        currentState = EState.idle;
         enemyTransform = GetComponent<Transform>();
+        StartCoroutine(Update_FSM());
     }
 
-    void Update()
+    IEnumerator Update_FSM()
     {
-        transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
+        while (true)
+        {
+            if (currentState == EState.idle)
+            {
+                yield return new WaitForSecondsRealtime(0.25f);
+                currentState = EState.moving;
+            }
+            else if (currentState == EState.moving)
+            {
+                yield return StartCoroutine(Move());
+                currentState = EState.idle;
+            }
+            else
+            {
+                yield return null;
+            }
+        }
+    }
+
+    IEnumerator Move()
+    {
+        float moveTime = 0f;
+        while (true)
+        {
+            moveTime += Time.deltaTime;
+            transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
+
+            if (2f <= moveTime)
+            {
+                yield break;
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

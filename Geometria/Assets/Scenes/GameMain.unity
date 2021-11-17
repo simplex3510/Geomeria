@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2402477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,9 +155,9 @@ MonoBehaviour:
   commandWindow: {fileID: 1563256383}
   commandLine: {fileID: 1405903796}
   commandDrawEmpty:
+  - {fileID: -7299615076878801032, guid: a8d8ff78dacbe894cb3fb5794a43b1b5, type: 3}
   - {fileID: 8995154407686431259, guid: a8d8ff78dacbe894cb3fb5794a43b1b5, type: 3}
   - {fileID: 7916879278400159349, guid: a8d8ff78dacbe894cb3fb5794a43b1b5, type: 3}
-  - {fileID: -7299615076878801032, guid: a8d8ff78dacbe894cb3fb5794a43b1b5, type: 3}
   - {fileID: -5867966722061696963, guid: a8d8ff78dacbe894cb3fb5794a43b1b5, type: 3}
   commandDrawMiss:
   - {fileID: 401876147640993893, guid: 5529c99a3af30be488d89c21ac38d355, type: 3}
@@ -2065,9 +2065,17 @@ PrefabInstance:
       propertyPath: currentState
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5174686158363029275, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2490138318161320991, guid: 2e4f2fa268a07874ca4e20764dd26d1f, type: 3}
     - target: {fileID: 5174686158363029279, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5174686158363029279, guid: 8813848357595f945b7b3099aebefda3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8813848357595f945b7b3099aebefda3, type: 3}
@@ -2189,7 +2197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1421064415
 MonoBehaviour:
   m_ObjectHideFlags: 0

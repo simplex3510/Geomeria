@@ -238,7 +238,7 @@ public class BattleManager : MonoBehaviour
             {
                 command.GetComponent<Image>().sprite = commandDrawEmpty[3];
             }
-            commandLine.GetChild(0).transform.SetParent(transform);
+            commandLine.GetChild(0).SetParent(transform);
         }
 
         currentIndex = 0;

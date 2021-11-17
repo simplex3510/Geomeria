@@ -4,16 +4,16 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 8995154407686431259
-    second: Empty_0
+    second: Empty_Down
   - first:
       213: 7916879278400159349
-    second: Empty_1
+    second: Empty_Left
   - first:
       213: -7299615076878801032
-    second: Empty_2
+    second: Empty_Up
   - first:
       213: -5867966722061696963
-    second: Empty_3
+    second: Empty_Right
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Empty_0
+      name: Empty_Down
       rect:
         serializedVersion: 2
         x: 0
@@ -123,7 +123,7 @@ TextureImporter:
         width: 730.5
         height: 719
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -136,7 +136,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Empty_1
+      name: Empty_Left
       rect:
         serializedVersion: 2
         x: 730
@@ -144,7 +144,7 @@ TextureImporter:
         width: 730.5
         height: 719
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -157,7 +157,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Empty_2
+      name: Empty_Up
       rect:
         serializedVersion: 2
         x: 1460
@@ -165,7 +165,7 @@ TextureImporter:
         width: 730.5
         height: 719
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -178,15 +178,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Empty_3
+      name: Empty_Right
       rect:
         serializedVersion: 2
         x: 2190
         y: 0
-        width: 730.5
+        width: 730
         height: 719
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
