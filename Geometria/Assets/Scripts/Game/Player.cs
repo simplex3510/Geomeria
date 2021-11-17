@@ -18,16 +18,18 @@ public class Player : MonoBehaviour
 {
     public ParticleSystem chargingEffect;
     public ParticleSystem chargedEffect;
+    public DrawLine drawLine;
     public float speed;
     public EState currentState;
 
     float currentChargeTime;
     float fullChargeTime = 1f;
+    float angle;
     
     Camera cameraMain;
     Rigidbody2D m_rigidbody2D;
     SpriteRenderer spriteRenderer;
-    DrawLine drawLine;
+    
 
     Vector3 startPosition;
     Vector3 movePosition;
@@ -75,7 +77,6 @@ public class Player : MonoBehaviour
         currentState = EState.idle;
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        drawLine = GetComponentInChildren<DrawLine>();
     }
 
     void Update()
@@ -97,6 +98,11 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
+            //#region 방향(회전) 조정
+            //angle = Mathf.Atan2(currentPoint.y - transform.position.y, currentPoint.x - transform.position.x) * Mathf.Rad2Deg;
+            //transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+            //#endregion
+
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
 
@@ -127,6 +133,8 @@ public class Player : MonoBehaviour
             }
             #endregion
         }
+
+
 
         if (Input.GetMouseButtonUp(0))
         {

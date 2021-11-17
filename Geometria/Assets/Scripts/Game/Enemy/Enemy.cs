@@ -44,10 +44,13 @@ public class Enemy : MonoBehaviour
         while (true)
         {
             moveTime += Time.deltaTime;
+            speed = Mathf.Lerp(2, 0, 0.1f);
             transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
+            yield return null;
 
-            if (2f <= moveTime)
+            if (1f <= moveTime)
             {
+                speed = 2f;
                 yield break;
             }
         }
