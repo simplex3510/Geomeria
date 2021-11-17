@@ -5,8 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform playerTransform;
-    public float speed = 1.5f;
 
+    float speed;
+    float angle;
     Transform enemyTransform;
     EState currentState;
 
@@ -14,6 +15,12 @@ public class Enemy : MonoBehaviour
     {
         currentState = EState.idle;
         enemyTransform = GetComponent<Transform>();
+        StartCoroutine(Update_FSM());
+    }
+
+    private void OnEnable()
+    {
+        currentState = EState.idle;
         StartCoroutine(Update_FSM());
     }
 
@@ -40,17 +47,18 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Move()
     {
-        float moveTime = 0f;
         while (true)
         {
-            moveTime += Time.deltaTime;
-            speed = Mathf.Lerp(2, 0, 0.1f);
+            angle = Mathf.Atan2(playerTransform.position.y - transform.position.y, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+            speed = Mathf.Lerp(speed, 0, 0.1f);
             transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
             yield return null;
 
-            if (1f <= moveTime)
+            if (speed <= 0.1f)
             {
-                speed = 2f;
+                speed = 5f;
                 yield break;
             }
         }

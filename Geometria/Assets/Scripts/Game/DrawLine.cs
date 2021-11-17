@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DrawLine : MonoBehaviour
 {
+    public Transform playerPosition;
+
     LineRenderer lineRenderer;
     Vector3[] points;
 
@@ -15,6 +17,8 @@ public class DrawLine : MonoBehaviour
 
     public void RenderLine(Vector3 _startPoint, Vector3 _endPoint)
     {
+        transform.position = playerPosition.position;
+
         lineRenderer.positionCount = 2;
 
         points[0] = _startPoint.normalized * Mathf.Clamp(_startPoint.magnitude, -10f, 10f);

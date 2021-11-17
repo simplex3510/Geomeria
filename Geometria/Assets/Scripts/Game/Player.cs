@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public DrawLine drawLine;
     public float speed;
     public EState currentState;
+    public List<Sprite> playerSprite;
 
     float currentChargeTime;
     float fullChargeTime = 1f;
@@ -98,13 +99,13 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            //#region 방향(회전) 조정
-            //angle = Mathf.Atan2(currentPoint.y - transform.position.y, currentPoint.x - transform.position.x) * Mathf.Rad2Deg;
-            //transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
-            //#endregion
-
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
+
+            #region 방향(회전) 조정
+            angle = Mathf.Atan2(currentPoint.y - transform.position.y, currentPoint.x - transform.position.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+            #endregion
 
             #region 드로우 라인 on
             Vector3 linePoint = (startPoint - currentPoint);
@@ -127,7 +128,7 @@ public class Player : MonoBehaviour
                 }
 
                 chargedEffect.Play();
-                spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player_Charged");
+                spriteRenderer.sprite = playerSprite[1];
             charged: 
                 currentState = EState.charged;
             }
@@ -142,10 +143,6 @@ public class Player : MonoBehaviour
             
             endPoint = currentPoint;
 
-            #region 드로우 라인 off
-            drawLine.EndLine();
-            #endregion
-
             // 방향 설정 및 이동 거리 설정
             direction = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, -10f, 10f),
                                     Mathf.Clamp(startPoint.y - endPoint.y, -10f, 10f));
@@ -155,7 +152,7 @@ public class Player : MonoBehaviour
 
             if (fullChargeTime <= currentChargeTime)
             {
-                spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/Player");
+                spriteRenderer.sprite = playerSprite[0];
                 m_rigidbody2D.velocity = direction * speed;
                 currentChargeTime = 0f;
             }
@@ -169,6 +166,10 @@ public class Player : MonoBehaviour
                 chargingEffect.Stop();
                 currentChargeTime = 0f;
             }
+
+            #region 드로우 라인 off
+            drawLine.EndLine();
+            #endregion
         }
 
         currentPosition = transform.position;
