@@ -15,52 +15,34 @@ public class Enemy : MonoBehaviour
     {
         currentState = EState.idle;
         enemyTransform = GetComponent<Transform>();
-        StartCoroutine(Update_FSM());
+        StartCoroutine(Move());
     }
 
     private void OnEnable()
     {
+        angle = Mathf.Atan2(playerTransform.position.y - transform.position.y, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+        
         currentState = EState.idle;
-        StartCoroutine(Update_FSM());
-    }
-
-    IEnumerator Update_FSM()
-    {
-        while (true)
-        {
-            if (currentState == EState.idle)
-            {
-                yield return new WaitForSecondsRealtime(0.25f);
-                currentState = EState.moving;
-            }
-            else if (currentState == EState.moving)
-            {
-                yield return StartCoroutine(Move());
-                currentState = EState.idle;
-            }
-            else
-            {
-                yield return null;
-            }
-        }
+        StartCoroutine(Move());
     }
 
     IEnumerator Move()
     {
         while (true)
         {
+            if (speed <= 0.05f)
+            {
+                speed = 4f;
+                yield return new WaitForSecondsRealtime(0.3f);
+            }
+
             angle = Mathf.Atan2(playerTransform.position.y - transform.position.y, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-            speed = Mathf.Lerp(speed, 0, 0.1f);
+            speed = Mathf.Lerp(speed, 0, 0.03f);
             transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
             yield return null;
-
-            if (speed <= 0.1f)
-            {
-                speed = 5f;
-                yield break;
-            }
         }
     }
 
