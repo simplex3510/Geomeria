@@ -19,6 +19,20 @@ public class BattleManager : MonoBehaviour
     public Sprite[] commandDrawMiss;
     public Sprite[] commandDrawSuccess;
     public Queue<Enemy> enemies;
+    public int currentIdx
+    {
+        get
+        {
+            return currentIndex;
+        }
+    }
+    public int commandCnt
+    {
+        get
+        {
+            return commandCount;
+        }
+    }
 
     List<ECommand> commandInput;
     ECommand currentCommand;
@@ -70,7 +84,6 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     IEnumerator Update_FSM()
     {
-        Debug.Log("FSM");
         while (true)
         {
             if (Player.Instance.currentState == EState.win)
@@ -107,7 +120,6 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator CBattle()
     {
-        Debug.Log("CBattle");
         if (currentIndex < commandCount)
         {
             var commandSprite = commandLine.GetChild(currentIndex).GetComponent<Image>();
@@ -117,25 +129,28 @@ public class BattleManager : MonoBehaviour
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[0];
+                UITimer.width += 192;
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[1];
+                UITimer.width += 192;
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[2];
+                UITimer.width += 192;
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[3];
-
+                UITimer.width += 192;
             }
             else if (!Input.GetMouseButtonDown(0) &&
                      !Input.GetMouseButtonDown(1) &&
@@ -166,7 +181,7 @@ public class BattleManager : MonoBehaviour
         else if (currentIndex == commandCount)
         {
             Player.Instance.currentState = EState.win;
-            yield return new WaitForSecondsRealtime(0.4f);
+            yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
         yield return null;
@@ -244,6 +259,7 @@ public class BattleManager : MonoBehaviour
         currentIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
+        Player.Instance.currentState = EState.idle;
 
         //Time.timeScale = 1;
     }

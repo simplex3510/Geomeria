@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && currentState != EState.battle)
         {
             if(currentState != EState.battle)
             {
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
             chargingEffect.Play();
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && currentState != EState.battle)
         {
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
@@ -135,9 +135,7 @@ public class Player : MonoBehaviour
             #endregion
         }
 
-
-
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && currentState != EState.battle)
         {
             currentState = EState.moving;
             
