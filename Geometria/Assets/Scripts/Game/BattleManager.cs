@@ -180,7 +180,7 @@ public class BattleManager : MonoBehaviour
         //             Player.Instance.currentState == EState.moving   ||
         //             Player.Instance.currentState == EState.battle, "Enter - State Wrong");
 
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         
         #region Draw & Input Command
         commandCount = Random.Range(1, 5);
@@ -244,7 +244,8 @@ public class BattleManager : MonoBehaviour
         currentIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
-        Time.timeScale = 1;
+
+        //Time.timeScale = 1;
     }
 
     void BattleCameraEffect()
