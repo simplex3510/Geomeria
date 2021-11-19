@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    GameObject[] children;
+    public Enemy[] children;
 
     #region EnemyManager Singleton
     private static EnemyManager _instance;
@@ -40,19 +40,32 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // children = GetComponentsInChildren<GameObject>();
+        StartCoroutine(Update_FSM());
     }
 
     // Update is called once per frame
-    void Update()
+    IEnumerator Update_FSM()
     {
-        // if (false)
-        // {
-        //     // 0번은 spawner
-        //     for (int i = 1; i < transform.childCount; i++)
-        //     {
-                
-        //     }
-        // }
+        while(true)
+        {
+            if (Player.Instance.currentState == EState.battle)
+            {
+                yield return StartCoroutine(Pause());
+            }
+            else
+            {
+
+            }
+        }
+    }
+
+    IEnumerator Pause()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+
+        }
+
+        yield return null;
     }
 }

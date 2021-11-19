@@ -16,12 +16,12 @@ public class Enemy : MonoBehaviour
     {
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         enemyTransform = GetComponent<Transform>();
-        StartCoroutine(Move());
     }
 
     private void OnEnable()
     {
-        angle = Mathf.Atan2(playerTransform.position.y - transform.position.y, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
+        angle = Mathf.Atan2(playerTransform.position.y - transform.position.y,
+                            playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
         StartCoroutine(Move());
@@ -34,16 +34,16 @@ public class Enemy : MonoBehaviour
             if (speed <= 0.07f)
             {
                 speed = 4f;
-                // yield return new WaitForSecondsRealtime(0.3f);
-                yield return null;
             }
 
-            angle = Mathf.Atan2(playerTransform.position.y - transform.position.y, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
+            angle = Mathf.Atan2(playerTransform.position.y - transform.position.y,
+                                playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-            speed = Mathf.Lerp(speed, 0, 0.03f);
+            speed = Mathf.Lerp(speed, 0, 0.01f);
             direction = new Vector2(playerTransform.position.x - transform.position.x,
                                     playerTransform.position.y - transform.position.y).normalized;
+
             m_rigidbody2D.velocity = direction * speed;
             yield return null;
         }
