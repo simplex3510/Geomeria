@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class UITimer : MonoBehaviour
 {
+    public static readonly float onePercent = 19.2f;
     public RectTransform outline;
     public static float width
     {
         get;
         set;
     }
-
-    float onePercent = 19.2f;
 
     // Start is called before the first frame update
     void Start()

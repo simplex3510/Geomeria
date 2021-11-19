@@ -5,17 +5,16 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform playerTransform;
+    public Rigidbody2D m_rigidbody2D;
 
     float speed;
     float angle;
-    Rigidbody2D m_rigidbody2D;
     Vector2 direction;
-    Transform enemyTransform;
+    Vector2 currentVelocity;
 
-    void Start()
+    void Awake()
     {
         m_rigidbody2D = GetComponent<Rigidbody2D>();
-        enemyTransform = GetComponent<Transform>();
     }
 
     private void OnEnable()
@@ -24,16 +23,57 @@ public class Enemy : MonoBehaviour
                             playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-        StartCoroutine(Move());
+        StartCoroutine(Update_FSM());
+    }
+
+    IEnumerator Update_FSM()
+    {
+        while (true)
+        {
+            if (Player.Instance.currentState == EState.battle)
+            {
+                yield return StartCoroutine(Pause());
+            }
+            else if (Player.Instance.currentState == EState.win || Player.Instance.currentState == EState.defeat)
+            {
+                yield return StartCoroutine(Resume());
+            }
+            else
+            {
+                yield return StartCoroutine(Move());
+            }
+        }
+    }
+
+    IEnumerator Pause()
+    {
+        currentVelocity = m_rigidbody2D.velocity;
+        m_rigidbody2D.velocity = Vector2.zero;
+
+        yield return null;
+    }
+
+    IEnumerator Resume()
+    {
+        if(Player.Instance.currentState == EState.win)
+        {
+            gameObject.SetActive(false);
+            BattleManager.Instance.enemies.Dequeue();
+            yield break;
+        }
+
+        m_rigidbody2D.velocity = currentVelocity;
+
+        yield return null;
     }
 
     IEnumerator Move()
     {
-        while (true)
+        while (Player.Instance.currentState != EState.battle)
         {
-            if (speed <= 0.07f)
+            if (speed <= 0.05f)
             {
-                speed = 4f;
+                speed = 3.5f;
             }
 
             angle = Mathf.Atan2(playerTransform.position.y - transform.position.y,
@@ -63,8 +103,7 @@ public class Enemy : MonoBehaviour
         {
             if (Player.Instance.currentState == EState.win)
             {
-                gameObject.SetActive(false);
-                BattleManager.Instance.enemies.Dequeue();
+
             }
         }
     }

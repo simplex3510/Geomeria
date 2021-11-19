@@ -6,6 +6,8 @@ public class EnemyManager : MonoBehaviour
 {
     public Enemy[] children;
 
+    Vector2[] currentVelocity;
+
     #region EnemyManager Singleton
     private static EnemyManager _instance;
     public static EnemyManager Instance
@@ -40,32 +42,12 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Update_FSM());
+        // StartCoroutine(Update_FSM());
     }
 
     // Update is called once per frame
-    IEnumerator Update_FSM()
-    {
-        while(true)
-        {
-            if (Player.Instance.currentState == EState.battle)
-            {
-                yield return StartCoroutine(Pause());
-            }
-            else
-            {
-
-            }
-        }
-    }
-
-    IEnumerator Pause()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-
-        }
-
-        yield return null;
-    }
+    //IEnumerator Update_FSM()
+    //{
+        
+    //}
 }

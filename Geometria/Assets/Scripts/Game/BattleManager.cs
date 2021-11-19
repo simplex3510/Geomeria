@@ -129,28 +129,28 @@ public class BattleManager : MonoBehaviour
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[0];
-                UITimer.width += 192;
+                UITimer.width += UITimer.onePercent;
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[1];
-                UITimer.width += 192;
+                UITimer.width += UITimer.onePercent;
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[2];
-                UITimer.width += 192;
+                UITimer.width += UITimer.onePercent;
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[3];
-                UITimer.width += 192;
+                UITimer.width += UITimer.onePercent;
             }
             else if (!Input.GetMouseButtonDown(0) &&
                      !Input.GetMouseButtonDown(1) &&

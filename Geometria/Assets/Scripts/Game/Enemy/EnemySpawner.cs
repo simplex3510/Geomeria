@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region 
+        #region circle move
         runningTime += Time.deltaTime * speed;
         float x = radius * Mathf.Cos(runningTime);
         float y = radius * Mathf.Sin(runningTime);
@@ -33,19 +33,21 @@ public class EnemySpawner : MonoBehaviour
         }
         #endregion
 
-
-        timeAfterSpawn += Time.deltaTime;
-        if (spawnRate <= timeAfterSpawn)
+        if (Player.Instance.currentState != EState.battle)
         {
-            int enemyIndex = Random.Range(0, 10);
-            if (enemys[enemyIndex].gameObject.activeSelf == false)
+            timeAfterSpawn += Time.deltaTime;
+            if (spawnRate <= timeAfterSpawn)
             {
-                enemys[enemyIndex].transform.position = transform.position;
-                enemys[enemyIndex].SetActive(true);
-            }
+                int enemyIndex = Random.Range(0, 10);
+                if (enemys[enemyIndex].gameObject.activeSelf == false)
+                {
+                    enemys[enemyIndex].transform.position = transform.position;
+                    enemys[enemyIndex].SetActive(true);
+                }
 
-            spawnRate = Random.Range(spawnRateMin, spawnRateMax);
-            timeAfterSpawn = 0;
+                spawnRate = Random.Range(spawnRateMin, spawnRateMax);
+                timeAfterSpawn = 0;
+            }
         }
     }
 }
