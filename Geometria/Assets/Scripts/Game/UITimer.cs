@@ -10,6 +10,9 @@ public class UITimer : MonoBehaviour
         get;
         set;
     }
+
+    float onePercent = 19.2f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +36,7 @@ public class UITimer : MonoBehaviour
                 yield break;
             }
 
-            width -= (192 * 2.5f) * Time.deltaTime;
+            width -= (onePercent) * Time.deltaTime;
             outline.sizeDelta = new Vector2(width, 10);
 
             yield return null;

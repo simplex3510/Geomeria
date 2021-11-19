@@ -8,12 +8,13 @@ public class Enemy : MonoBehaviour
 
     float speed;
     float angle;
+    Rigidbody2D m_rigidbody2D;
+    Vector2 direction;
     Transform enemyTransform;
-    EState currentState;
 
     void Start()
     {
-        currentState = EState.idle;
+        m_rigidbody2D = GetComponent<Rigidbody2D>();
         enemyTransform = GetComponent<Transform>();
         StartCoroutine(Move());
     }
@@ -22,8 +23,7 @@ public class Enemy : MonoBehaviour
     {
         angle = Mathf.Atan2(playerTransform.position.y - transform.position.y, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        
-        currentState = EState.idle;
+
         StartCoroutine(Move());
     }
 
@@ -31,17 +31,20 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            if (speed <= 0.05f)
+            if (speed <= 0.07f)
             {
                 speed = 4f;
-                yield return new WaitForSecondsRealtime(0.3f);
+                // yield return new WaitForSecondsRealtime(0.3f);
+                yield return null;
             }
 
             angle = Mathf.Atan2(playerTransform.position.y - transform.position.y, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
             speed = Mathf.Lerp(speed, 0, 0.03f);
-            transform.position = Vector3.MoveTowards(enemyTransform.position, playerTransform.position, speed * Time.deltaTime);
+            direction = new Vector2(playerTransform.position.x - transform.position.x,
+                                    playerTransform.position.y - transform.position.y).normalized;
+            m_rigidbody2D.velocity = direction * speed;
             yield return null;
         }
     }
