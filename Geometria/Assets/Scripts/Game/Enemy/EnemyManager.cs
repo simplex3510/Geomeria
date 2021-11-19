@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    GameObject[] children;
+    public Enemy[] children;
+
+    Vector2[] currentVelocity;
 
     #region EnemyManager Singleton
     private static EnemyManager _instance;
@@ -40,19 +42,12 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // children = GetComponentsInChildren<GameObject>();
+        // StartCoroutine(Update_FSM());
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        // if (false)
-        // {
-        //     // 0번은 spawner
-        //     for (int i = 1; i < transform.childCount; i++)
-        //     {
-                
-        //     }
-        // }
-    }
+    //IEnumerator Update_FSM()
+    //{
+        
+    //}
 }
