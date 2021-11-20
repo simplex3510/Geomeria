@@ -11,7 +11,7 @@ enum ECommand
     Right = 'd',
 }
 
-public class BattleManager : MonoBehaviour
+class BattleManager : MonoBehaviour
 {
     public GameObject commandWindow;
     public RectTransform commandLine;
@@ -19,19 +19,17 @@ public class BattleManager : MonoBehaviour
     public Sprite[] commandDrawMiss;
     public Sprite[] commandDrawSuccess;
     public Queue<Enemy> enemies;
-    public int currentIdx
+    public ECommand currentCmd
     {
-        get
-        {
-            return currentIndex;
-        }
+        get { return currentCommand; }
     }
     public int commandCnt
     {
-        get
-        {
-            return commandCount;
-        }
+        get{ return commandCount; }
+    }
+    public int currentIdx
+    {
+        get { return currentIndex; }
     }
 
     List<ECommand> commandInput;
