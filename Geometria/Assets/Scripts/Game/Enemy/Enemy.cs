@@ -55,13 +55,6 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Resume()
     {
-        if(Player.Instance.currentState == EState.win)
-        {
-            gameObject.SetActive(false);
-            BattleManager.Instance.enemies.Dequeue();
-            yield break;
-        }
-
         m_rigidbody2D.velocity = currentVelocity;
 
         yield return null;
@@ -73,14 +66,14 @@ public class Enemy : MonoBehaviour
         {
             if (speed <= 0.05f)
             {
-                speed = 3.5f;
+                speed = 5f;
             }
 
             angle = Mathf.Atan2(playerTransform.position.y - transform.position.y,
                                 playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-            speed = Mathf.Lerp(speed, 0, 0.01f);
+            speed = Mathf.Lerp(speed, 0, 0.05f);
             direction = new Vector2(playerTransform.position.x - transform.position.x,
                                     playerTransform.position.y - transform.position.y).normalized;
 
@@ -94,17 +87,6 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             BattleManager.Instance.enemies.Enqueue(this);
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            if (Player.Instance.currentState == EState.win)
-            {
-
-            }
         }
     }
 }

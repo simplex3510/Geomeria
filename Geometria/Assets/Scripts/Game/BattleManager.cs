@@ -256,6 +256,9 @@ public class BattleManager : MonoBehaviour
             commandLine.GetChild(0).SetParent(transform);
         }
 
+        var enemy = BattleManager.Instance.enemies.Dequeue();
+        enemy.gameObject.SetActive(false);
+
         currentIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
