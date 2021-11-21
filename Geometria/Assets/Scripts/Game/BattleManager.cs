@@ -127,28 +127,28 @@ class BattleManager : MonoBehaviour
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[0];
-                UITimer.width += UITimer.onePercent;
+                UITimer.width += UITimer.ONE_PERCENT;
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[1];
-                UITimer.width += UITimer.onePercent;
+                UITimer.width += UITimer.ONE_PERCENT;
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[2];
-                UITimer.width += UITimer.onePercent;
+                UITimer.width += UITimer.ONE_PERCENT;
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[3];
-                UITimer.width += UITimer.onePercent;
+                UITimer.width += UITimer.ONE_PERCENT;
             }
             else if (!Input.GetMouseButtonDown(0) &&
                      !Input.GetMouseButtonDown(1) &&
@@ -196,7 +196,7 @@ class BattleManager : MonoBehaviour
         //Time.timeScale = 0;
         
         #region Draw & Input Command
-        commandCount = Random.Range(1, 5);
+        commandCount = Random.Range(1, 2);
         for (int i = 0; i < commandCount; i++)
         {
             int commandKey = Random.Range(0, transform.childCount);
