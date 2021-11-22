@@ -30,11 +30,11 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            if (Player.Instance.currentState == EState.battle)
+            if (Player.Instance.currentState == EState.Battle)
             {
                 yield return StartCoroutine(Pause());
             }
-            else if (Player.Instance.currentState == EState.win || Player.Instance.currentState == EState.defeat)
+            else if (Player.Instance.currentState == EState.Win || Player.Instance.currentState == EState.Defeat)
             {
                 yield return StartCoroutine(Resume());
             }
@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Move()
     {
-        while (Player.Instance.currentState != EState.battle)
+        while (Player.Instance.currentState != EState.Battle)
         {
             if (speed <= 0.05f)
             {

@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
         }
         #endregion
 
-        if (Player.Instance.currentState != EState.battle)
+        if (Player.Instance.currentState != EState.Battle)
         {
             timeAfterSpawn += Time.deltaTime;
             if (spawnRate <= timeAfterSpawn)

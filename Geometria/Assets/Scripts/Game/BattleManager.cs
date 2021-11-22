@@ -84,16 +84,16 @@ class BattleManager : MonoBehaviour
     {
         while (true)
         {
-            if (Player.Instance.currentState == EState.win)
+            if (Player.Instance.currentState == EState.Win)
             {
                 yield return StartCoroutine(CWin());
             }
-            else if (Player.Instance.currentState == EState.defeat)
+            else if (Player.Instance.currentState == EState.Defeat)
             {
                 yield return StartCoroutine(CDefeat());
             }
             // Battle Modes
-            else if (Player.Instance.currentState == EState.battle)
+            else if (Player.Instance.currentState == EState.Battle)
             {
                 yield return StartCoroutine(CBattle());
             }
@@ -127,28 +127,24 @@ class BattleManager : MonoBehaviour
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[0];
-                UITimer.width += UITimer.ONE_PERCENT;
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[1];
-                UITimer.width += UITimer.ONE_PERCENT;
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[2];
-                UITimer.width += UITimer.ONE_PERCENT;
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
                 currentIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[3];
-                UITimer.width += UITimer.ONE_PERCENT;
             }
             else if (!Input.GetMouseButtonDown(0) &&
                      !Input.GetMouseButtonDown(1) &&
@@ -178,7 +174,7 @@ class BattleManager : MonoBehaviour
         }
         else if (currentIndex == commandCount)
         {
-            Player.Instance.currentState = EState.win;
+            Player.Instance.currentState = EState.Win;
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
@@ -196,7 +192,7 @@ class BattleManager : MonoBehaviour
         //Time.timeScale = 0;
         
         #region Draw & Input Command
-        commandCount = Random.Range(1, 2);
+        commandCount = Random.Range(1, 5);
         for (int i = 0; i < commandCount; i++)
         {
             int commandKey = Random.Range(0, transform.childCount);
@@ -260,7 +256,7 @@ class BattleManager : MonoBehaviour
         currentIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
-        Player.Instance.currentState = EState.idle;
+        Player.Instance.currentState = EState.Idle;
 
         //Time.timeScale = 1;
     }

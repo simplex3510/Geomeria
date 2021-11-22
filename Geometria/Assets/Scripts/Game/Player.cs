@@ -5,13 +5,13 @@ using UnityEngine.EventSystems;
 
 public enum EState
 {
-    idle = 0,
-    win,
-    defeat,
-    battle,
-    charging,
-    charged,
-    moving
+    Idle = 0,
+    Win,
+    Defeat,
+    Battle,
+    Charging,
+    Charged,
+    Moving
 }
 
 public class Player : MonoBehaviour
@@ -75,18 +75,18 @@ public class Player : MonoBehaviour
     void Start()
     {
         cameraMain = Camera.main;
-        currentState = EState.idle;
+        currentState = EState.Idle;
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && currentState != EState.battle)
+        if (Input.GetMouseButtonDown(0) && currentState != EState.Battle)
         {
-            if(currentState != EState.battle)
+            if(currentState != EState.Battle)
             {
-                currentState = EState.charging;
+                currentState = EState.Charging;
             }
             
             startPosition = transform.position;
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
             chargingEffect.Play();
         }
 
-        if (Input.GetMouseButton(0) && currentState != EState.battle)
+        if (Input.GetMouseButton(0) && currentState != EState.Battle)
         {
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
@@ -122,22 +122,22 @@ public class Player : MonoBehaviour
             if (fullChargeTime <= currentChargeTime)
             {
                 // 한 번만 실행
-                if (currentState == EState.charged)
+                if (currentState == EState.Charged)
                 {
-                    goto charged;
+                    goto Charged;
                 }
 
                 chargedEffect.Play();
                 spriteRenderer.sprite = playerSprite[1];
-            charged: 
-                currentState = EState.charged;
+            Charged: 
+                currentState = EState.Charged;
             }
             #endregion
         }
 
-        if (Input.GetMouseButtonUp(0) && currentState != EState.battle)
+        if (Input.GetMouseButtonUp(0) && currentState != EState.Battle)
         {
-            currentState = EState.moving;
+            currentState = EState.Moving;
             
             endPoint = currentPoint;
 
@@ -154,12 +154,12 @@ public class Player : MonoBehaviour
                 m_rigidbody2D.velocity = direction * speed;
                 currentChargeTime = 0f;
             }
-            // charged 전에 charging을 그만두었을 때
+            // Charged 전에 Charging을 그만두었을 때
             else
             {
-                if (currentState != EState.battle)
+                if (currentState != EState.Battle)
                 {
-                    currentState = EState.idle;
+                    currentState = EState.Idle;
                 }
                 chargingEffect.Stop();
                 currentChargeTime = 0f;
@@ -176,9 +176,9 @@ public class Player : MonoBehaviour
         {
             m_rigidbody2D.velocity = new Vector2(0, 0);
 
-            if(currentState == EState.moving)
+            if(currentState == EState.Moving)
             {
-                currentState = EState.idle;
+                currentState = EState.Idle;
             }
         }
     }
@@ -192,10 +192,10 @@ public class Player : MonoBehaviour
 
             switch(currentState)
             {
-                case EState.charging:
-                case EState.charged:
-                case EState.moving:
-                    currentState = EState.battle;
+                case EState.Charging:
+                case EState.Charged:
+                case EState.Moving:
+                    currentState = EState.Battle;
                     BattleManager.Instance.EnterBattleMode();
                     break;
                 default:

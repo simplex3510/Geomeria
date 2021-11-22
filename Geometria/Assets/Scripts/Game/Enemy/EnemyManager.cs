@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class EnemyManager : MonoBehaviour
 {
-    public Enemy[] children;
-
-    Vector2[] currentVelocity;
+    public Enemy[] enemies;
+    public Boss boss;
 
     #region EnemyManager Singleton
     private static EnemyManager _instance;
@@ -42,12 +43,23 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // StartCoroutine(Update_FSM());
+
     }
 
-    // Update is called once per frame
-    //IEnumerator Update_FSM()
-    //{
+    void Update()
+    {
+        if(GameManager.Instance.currentGameState == EGameState.Boss)
+        {
+            boss.gameObject.SetActive(true);
+        }
         
-    //}
+    }
+
+    public void DisableEnemies()
+    {
+        foreach(var enemy in enemies)
+        {
+            enemy.gameObject.SetActive(false);
+        }
+    }
 }
