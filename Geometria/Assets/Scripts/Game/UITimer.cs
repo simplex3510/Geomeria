@@ -5,6 +5,7 @@ using UnityEngine;
 public class UITimer : MonoBehaviour
 {
     public static readonly float ONE_PERCENT = 19.2f;
+    public static readonly int FULL_WIDTH = 1920;
     public RectTransform outline;
     public static float width
     {
@@ -14,7 +15,7 @@ public class UITimer : MonoBehaviour
 
     float commandMinusOffest;
     float commandPlusOffest;
-    readonly int FULL_WIDTH = 1920;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -58,8 +59,10 @@ public class UITimer : MonoBehaviour
                 yield break;
             }
 
+            // 이 부분에서 서로 width 값이 불일치
             width -= (ONE_PERCENT * commandMinusOffest) * Time.deltaTime;
             // Debug.Log($"{gameObject.name}: {(ONE_PERCENT * commandMinusOffest) * Time.deltaTime}");
+            Debug.Log($"{gameObject.name}: {width}");
             outline.sizeDelta = new Vector2(width, 10);
 
             yield return null;
@@ -69,6 +72,7 @@ public class UITimer : MonoBehaviour
 
     void ExtendTime()
     {
+        Debug.Log($"---------------------------------------------------------------------");
         Debug.Log($"{gameObject.name}: {width}, {UITimer.ONE_PERCENT * commandPlusOffest}");
         UITimer.width += UITimer.ONE_PERCENT * commandPlusOffest;
         if (FULL_WIDTH <= width)
