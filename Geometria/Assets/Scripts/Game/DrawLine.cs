@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DrawLine : MonoBehaviour
 {
-    public Transform playerPosition;
+    public Transform currentPosition;
 
     LineRenderer lineRenderer;
     Vector3[] points;
@@ -17,7 +17,7 @@ public class DrawLine : MonoBehaviour
 
     public void RenderLine(Vector3 _startPoint, Vector3 _endPoint)
     {
-        transform.position = playerPosition.position;
+        transform.position = currentPosition.position;
 
         lineRenderer.positionCount = 2;
 

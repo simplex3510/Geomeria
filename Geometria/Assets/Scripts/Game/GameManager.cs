@@ -102,4 +102,25 @@ class GameManager : MonoBehaviour
             yield return null;
         }
     }
+
+    IEnumerator BossState()
+    {
+        while (true)
+        {
+            width += UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            timer.sizeDelta = new Vector2(width, 10);
+
+            if (UITimer.FULL_WIDTH <= width)
+            {
+                currentGameState = EGameState.Boss;
+
+                EnemyManager.Instance.DisableEnemies();
+
+                timer.gameObject.SetActive(false);
+                enemySpawner.SetActive(false);
+            }
+
+            yield return null;
+        }
+    }
 }

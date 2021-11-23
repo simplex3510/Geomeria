@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
     public EState currentState;
     public List<Sprite> playerSprite;
 
+    readonly float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
-    float fullChargeTime = 1f;
     float angle;
     
     Camera cameraMain;
@@ -114,12 +114,12 @@ public class Player : MonoBehaviour
 
             #region 이펙트 및 이미지 로드
             currentChargeTime += Time.deltaTime;
-            if (fullChargeTime - 0.15f <= currentChargeTime)
+            if (FULL_CHARGE_TIME - 0.15f <= currentChargeTime)
             {
                 chargingEffect.Stop();
             }
 
-            if (fullChargeTime <= currentChargeTime)
+            if (FULL_CHARGE_TIME <= currentChargeTime)
             {
                 // 한 번만 실행
                 if (currentState == EState.Charged)
@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
             movePosition = direction;           // 이동 해야 할 거리
             direction = direction.normalized;   // 방향 벡터로 설정
 
-            if (fullChargeTime <= currentChargeTime)
+            if (FULL_CHARGE_TIME <= currentChargeTime)
             {
                 spriteRenderer.sprite = playerSprite[0];
                 m_rigidbody2D.velocity = direction * speed;

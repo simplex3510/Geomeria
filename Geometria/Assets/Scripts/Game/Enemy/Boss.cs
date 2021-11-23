@@ -8,34 +8,131 @@ public class Boss : MonoBehaviour
     public ParticleSystem chargingEffect;
     public ParticleSystem chargedEffect;
     public DrawLine drawLine;
-    public List<Sprite> playerSprite;
+    public Sprite[] bossSprites;
 
+    readonly float FULL_CHARGE_TIME = 1.2f;
+
+    SpriteRenderer spriteRenderer;
     Rigidbody2D m_rigidbody2D;
-    LineRenderer lineRenderer;
-
-    readonly float FULL_CHARGE_TIME = 1.3f;
-
     Vector3 startPosition;
-    Vector3 endPosition;
+    Vector3 currentPosition;
+    Vector3 movePosition;
+    Vector3 linePoint;
+    Vector3 direction;
+    EState currentState;
 
     float currentChargeTime;
-    float speed;
+    float speed = 100f;
     float angle;
 
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         m_rigidbody2D = GetComponent<Rigidbody2D>();
-        lineRenderer = GetComponent<LineRenderer>();
+
+        currentState = EState.Charging;
+        StartCoroutine(Update_FSM());
     }
 
     // Update is called once per frame
-    void Update()
+    IEnumerator Update_FSM()
     {
-        #region 방향(회전) 조정
-        angle = Mathf.Atan2(playerPosition.position.y - transform.position.y, playerPosition.position.x - transform.position.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+        while (true)
+        {
+            switch (currentState)
+            {
+                case EState.Charging:
+                    chargingEffect.Play();
+                    startPosition = transform.position;
+                    yield return Charging();
+                    break;
+                case EState.Charged:
+                    currentState = EState.Moving;
+                    break;
+                case EState.Moving:
+                    yield return Move();
+                    break;
+                default:
+                    yield return null;
+                    break;
+            }
+        }
+    }
+
+    IEnumerator Charging()
+    {
+        while(true)
+        {
+            #region 방향(회전) 조정
+            angle = Mathf.Atan2(playerPosition.position.y - transform.position.y, playerPosition.position.x - transform.position.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+            #endregion
+
+            #region 드로우 라인 on
+            linePoint = (playerPosition.position - transform.position);
+            drawLine.RenderLine(linePoint, linePoint * -1);
+            #endregion
+
+            currentChargeTime += Time.deltaTime;
+            if (FULL_CHARGE_TIME - 0.15f <= currentChargeTime)
+            {
+                chargingEffect.Stop();
+            }
+
+            if (FULL_CHARGE_TIME <= currentChargeTime)
+            {
+                // 한 번만 실행
+                if (currentState == EState.Charged)
+                {
+                    yield break;
+                }
+
+                chargedEffect.Play();
+                spriteRenderer.sprite = bossSprites[1];
+                currentState = EState.Charged;
+            }
+
+            yield return null;
+        }
+    }
+
+    IEnumerator Move()
+    {
+        // 방향 설정 및 이동 거리 설정
+        direction = new Vector2(Mathf.Clamp(playerPosition.position.x - transform.position.x, -10f, 10f),
+                                Mathf.Clamp(playerPosition.position.y - transform.position.y, -10f, 10f));
+
+        movePosition = direction;           // 이동 해야 할 거리
+        direction = direction.normalized;   // 방향 벡터로 설정
+
+        if (FULL_CHARGE_TIME <= currentChargeTime)
+        {
+            spriteRenderer.sprite = bossSprites[0];
+            m_rigidbody2D.velocity = direction * speed;
+            currentChargeTime = 0f;
+        }
+
+        #region 드로우 라인 off
+        drawLine.EndLine();
         #endregion
+
+        while(true)
+        {
+            currentPosition = transform.position;
+            // 이동해야 할 거리와 실재 이동 거리 비교 연산
+            if (movePosition.magnitude <= (currentPosition - startPosition).magnitude)
+            {
+                m_rigidbody2D.velocity = new Vector2(0, 0);
+                currentState = EState.Charging;
+                break;
+            }
+        }
+
+        currentChargeTime = 0;
+        currentState = EState.Charging;
+
+        yield return new WaitForSeconds(0.5f);
 
     }
 }
