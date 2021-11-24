@@ -10,6 +10,7 @@ TagManager:
   - Down
   - Left
   - Right
+  - Boss
   layers:
   - Default
   - TransparentFX

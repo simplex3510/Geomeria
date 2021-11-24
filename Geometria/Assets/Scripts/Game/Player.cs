@@ -185,7 +185,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss"))
         {
             CameraManager.Instance.isZoom = true;
             m_rigidbody2D.velocity = new Vector2(0, 0);
@@ -207,7 +207,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss"))
         {
             CameraManager.Instance.isZoom = false;
         }

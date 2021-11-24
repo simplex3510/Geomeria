@@ -16,6 +16,7 @@ public class Boss : MonoBehaviour
     Rigidbody2D m_rigidbody2D;
     Vector3 startPosition;
     Vector3 currentPosition;
+    Vector3 endPosition;
     Vector3 movePosition;
     Vector3 linePoint;
     Vector3 direction;
@@ -85,9 +86,11 @@ public class Boss : MonoBehaviour
                 // 한 번만 실행
                 if (currentState == EState.Charged)
                 {
+                    yield return new WaitForSecondsRealtime(0.5f);
                     yield break;
                 }
 
+                endPosition = playerPosition.position;
                 chargedEffect.Play();
                 spriteRenderer.sprite = bossSprites[1];
                 currentState = EState.Charged;
@@ -100,8 +103,8 @@ public class Boss : MonoBehaviour
     IEnumerator Move()
     {
         // 방향 설정 및 이동 거리 설정
-        direction = new Vector2(Mathf.Clamp(playerPosition.position.x - transform.position.x, -10f, 10f),
-                                Mathf.Clamp(playerPosition.position.y - transform.position.y, -10f, 10f));
+        direction = new Vector2(Mathf.Clamp(endPosition.x - transform.position.x, -10f, 10f),
+                                Mathf.Clamp(endPosition.y - transform.position.y, -10f, 10f));
 
         movePosition = direction;           // 이동 해야 할 거리
         direction = direction.normalized;   // 방향 벡터로 설정
@@ -124,15 +127,14 @@ public class Boss : MonoBehaviour
             if (movePosition.magnitude <= (currentPosition - startPosition).magnitude)
             {
                 m_rigidbody2D.velocity = new Vector2(0, 0);
-                currentState = EState.Charging;
-                break;
+                break;                       
             }
+            yield return null;
         }
 
-        currentChargeTime = 0;
         currentState = EState.Charging;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSecondsRealtime(1.5f);
 
     }
 }

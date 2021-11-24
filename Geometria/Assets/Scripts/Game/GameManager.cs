@@ -57,7 +57,7 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = 50f;
+        offset = 20f;
         currentGameState = EGameState.Normal;
         StartCoroutine(Update_FSM());
     }
