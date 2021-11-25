@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D m_rigidbody2D;
 
     float speed;
+    float backSpeed;
     float angle;
     Vector2 direction;
     Vector2 currentVelocity;
@@ -66,15 +67,23 @@ public class Enemy : MonoBehaviour
 
     IEnumerator KnockBack()
     {
-        if ((playerTransform.position - transform.position).magnitude <= 7)
+        if ((playerTransform.position - transform.position).magnitude <= 5)
         {
-            speed = 100f;
+            backSpeed = 100f;
             direction = new Vector2(transform.position.x - playerTransform.position.x,
                                     transform.position.y - playerTransform.position.y).normalized;
 
-            // m_rigidbody2D.velocity = direction * speed;
-            transform.position = Vector2.MoveTowards(transform.position, direction * 7, 5f);
-            yield return null;
+            m_rigidbody2D.velocity = direction * backSpeed;
+            while(true)
+            {
+                if(5 <= (playerTransform.position - transform.position).magnitude)
+                {
+                    Debug.Log((playerTransform.position - transform.position).magnitude.ToString());
+                    m_rigidbody2D.velocity = Vector2.zero;
+                    yield break;
+                }
+                yield return null;
+            }
         }
     }
 
