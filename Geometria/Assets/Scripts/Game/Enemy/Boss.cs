@@ -151,7 +151,7 @@ public class Boss : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            BattleManager.Instance.enemies.Enqueue(this.gameObject);
+            BattleManager.Instance.enemies.Add(this.gameObject);
             m_rigidbody2D.velocity = Vector2.zero;
         }
     }

@@ -18,14 +18,14 @@ class BattleManager : MonoBehaviour
     public Sprite[] commandDrawEmpty;
     public Sprite[] commandDrawMiss;
     public Sprite[] commandDrawSuccess;
-    public Queue<GameObject> enemies;
+    public List<GameObject> enemies;
     public ECommand currentCmd
     {
         get { return currentCommand; }
     }
     public int commandCnt
     {
-        get{ return commandCount; }
+        get { return commandCount; }
     }
     public int currentIdx
     {
@@ -36,7 +36,7 @@ class BattleManager : MonoBehaviour
     ECommand currentCommand;
     int commandCount;
     int currentIndex;
-    // bool displayDelay = true;
+    int missCount;
 
     #region Singleton
     private static BattleManager _instance;
@@ -74,7 +74,7 @@ class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemies = new Queue<GameObject>();
+        enemies = new List<GameObject>();
         commandInput = new List<ECommand>();
         StartCoroutine(Update_FSM());
     }
@@ -87,6 +87,10 @@ class BattleManager : MonoBehaviour
             if (Player.Instance.currentState == EState.Win)
             {
                 yield return StartCoroutine(CWin());
+            }
+            else if (Player.Instance.currentState == EState.Miss)
+            {
+                yield return StartCoroutine(CMiss());
             }
             else if (Player.Instance.currentState == EState.Defeat)
             {
@@ -105,6 +109,12 @@ class BattleManager : MonoBehaviour
     }
 
     IEnumerator CWin()
+    {
+        ExitBattleMode();
+        yield break;
+    }
+
+    IEnumerator CMiss()
     {
         ExitBattleMode();
         yield break;
@@ -146,6 +156,7 @@ class BattleManager : MonoBehaviour
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[3];
             }
+            // Battle 중에 마우스 차단 && 잘못된 커맨드 입력 -> miss 처리
             else if (!Input.GetMouseButtonDown(0) &&
                      !Input.GetMouseButtonDown(1) &&
                      !Input.GetMouseButtonDown(2) && Input.anyKeyDown)
@@ -153,15 +164,19 @@ class BattleManager : MonoBehaviour
                 switch (currentCommand)
                 {
                     case ECommand.Up:
+                        missCount++;
                         commandSprite.sprite = commandDrawMiss[0];
                         break;
                     case ECommand.Down:
+                        missCount++;
                         commandSprite.sprite = commandDrawMiss[1];
                         break;
                     case ECommand.Left:
+                        missCount++;
                         commandSprite.sprite = commandDrawMiss[2];
                         break;
                     case ECommand.Right:
+                        missCount++;
                         commandSprite.sprite = commandDrawMiss[3];
                         break;
                     default:
@@ -172,18 +187,30 @@ class BattleManager : MonoBehaviour
                 BattleCameraEffect();
             }
         }
-        else if (currentIndex == commandCount)
+        else if (currentIndex == commandCount && missCount == 0)
         {
             Player.Instance.currentState = EState.Win;
+            yield return new WaitForSecondsRealtime(0.3f);
+            BattleCameraEffect();
+        }
+        else if (currentIndex == commandCount && missCount <= 1)
+        {
+            Player.Instance.currentState = EState.Miss;
+            yield return new WaitForSecondsRealtime(0.3f);
+            BattleCameraEffect();
+        }
+        else if (currentIndex == commandCount && missCount == commandCount)
+        {
+            Player.Instance.currentState = EState.Defeat;
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
         yield return null;
     }
 
-    
+
     public void EnterBattleMode(int _minCommand, int _maxCommand)
-    {        
+    {
         #region Draw & Input Command
         commandCount = Random.Range(_minCommand, _maxCommand + 1);
         for (int i = 0; i < commandCount; i++)
@@ -219,43 +246,47 @@ class BattleManager : MonoBehaviour
         while (0 < commandLine.childCount)
         {
             var command = commandLine.GetChild(0);
-            if(command.tag == "Up")
+            if (command.tag == "Up")
             {
                 command.GetComponent<Image>().sprite = commandDrawEmpty[0];
             }
-            else if(command.tag == "Down")
+            else if (command.tag == "Down")
             {
                 command.GetComponent<Image>().sprite = commandDrawEmpty[1];
             }
-            else if(command.tag == "Left")
+            else if (command.tag == "Left")
             {
                 command.GetComponent<Image>().sprite = commandDrawEmpty[2];
             }
-            else if(command.tag == "Right")
+            else if (command.tag == "Right")
             {
                 command.GetComponent<Image>().sprite = commandDrawEmpty[3];
             }
             commandLine.GetChild(0).SetParent(transform);
         }
 
-        var enemy = BattleManager.Instance.enemies.Dequeue();
-        if(enemy.CompareTag("Boss"))
+        for (int i=0; enemies.Count !=0; i++)
         {
-            if(enemy.GetComponent<Boss>().battleCnt == 0)
+            var enemy = enemies[i];
+            enemies.RemoveAt(i);
+            if (enemy.CompareTag("Boss"))
             {
-                enemy.transform.parent.gameObject.SetActive(false);
+                if (enemy.GetComponent<Boss>().battleCnt == 0)
+                {
+                    enemy.transform.parent.gameObject.SetActive(false);
+                }
+                else
+                {
+                    enemy.GetComponent<Boss>().battleCnt--;
+                }
             }
-            else
+            else // if(enemy.CompareTag("Enemy"))
             {
-                enemy.GetComponent<Boss>().battleCnt--;
+                enemy.SetActive(false);
             }
         }
-        else // if(enemy.CompareTag("Enemy"))
-        {
-            enemy.SetActive(false);
-        }
-        
 
+        missCount = 0;
         currentIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();

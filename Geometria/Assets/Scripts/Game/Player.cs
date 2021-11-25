@@ -8,6 +8,7 @@ public enum EState
     Idle = 0,
     Win,
     Defeat,
+    Miss,
     Battle,
     Charging,
     Charged,

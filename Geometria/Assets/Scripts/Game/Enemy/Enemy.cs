@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             m_rigidbody2D.velocity = Vector2.zero;
-            BattleManager.Instance.enemies.Enqueue(this.gameObject);
+            BattleManager.Instance.enemies.Add(this.gameObject);
         }
     }
 }
