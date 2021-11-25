@@ -38,6 +38,10 @@ public class Enemy : MonoBehaviour
             {
                 yield return StartCoroutine(Resume());
             }
+            else if (Player.Instance.currentState == EState.Miss)
+            {
+                yield return StartCoroutine(KnockBack());
+            }
             else
             {
                 yield return StartCoroutine(Move());
@@ -58,6 +62,20 @@ public class Enemy : MonoBehaviour
         m_rigidbody2D.velocity = currentVelocity;
 
         yield return null;
+    }
+
+    IEnumerator KnockBack()
+    {
+        if ((playerTransform.position - transform.position).magnitude <= 7)
+        {
+            speed = 100f;
+            direction = new Vector2(transform.position.x - playerTransform.position.x,
+                                    transform.position.y - playerTransform.position.y).normalized;
+
+            // m_rigidbody2D.velocity = direction * speed;
+            transform.position = Vector2.MoveTowards(transform.position, direction * 7, 5f);
+            yield return null;
+        }
     }
 
     IEnumerator Move()
@@ -87,7 +105,6 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             m_rigidbody2D.velocity = Vector2.zero;
-            BattleManager.Instance.enemies.Add(this.gameObject);
         }
     }
 }

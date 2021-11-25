@@ -169,6 +169,7 @@ MonoBehaviour:
   - {fileID: 3181733398035931698, guid: 2e4f2fa268a07874ca4e20764dd26d1f, type: 3}
   - {fileID: -5013745363474156045, guid: 2e4f2fa268a07874ca4e20764dd26d1f, type: 3}
   - {fileID: -3258603586034122799, guid: 2e4f2fa268a07874ca4e20764dd26d1f, type: 3}
+  enemies: []
 --- !u!4 &2402478
 Transform:
   m_ObjectHideFlags: 0
@@ -13518,7 +13519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1957603848}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -20,9 +20,10 @@ public class Player : MonoBehaviour
     public ParticleSystem chargingEffect;
     public ParticleSystem chargedEffect;
     public DrawLine drawLine;
+    public List<Sprite> playerSprite;
     public float speed;
     public EState currentState;
-    public List<Sprite> playerSprite;
+    
 
     readonly float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
@@ -197,6 +198,7 @@ public class Player : MonoBehaviour
                 case EState.Charged:
                 case EState.Moving:
                     currentState = EState.Battle;
+                    BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(1, 3);
                     break;
                 default:
@@ -215,6 +217,7 @@ public class Player : MonoBehaviour
                 case EState.Charged:
                 case EState.Moving:
                     currentState = EState.Battle;
+                    BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(4, 6);
                     break;
                 default:
@@ -223,6 +226,14 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    //private void OnCollisionStay2D(Collision2D other)
+    //{
+    //    if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss"))
+    //    {
+            
+    //    }
+    //}
 
     private void OnCollisionExit2D(Collision2D other)
     {

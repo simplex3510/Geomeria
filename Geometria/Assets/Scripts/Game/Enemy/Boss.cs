@@ -73,7 +73,7 @@ public class Boss : MonoBehaviour
 
     IEnumerator Charging()
     {
-        while(true)
+        while (true)
         {
             #region 방향(회전) 조정
             angle = Mathf.Atan2(playerPosition.position.y - transform.position.y, playerPosition.position.x - transform.position.x) * Mathf.Rad2Deg;
@@ -130,14 +130,14 @@ public class Boss : MonoBehaviour
         drawLine.EndLine();
         #endregion
 
-        while(true)
+        while (true)
         {
             currentPosition = transform.position;
             // 이동해야 할 거리와 실재 이동 거리 비교 연산
             if (movePosition.magnitude <= (currentPosition - startPosition).magnitude)
             {
                 m_rigidbody2D.velocity = new Vector2(0, 0);
-                break;                       
+                break;
             }
             yield return null;
         }
@@ -149,9 +149,8 @@ public class Boss : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            BattleManager.Instance.enemies.Add(this.gameObject);
             m_rigidbody2D.velocity = Vector2.zero;
         }
     }
