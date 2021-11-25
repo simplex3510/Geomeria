@@ -18,7 +18,7 @@ class BattleManager : MonoBehaviour
     public Sprite[] commandDrawEmpty;
     public Sprite[] commandDrawMiss;
     public Sprite[] commandDrawSuccess;
-    public Queue<Enemy> enemies;
+    public Queue<GameObject> enemies;
     public ECommand currentCmd
     {
         get { return currentCommand; }
@@ -74,7 +74,7 @@ class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemies = new Queue<Enemy>();
+        enemies = new Queue<GameObject>();
         commandInput = new List<ECommand>();
         StartCoroutine(Update_FSM());
     }
@@ -182,17 +182,10 @@ class BattleManager : MonoBehaviour
     }
 
     
-    public void EnterBattleMode()
-    {
-        //Debug.Assert(Player.Instance.currentState == EState.charging ||
-        //             Player.Instance.currentState == EState.charged  ||
-        //             Player.Instance.currentState == EState.moving   ||
-        //             Player.Instance.currentState == EState.battle, "Enter - State Wrong");
-
-        //Time.timeScale = 0;
-        
+    public void EnterBattleMode(int _minCommand, int _maxCommand)
+    {        
         #region Draw & Input Command
-        commandCount = Random.Range(1, 5);
+        commandCount = Random.Range(_minCommand, _maxCommand + 1);
         for (int i = 0; i < commandCount; i++)
         {
             int commandKey = Random.Range(0, transform.childCount);
@@ -223,11 +216,6 @@ class BattleManager : MonoBehaviour
 
     void ExitBattleMode()
     {
-        //Debug.Assert(Player.Instance.currentState == EState.charging ||
-        //             Player.Instance.currentState == EState.charged  ||
-        //             Player.Instance.currentState == EState.moving   ||
-        //             Player.Instance.currentState == EState.battle, "Exit - State Wrong");
-
         while (0 < commandLine.childCount)
         {
             var command = commandLine.GetChild(0);
@@ -251,7 +239,22 @@ class BattleManager : MonoBehaviour
         }
 
         var enemy = BattleManager.Instance.enemies.Dequeue();
-        enemy.gameObject.SetActive(false);
+        if(enemy.CompareTag("Boss"))
+        {
+            if(enemy.GetComponent<Boss>().battleCnt == 0)
+            {
+                enemy.transform.parent.gameObject.SetActive(false);
+            }
+            else
+            {
+                enemy.GetComponent<Boss>().battleCnt--;
+            }
+        }
+        else // if(enemy.CompareTag("Enemy"))
+        {
+            enemy.SetActive(false);
+        }
+        
 
         currentIndex = 0;
         commandWindow.SetActive(false);

@@ -185,7 +185,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             CameraManager.Instance.isZoom = true;
             m_rigidbody2D.velocity = new Vector2(0, 0);
@@ -196,7 +196,25 @@ public class Player : MonoBehaviour
                 case EState.Charged:
                 case EState.Moving:
                     currentState = EState.Battle;
-                    BattleManager.Instance.EnterBattleMode();
+                    BattleManager.Instance.EnterBattleMode(1, 3);
+                    break;
+                default:
+                    // Game Over
+                    break;
+            }
+        }
+        else if (other.gameObject.CompareTag("Boss"))
+        {
+            CameraManager.Instance.isZoom = true;
+            m_rigidbody2D.velocity = new Vector2(0, 0);
+
+            switch(currentState)
+            {
+                case EState.Charging:
+                case EState.Charged:
+                case EState.Moving:
+                    currentState = EState.Battle;
+                    BattleManager.Instance.EnterBattleMode(4, 6);
                     break;
                 default:
                     // Game Over

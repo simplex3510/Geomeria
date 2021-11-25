@@ -9,6 +9,11 @@ public class Boss : MonoBehaviour
     public ParticleSystem chargedEffect;
     public DrawLine drawLine;
     public Sprite[] bossSprites;
+    public float battleCnt
+    {
+        get { return battleCount; }
+        set { battleCount = value; }
+    }
 
     readonly float FULL_CHARGE_TIME = 1.2f;
 
@@ -25,6 +30,7 @@ public class Boss : MonoBehaviour
     float currentChargeTime;
     float speed = 100f;
     float angle;
+    float battleCount = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +38,7 @@ public class Boss : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         m_rigidbody2D = GetComponent<Rigidbody2D>();
 
-        currentState = EState.Charging;
+        currentState = EState.Idle;
         StartCoroutine(Update_FSM());
     }
 
@@ -43,6 +49,10 @@ public class Boss : MonoBehaviour
         {
             switch (currentState)
             {
+                case EState.Idle:
+                    yield return new WaitForSecondsRealtime(1.5f);
+                    currentState = EState.Charging;
+                    break;
                 case EState.Charging:
                     chargingEffect.Play();
                     startPosition = transform.position;
@@ -135,6 +145,14 @@ public class Boss : MonoBehaviour
         currentState = EState.Charging;
 
         yield return new WaitForSecondsRealtime(1.5f);
+    }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            BattleManager.Instance.enemies.Enqueue(this.gameObject);
+            m_rigidbody2D.velocity = Vector2.zero;
+        }
     }
 }
