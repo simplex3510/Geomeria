@@ -35,13 +35,13 @@ public class Enemy : MonoBehaviour
             {
                 yield return StartCoroutine(Pause());
             }
-            else if (Player.Instance.currentState == EState.Win || Player.Instance.currentState == EState.Defeat)
+            else if (Player.Instance.currentState == EState.Success || Player.Instance.currentState == EState.Defeat)
             {
                 yield return StartCoroutine(Resume());
             }
             else if (Player.Instance.currentState == EState.Miss)
             {
-                yield return StartCoroutine(KnockBack());
+                yield return StartCoroutine(EnemyKnockBack());
             }
             else
             {
@@ -65,9 +65,9 @@ public class Enemy : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator KnockBack()
+    IEnumerator EnemyKnockBack()
     {
-        if ((playerTransform.position - transform.position).magnitude <= 5)
+        if ((playerTransform.position - transform.position).magnitude <= 10)
         {
             backSpeed = 100f;
             direction = new Vector2(transform.position.x - playerTransform.position.x,
@@ -76,9 +76,8 @@ public class Enemy : MonoBehaviour
             m_rigidbody2D.velocity = direction * backSpeed;
             while(true)
             {
-                if(5 <= (playerTransform.position - transform.position).magnitude)
+                if(10 <= (playerTransform.position - transform.position).magnitude)
                 {
-                    Debug.Log((playerTransform.position - transform.position).magnitude.ToString());
                     m_rigidbody2D.velocity = Vector2.zero;
                     yield break;
                 }

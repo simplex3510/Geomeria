@@ -20,7 +20,7 @@ public class CameraManager : MonoBehaviour
 
     Camera _cameraMain;
     bool isCharge = false;
-    float fullChargeTime = 1f;
+    float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
 
     public float currentZoomSize;
@@ -79,7 +79,7 @@ public class CameraManager : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             currentChargeTime += Time.deltaTime;
-            if (fullChargeTime <= currentChargeTime && isCharge == false)
+            if (FULL_CHARGE_TIME <= currentChargeTime && isCharge == false)
             {
                 cameraMain.orthographicSize = currentZoomSize - 1;
                 isCharge = true;

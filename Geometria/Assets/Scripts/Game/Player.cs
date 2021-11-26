@@ -6,9 +6,9 @@ using UnityEngine.EventSystems;
 public enum EState
 {
     Idle = 0,
-    Win,
-    Defeat,
     Miss,
+    Success,
+    Defeat,
     Battle,
     Charging,
     Charged,
@@ -20,19 +20,19 @@ public class Player : MonoBehaviour
     public ParticleSystem chargingEffect;
     public ParticleSystem chargedEffect;
     public DrawLine drawLine;
+    public Transform targetTransform;
     public List<Sprite> playerSprite;
     public float speed;
     public EState currentState;
     
-
     readonly float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
     float angle;
-    
+
     Camera cameraMain;
     Rigidbody2D m_rigidbody2D;
     SpriteRenderer spriteRenderer;
-    
+
 
     Vector3 startPosition;
     Vector3 movePosition;
@@ -45,14 +45,14 @@ public class Player : MonoBehaviour
 
     #region Singleton
     private static Player _instance;
-    public  static Player Instance
+    public static Player Instance
     {
         get
         {
-            if(_instance == null)
+            if (_instance == null)
             {
                 _instance = FindObjectOfType<Player>();
-                if(_instance == null)
+                if (_instance == null)
                 {
                     Debug.Log("No Player Singleton Object");
                 }
@@ -183,6 +183,19 @@ public class Player : MonoBehaviour
                 currentState = EState.Idle;
             }
         }
+
+        // 플레이어 넉백
+        // if ((transform.position - targetTransform.position).magnitude <= 10)
+        // {
+        //     direction = new Vector2(targetTransform.position.x - transform.position.x,
+        //                             targetTransform.position.y - transform.position.y).normalized;
+
+        //     m_rigidbody2D.velocity = direction * speed;
+        //     if (10 <= (transform.position - targetTransform.position).magnitude)
+        //     {
+        //         m_rigidbody2D.velocity = Vector2.zero;
+        //     }
+        // }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -192,7 +205,7 @@ public class Player : MonoBehaviour
             CameraManager.Instance.isZoom = true;
             m_rigidbody2D.velocity = new Vector2(0, 0);
 
-            switch(currentState)
+            switch (currentState)
             {
                 case EState.Charging:
                 case EState.Charged:
@@ -211,7 +224,7 @@ public class Player : MonoBehaviour
             CameraManager.Instance.isZoom = true;
             m_rigidbody2D.velocity = new Vector2(0, 0);
 
-            switch(currentState)
+            switch (currentState)
             {
                 case EState.Charging:
                 case EState.Charged:
@@ -226,14 +239,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
-    //private void OnCollisionStay2D(Collision2D other)
-    //{
-    //    if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss"))
-    //    {
-            
-    //    }
-    //}
 
     private void OnCollisionExit2D(Collision2D other)
     {

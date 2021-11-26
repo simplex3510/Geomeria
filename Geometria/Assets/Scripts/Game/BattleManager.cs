@@ -84,7 +84,7 @@ class BattleManager : MonoBehaviour
     {
         while (true)
         {
-            if (Player.Instance.currentState == EState.Win)
+            if (Player.Instance.currentState == EState.Success)
             {
                 yield return StartCoroutine(CWin());
             }
@@ -110,19 +110,19 @@ class BattleManager : MonoBehaviour
 
     IEnumerator CWin()
     {
-        ExitBattleMode();
+        ExitBattleMode(EState.Success);
         yield break;
     }
 
     IEnumerator CMiss()
     {
-        ExitBattleMode();
+        ExitBattleMode(EState.Miss);
         yield break;
     }
 
     IEnumerator CDefeat()
     {
-        ExitBattleMode();
+        ExitBattleMode(EState.Defeat);
         yield break;
     }
 
@@ -130,8 +130,11 @@ class BattleManager : MonoBehaviour
     {
         if (currentIndex < commandCount)
         {
+            // 
             var commandSprite = commandLine.GetChild(currentIndex).GetComponent<Image>();
             currentCommand = commandInput[currentIndex];
+
+            // 커맨드 입력
             if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
             {
                 currentIndex++;
@@ -187,15 +190,9 @@ class BattleManager : MonoBehaviour
                 BattleCameraEffect();
             }
         }
-        else if (currentIndex == commandCount && missCount == 0)
-        {
-            Player.Instance.currentState = EState.Win;
-            yield return new WaitForSecondsRealtime(0.3f);
-            BattleCameraEffect();
-        }
         else if (currentIndex == commandCount && missCount <= 1)
         {
-            Player.Instance.currentState = EState.Miss;
+            Player.Instance.currentState = EState.Success;
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
@@ -205,9 +202,14 @@ class BattleManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
+        else if (currentIndex == commandCount && 2 <= missCount)
+        {
+            Player.Instance.currentState = EState.Miss;
+            yield return new WaitForSecondsRealtime(0.3f);
+            BattleCameraEffect();
+        }
         yield return null;
     }
-
 
     public void EnterBattleMode(int _minCommand, int _maxCommand)
     {
@@ -241,7 +243,7 @@ class BattleManager : MonoBehaviour
         #endregion
     }
 
-    void ExitBattleMode()
+    void ExitBattleMode(EState _state)
     {
         while (0 < commandLine.childCount)
         {
@@ -265,24 +267,43 @@ class BattleManager : MonoBehaviour
             commandLine.GetChild(0).SetParent(transform);
         }
 
-        for (int i=0; enemies.Count !=0; i++)
+        if(_state == EState.Success)
         {
-            var enemy = enemies[i];
-            enemies.RemoveAt(i);
-            if (enemy.CompareTag("Boss"))
+            for (int i = 0; enemies.Count != 0; i++)
             {
-                if (enemy.GetComponent<Boss>().battleCnt == 0)
+                var enemy = enemies[i];
+                enemies.RemoveAt(i);
+                if (enemy.CompareTag("Boss"))
                 {
-                    enemy.transform.parent.gameObject.SetActive(false);
+                    if (enemy.GetComponent<Boss>().battleCnt == 0)
+                    {
+                        enemy.transform.parent.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        enemy.GetComponent<Boss>().battleCnt--;
+                    }
                 }
-                else
+                else // if(enemy.CompareTag("Enemy"))
                 {
-                    enemy.GetComponent<Boss>().battleCnt--;
+                    enemy.SetActive(false);
                 }
             }
-            else // if(enemy.CompareTag("Enemy"))
+        }
+        else if(_state == EState.Miss)
+        {
+            for (int i = 0; enemies.Count != 0; i++)
             {
-                enemy.SetActive(false);
+                var enemy = enemies[i];
+                enemies.RemoveAt(i);
+            }
+        }
+        else if(_state == EState.Defeat)
+        {
+            for (int i = 0; enemies.Count != 0; i++)
+            {
+                var enemy = enemies[i];
+                enemies.RemoveAt(i);
             }
         }
 
