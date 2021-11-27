@@ -200,6 +200,8 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        drawLine.EndLine();
+
         if (other.gameObject.CompareTag("Enemy"))
         {
             CameraManager.Instance.isZoom = true;

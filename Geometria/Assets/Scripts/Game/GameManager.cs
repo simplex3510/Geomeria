@@ -6,12 +6,16 @@ using UnityEngine.UI;
 enum EGameState
 {
     Normal,
-    Boss
+    Boss,
+    End
 }
 
 class GameManager : MonoBehaviour
 {
     public RectTransform timer;
+    public RectTransform endGameSquare;
+    public Transform player;
+    public Transform map;
     public GameObject enemySpawner;
     public EGameState currentGameState;
 
@@ -57,7 +61,7 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = 1f;
+        offset = 25f;
         currentGameState = EGameState.Normal;
         StartCoroutine(Update_FSM());
     }
@@ -73,7 +77,11 @@ class GameManager : MonoBehaviour
             }
             else if (currentGameState == EGameState.Boss)
             {
-                yield return null;
+                yield return BossState();
+            }
+            else if (currentGameState == EGameState.End)
+            {
+                yield return EndState();
             }
             else
             {
@@ -86,18 +94,18 @@ class GameManager : MonoBehaviour
     {
         while(true)
         {
-            width += UITimer.ONE_PERCENT * offset * Time.deltaTime;
-            timer.sizeDelta = new Vector2(width, 10);
-
             if (UITimer.FULL_WIDTH <= width)
             {
                 currentGameState = EGameState.Boss;
 
                 EnemyManager.Instance.DisableEnemies();
-
-                timer.gameObject.SetActive(false);
                 enemySpawner.SetActive(false);
+
+                yield break;
             }
+
+            width += UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            timer.sizeDelta = new Vector2(width, 10);
 
             yield return null;
         }
@@ -105,21 +113,56 @@ class GameManager : MonoBehaviour
 
     IEnumerator BossState()
     {
+        offset = 5f;
         while (true)
         {
-            width += UITimer.ONE_PERCENT * offset * Time.deltaTime;
-            timer.sizeDelta = new Vector2(width, 10);
-
-            if (UITimer.FULL_WIDTH <= width)
+            if (width <= 0)
             {
-                currentGameState = EGameState.Boss;
-
-                EnemyManager.Instance.DisableEnemies();
-
+                currentGameState = EGameState.End;
                 timer.gameObject.SetActive(false);
-                enemySpawner.SetActive(false);
+                yield break;
             }
 
+            width -= UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            timer.sizeDelta = new Vector2(width, 10);
+
+            yield return null;
+        }
+    }
+
+    IEnumerator EndState()
+    {
+        float width = 0f;
+        float height = 0f;
+        offset = 150f;
+        while(true)
+        {
+            if(UITimer.FULL_WIDTH <= width)
+            {
+                offset = 1f;
+                Color color = endGameSquare.GetComponent<Image>().color;
+                while(true)
+                {
+                    if(color.a <= 0)
+                    {
+                        break;
+                    }
+
+                    color.a -= offset * Time.deltaTime;
+                    endGameSquare.GetComponent<Image>().color = color;
+                    yield return null;
+                }
+                break;
+            }
+
+            width  += UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            height += 10.8f               * offset * Time.deltaTime;
+            endGameSquare.sizeDelta = new Vector2(width, height);
+            yield return null;
+        }
+
+        while (true)
+        {
             yield return null;
         }
     }

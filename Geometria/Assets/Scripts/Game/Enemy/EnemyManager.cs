@@ -52,6 +52,10 @@ public class EnemyManager : MonoBehaviour
         {
             boss.gameObject.SetActive(true);
         }
+        else if(GameManager.Instance.currentGameState == EGameState.End)
+        {
+            boss.gameObject.SetActive(false);
+        }
         
     }
 
