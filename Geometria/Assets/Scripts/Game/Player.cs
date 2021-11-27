@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
     Rigidbody2D m_rigidbody2D;
     SpriteRenderer spriteRenderer;
 
-
     Vector3 startPosition;
     Vector3 movePosition;
     Vector3 currentPosition;
@@ -105,7 +104,7 @@ public class Player : MonoBehaviour
             currentPoint.z = -10f;
 
             #region 방향(회전) 조정
-            angle = Mathf.Atan2(currentPoint.y - transform.position.y, currentPoint.x - transform.position.x) * Mathf.Rad2Deg;
+            angle = Mathf.Atan2(transform.position.y - currentPoint.y, transform.position.x - currentPoint.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
             #endregion
 

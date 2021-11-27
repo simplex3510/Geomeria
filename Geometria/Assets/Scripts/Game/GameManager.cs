@@ -16,6 +16,7 @@ class GameManager : MonoBehaviour
     public RectTransform endGameSquare;
     public Transform player;
     public Transform map;
+    public RectTransform endPanel;
     public GameObject enemySpawner;
     public EGameState currentGameState;
 
@@ -62,7 +63,7 @@ class GameManager : MonoBehaviour
     void Start()
     {
         offset = 25f;
-        currentGameState = EGameState.Normal;
+        currentGameState = EGameState.End;
         StartCoroutine(Update_FSM());
     }
 
@@ -92,7 +93,7 @@ class GameManager : MonoBehaviour
 
     IEnumerator NormalState()
     {
-        while(true)
+        while (true)
         {
             if (UITimer.FULL_WIDTH <= width)
             {
@@ -135,15 +136,20 @@ class GameManager : MonoBehaviour
         float width = 0f;
         float height = 0f;
         offset = 150f;
-        while(true)
+
+        EnemyManager.Instance.DisableEnemies();
+        enemySpawner.SetActive(false);
+
+        while (true)
         {
-            if(UITimer.FULL_WIDTH <= width)
+            if (UITimer.FULL_WIDTH <= width)
             {
-                offset = 1f;
+                offset = 0.5f;
                 Color color = endGameSquare.GetComponent<Image>().color;
-                while(true)
+                StartCoroutine(Rotate());
+                while (true)
                 {
-                    if(color.a <= 0)
+                    if (color.a <= 0)
                     {
                         break;
                     }
@@ -155,14 +161,22 @@ class GameManager : MonoBehaviour
                 break;
             }
 
-            width  += UITimer.ONE_PERCENT * offset * Time.deltaTime;
-            height += 10.8f               * offset * Time.deltaTime;
+            width += UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            height += 10.8f * offset * Time.deltaTime;
             endGameSquare.sizeDelta = new Vector2(width, height);
             yield return null;
         }
+    }
 
+    IEnumerator Rotate()
+    {
+        float roateOffset = 25f;
+        endPanel.gameObject.SetActive(true);
         while (true)
         {
+            // 점점 빨라짐 왜?
+            player.eulerAngles += new Vector3(0, 0, roateOffset * Time.deltaTime);
+            map.eulerAngles -= new Vector3(0, 0, roateOffset * Time.deltaTime);
             yield return null;
         }
     }
