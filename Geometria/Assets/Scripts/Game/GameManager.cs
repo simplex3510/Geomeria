@@ -144,7 +144,7 @@ class GameManager : MonoBehaviour
         {
             if (UITimer.FULL_WIDTH <= width)
             {
-                offset = 0.5f;
+                offset = 1f;
                 Color color = endGameSquare.GetComponent<Image>().color;
                 StartCoroutine(Rotate());
                 while (true)
@@ -170,13 +170,18 @@ class GameManager : MonoBehaviour
 
     IEnumerator Rotate()
     {
-        float roateOffset = 25f;
+        float rotateSpeed = 1f;
+        player.position = Vector3.zero;
         endPanel.gameObject.SetActive(true);
+
         while (true)
         {
             // 점점 빨라짐 왜?
-            player.eulerAngles += new Vector3(0, 0, roateOffset * Time.deltaTime);
-            map.eulerAngles -= new Vector3(0, 0, roateOffset * Time.deltaTime);
+            // player.rotation = Quaternion.Euler(0, 0, rotateSpeed * Time.deltaTime);
+            // map.rotation = Quaternion.Euler(0, 0, rotateSpeed * Time.deltaTime);
+
+            player.Rotate(Vector3.forward * Time.deltaTime);
+            map.Rotate(Vector3.forward * Time.deltaTime);
             yield return null;
         }
     }
