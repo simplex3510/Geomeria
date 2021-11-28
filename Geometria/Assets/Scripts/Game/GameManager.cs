@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 enum EGameState
 {
@@ -16,7 +17,7 @@ class GameManager : MonoBehaviour
     public RectTransform endGameSquare;
     public Transform player;
     public Transform map;
-    public RectTransform endPanel;
+    public RectTransform endWindow;
     public GameObject enemySpawner;
     public EGameState currentGameState;
 
@@ -139,12 +140,13 @@ class GameManager : MonoBehaviour
 
         EnemyManager.Instance.DisableEnemies();
         enemySpawner.SetActive(false);
+        endGameSquare.gameObject.SetActive(true);
 
         while (true)
         {
             if (UITimer.FULL_WIDTH <= width)
             {
-                offset = 1f;
+                offset = 2f;
                 Color color = endGameSquare.GetComponent<Image>().color;
                 StartCoroutine(Rotate());
                 while (true)
@@ -172,7 +174,7 @@ class GameManager : MonoBehaviour
     {
         float rotateSpeed = 1f;
         player.position = Vector3.zero;
-        endPanel.gameObject.SetActive(true);
+        endWindow.gameObject.SetActive(true);
 
         while (true)
         {
@@ -184,5 +186,15 @@ class GameManager : MonoBehaviour
             map.Rotate(Vector3.forward * Time.deltaTime);
             yield return null;
         }
+    }
+
+    public void OnClickRetry()
+    {
+        SceneManager.LoadScene("GameMain");
+    }
+
+    public void OnClickQuit()
+    {
+        SceneManager.LoadScene("GameTitle");
     }
 }
