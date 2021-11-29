@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UITimer : MonoBehaviour
+public class BattleTimer : MonoBehaviour
 {
     public static readonly float ONE_PERCENT = 19.2f;
     public static readonly int FULL_WIDTH = 1920;
@@ -17,7 +17,6 @@ public class UITimer : MonoBehaviour
     void Start()
     {
         outline = GetComponent<RectTransform>();
-        commandMinusOffest = 125f / BattleManager.Instance.commandCnt;
         commandPlusOffest = 5f;
         width = FULL_WIDTH;
         outline.sizeDelta = new Vector2(width, 10);
@@ -25,6 +24,7 @@ public class UITimer : MonoBehaviour
 
     void OnEnable()
     {
+        commandMinusOffest = 125f / BattleManager.Instance.commandCnt;
         width = FULL_WIDTH;
         outline.sizeDelta = new Vector2(width, 10);
         StartCoroutine(Timer());

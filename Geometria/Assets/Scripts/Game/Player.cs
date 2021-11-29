@@ -6,13 +6,14 @@ using UnityEngine.EventSystems;
 public enum EState
 {
     Idle = 0,
+    Charging,
+    Charged,
+    Moving,
+    Battle,
     Miss,
     Success,
     Defeat,
-    Battle,
-    Charging,
-    Charged,
-    Moving
+    Victory
 }
 
 public class Player : MonoBehaviour
@@ -184,17 +185,17 @@ public class Player : MonoBehaviour
         }
 
         // 플레이어 넉백
-        // if ((transform.position - targetTransform.position).magnitude <= 10)
-        // {
-        //     direction = new Vector2(targetTransform.position.x - transform.position.x,
-        //                             targetTransform.position.y - transform.position.y).normalized;
+        //if ((transform.position - targetTransform.position).magnitude <= 10)
+        //{
+        //    direction = new Vector2(targetTransform.position.x - transform.position.x,
+        //                            targetTransform.position.y - transform.position.y).normalized;
 
-        //     m_rigidbody2D.velocity = direction * speed;
-        //     if (10 <= (transform.position - targetTransform.position).magnitude)
-        //     {
-        //         m_rigidbody2D.velocity = Vector2.zero;
-        //     }
-        // }
+        //    m_rigidbody2D.velocity = direction * speed;
+        //    if (10 <= (transform.position - targetTransform.position).magnitude)
+        //    {
+        //        m_rigidbody2D.velocity = Vector2.zero;
+        //    }
+        //}
     }
 
     private void OnCollisionEnter2D(Collision2D other)

@@ -63,8 +63,8 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = 25f;
-        currentGameState = EGameState.End;
+        offset = 1f;
+        currentGameState = EGameState.Normal;
         StartCoroutine(Update_FSM());
     }
 
@@ -81,7 +81,11 @@ class GameManager : MonoBehaviour
             {
                 yield return BossState();
             }
-            else if (currentGameState == EGameState.End)
+            else if (currentGameState == EGameState.End && Player.Instance.currentState == EState.Victory)
+            {
+                yield return EndState();
+            }
+            else if (currentGameState == EGameState.End && Player.Instance.currentState == EState.Defeat)
             {
                 yield return EndState();
             }
@@ -96,7 +100,7 @@ class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (UITimer.FULL_WIDTH <= width)
+            if (BattleTimer.FULL_WIDTH <= width)
             {
                 currentGameState = EGameState.Boss;
 
@@ -106,7 +110,7 @@ class GameManager : MonoBehaviour
                 yield break;
             }
 
-            width += UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            width += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
             timer.sizeDelta = new Vector2(width, 10);
 
             yield return null;
@@ -115,7 +119,7 @@ class GameManager : MonoBehaviour
 
     IEnumerator BossState()
     {
-        offset = 5f;
+        offset = 3f;
         while (true)
         {
             if (width <= 0)
@@ -125,7 +129,7 @@ class GameManager : MonoBehaviour
                 yield break;
             }
 
-            width -= UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            width -= BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
             timer.sizeDelta = new Vector2(width, 10);
 
             yield return null;
@@ -136,7 +140,7 @@ class GameManager : MonoBehaviour
     {
         float width = 0f;
         float height = 0f;
-        offset = 100f;
+        offset = 150f;
 
         EnemyManager.Instance.DisableEnemies();
         enemySpawner.SetActive(false);
@@ -144,27 +148,29 @@ class GameManager : MonoBehaviour
 
         while (true)
         {
-            if (UITimer.FULL_WIDTH <= width)
+            // endGameSquare 확대
+            if (BattleTimer.FULL_WIDTH <= width)
             {
                 offset = 2f;
-                Color color = endGameSquare.GetComponent<Image>().color;
+                Color colorAlpha = endGameSquare.GetComponent<Image>().color;
                 StartCoroutine(Rotate());
+
+                // 알파값 감소
                 while (true)
                 {
-                    if (color.a <= 0)
+                    if (colorAlpha.a <= 0)
                     {
                         endGameSquare.gameObject.SetActive(false);
-                        break;
+                        yield return null;
                     }
 
-                    color.a -= offset * Time.deltaTime;
-                    endGameSquare.GetComponent<Image>().color = color;
+                    colorAlpha.a -= offset * Time.deltaTime;
+                    endGameSquare.GetComponent<Image>().color = colorAlpha;
                     yield return null;
                 }
-                break;
             }
 
-            width  += UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            width  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
             height += 10.8f               * offset * Time.deltaTime;
             endGameSquare.sizeDelta = new Vector2(width, height);
             yield return null;
@@ -173,18 +179,14 @@ class GameManager : MonoBehaviour
 
     IEnumerator Rotate()
     {
-        float rotateSpeed = 1f;
+        float rotateSpeed = 20f;
         player.position = Vector3.zero;
         endWindow.gameObject.SetActive(true);
 
         while (true)
         {
-            // 점점 빨라짐 왜?
-            // player.rotation = Quaternion.Euler(0, 0, rotateSpeed * Time.deltaTime);
-            // map.rotation = Quaternion.Euler(0, 0, rotateSpeed * Time.deltaTime);
-
-            player.Rotate(Vector3.forward * Time.deltaTime);
-            map.Rotate(Vector3.forward * Time.deltaTime);
+            player.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
+            map.eulerAngles    -= new Vector3(0, 0, rotateSpeed * Time.deltaTime);
             yield return null;
         }
     }

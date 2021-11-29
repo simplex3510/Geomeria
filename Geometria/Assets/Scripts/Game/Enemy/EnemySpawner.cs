@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public float spawnRateMin;
-    public float spawnRateMax;
+    public float spawnRateMin = 0.1f;
+    public float spawnRateMax = 1f;
     public GameObject[] enemys;
 
     float spawnRate = 2f;
@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour
     float radius = 16f;
     float speed = 1f;
     float runningTime;
+
     // Start is called before the first frame update
     void Start()
     {
