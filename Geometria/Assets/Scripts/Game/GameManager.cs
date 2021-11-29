@@ -136,7 +136,7 @@ class GameManager : MonoBehaviour
     {
         float width = 0f;
         float height = 0f;
-        offset = 150f;
+        offset = 100f;
 
         EnemyManager.Instance.DisableEnemies();
         enemySpawner.SetActive(false);
@@ -153,6 +153,7 @@ class GameManager : MonoBehaviour
                 {
                     if (color.a <= 0)
                     {
+                        endGameSquare.gameObject.SetActive(false);
                         break;
                     }
 
@@ -163,8 +164,8 @@ class GameManager : MonoBehaviour
                 break;
             }
 
-            width += UITimer.ONE_PERCENT * offset * Time.deltaTime;
-            height += 10.8f * offset * Time.deltaTime;
+            width  += UITimer.ONE_PERCENT * offset * Time.deltaTime;
+            height += 10.8f               * offset * Time.deltaTime;
             endGameSquare.sizeDelta = new Vector2(width, height);
             yield return null;
         }
