@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
 
     float spawnRate = 2f;
     float timeAfterSpawn;
-    float radius = 16f;
+    float radius = 25f;
     float speed = 1f;
     float runningTime;
 

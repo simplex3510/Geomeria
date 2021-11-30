@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
     {
         while (Player.Instance.currentState != EState.Battle)
         {
-            if (speed <= 0.05f)
+            if (speed <= 0.5f)
             {
                 speed = 5f;
             }

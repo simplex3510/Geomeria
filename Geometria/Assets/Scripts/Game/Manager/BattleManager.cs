@@ -86,10 +86,14 @@ class BattleManager : MonoBehaviour
         {
             if (Player.Instance.currentState == EState.Success)
             {
+                yield return new WaitForSecondsRealtime(0.3f);
+                BattleCameraEffect();
                 yield return StartCoroutine(CWin());
             }
             else if (Player.Instance.currentState == EState.Miss)
             {
+                yield return new WaitForSecondsRealtime(0.3f);
+                BattleCameraEffect();
                 yield return StartCoroutine(CMiss());
             }
             else if (Player.Instance.currentState == EState.Defeat)
@@ -190,12 +194,6 @@ class BattleManager : MonoBehaviour
                 BattleCameraEffect();
             }
         }
-        else if (currentIndex == commandCount && missCount == 0)
-        {
-            Player.Instance.currentState = EState.Success;
-            yield return new WaitForSecondsRealtime(0.3f);
-            BattleCameraEffect();
-        }
         else if (currentIndex == commandCount && missCount == commandCount)
         {
             Player.Instance.currentState = EState.Defeat;
@@ -205,6 +203,12 @@ class BattleManager : MonoBehaviour
         else if (currentIndex == commandCount && 1 <= missCount)
         {
             Player.Instance.currentState = EState.Miss;
+            yield return new WaitForSecondsRealtime(0.3f);
+            BattleCameraEffect();
+        }
+        else if (currentIndex == commandCount && missCount == 0)
+        {
+            Player.Instance.currentState = EState.Success;
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
