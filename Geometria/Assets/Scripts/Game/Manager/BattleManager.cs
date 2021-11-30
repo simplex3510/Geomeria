@@ -196,15 +196,15 @@ class BattleManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
-        else if (currentIndex == commandCount && 1 <= missCount)
-        {
-            Player.Instance.currentState = EState.Miss;
-            yield return new WaitForSecondsRealtime(0.3f);
-            BattleCameraEffect();
-        }
         else if (currentIndex == commandCount && missCount == commandCount)
         {
             Player.Instance.currentState = EState.Defeat;
+            yield return new WaitForSecondsRealtime(0.3f);
+            BattleCameraEffect();
+        }
+        else if (currentIndex == commandCount && 1 <= missCount)
+        {
+            Player.Instance.currentState = EState.Miss;
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }

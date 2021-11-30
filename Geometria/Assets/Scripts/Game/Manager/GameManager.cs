@@ -81,11 +81,11 @@ class GameManager : MonoBehaviour
             {
                 yield return BossState();
             }
-            else if (currentGameState == EGameState.End && Player.Instance.currentState == EState.Victory)
+            else if (currentGameState == EGameState.End)
             {
                 yield return EndState();
             }
-            else if (currentGameState == EGameState.End && Player.Instance.currentState == EState.Defeat)
+            else if (currentGameState == EGameState.End)
             {
                 yield return EndState();
             }
@@ -110,6 +110,12 @@ class GameManager : MonoBehaviour
                 yield break;
             }
 
+            if (Player.Instance.currentState == EState.Defeat)
+            {
+                currentGameState = EGameState.End;
+                yield break;
+            }
+
             width += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
             timer.sizeDelta = new Vector2(width, 10);
 
@@ -125,7 +131,12 @@ class GameManager : MonoBehaviour
             if (width <= 0)
             {
                 currentGameState = EGameState.End;
-                timer.gameObject.SetActive(false);
+                yield break;
+            }
+
+            if (Player.Instance.currentState == EState.Defeat)
+            {
+                currentGameState = EGameState.End;
                 yield break;
             }
 
@@ -143,6 +154,7 @@ class GameManager : MonoBehaviour
         offset = 150f;
 
         EnemyManager.Instance.DisableEnemies();
+        timer.gameObject.SetActive(false);
         enemySpawner.SetActive(false);
         endGameSquare.gameObject.SetActive(true);
 

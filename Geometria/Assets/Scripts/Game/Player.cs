@@ -216,8 +216,11 @@ public class Player : MonoBehaviour
                     BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(1, 3);
                     break;
-                default:
+                case EState.Idle:
                     // Game Over
+                    currentState = EState.Defeat;
+                    break;
+                default:
                     break;
             }
         }
@@ -235,8 +238,11 @@ public class Player : MonoBehaviour
                     BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(4, 6);
                     break;
-                default:
+                case EState.Idle:
                     // Game Over
+                    currentState = EState.Defeat;
+                    break;
+                default:
                     break;
             }
         }
