@@ -7,8 +7,9 @@ public class BattleTimer : MonoBehaviour
     public static readonly float ONE_PERCENT = 19.2f;
     public static readonly int FULL_WIDTH = 1920;
     public RectTransform outline;
+    public float width { get {return currentWidth;}}
 
-    float width;
+    float currentWidth;
     float commandMinusOffest;
     float commandPlusOffest;
     
@@ -18,22 +19,33 @@ public class BattleTimer : MonoBehaviour
     {
         outline = GetComponent<RectTransform>();
         commandPlusOffest = 5f;
-        width = FULL_WIDTH;
-        outline.sizeDelta = new Vector2(width, 10);
+        currentWidth = FULL_WIDTH;
+        outline.sizeDelta = new Vector2(currentWidth, 10);
     }
 
     void OnEnable()
     {
         commandMinusOffest = 125f / BattleManager.Instance.commandCnt;
-        width = FULL_WIDTH;
-        outline.sizeDelta = new Vector2(width, 10);
+        currentWidth = FULL_WIDTH;
+        outline.sizeDelta = new Vector2(currentWidth, 10);
         StartCoroutine(Timer());
     }
 
     IEnumerator Timer()
     {
-        while (0 <= width)
+        while (true)
         {
+            if(currentWidth <= 0)
+            {
+                Player.Instance.currentState = EState.Defeat;
+                yield break;
+            }
+
+            if (BattleManager.Instance.currentIdx == BattleManager.Instance.commandCnt)
+            {
+                yield break;
+            }
+
             if (BattleManager.Instance.currentCmd == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
             {
                 ExtendTime();
@@ -51,25 +63,19 @@ public class BattleTimer : MonoBehaviour
                 ExtendTime();
             }
 
-            if (BattleManager.Instance.currentIdx == BattleManager.Instance.commandCnt)
-            {
-                yield break;
-            }
-
-            width -= (ONE_PERCENT * commandMinusOffest) * Time.deltaTime;
-            outline.sizeDelta = new Vector2(width, 10);
+            currentWidth -= (ONE_PERCENT * commandMinusOffest) * Time.deltaTime;
+            outline.sizeDelta = new Vector2(currentWidth, 10);
 
             yield return null;
         }
-        yield break;
     }
 
     void ExtendTime()
     {
-        width += ONE_PERCENT * commandPlusOffest;
-        if (FULL_WIDTH <= width)
+        currentWidth += ONE_PERCENT * commandPlusOffest;
+        if (FULL_WIDTH <= currentWidth)
         {
-            width = FULL_WIDTH;
+            currentWidth = FULL_WIDTH;
         }
     }
 }

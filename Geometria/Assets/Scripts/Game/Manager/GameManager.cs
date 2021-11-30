@@ -15,10 +15,13 @@ class GameManager : MonoBehaviour
 {
     public RectTransform timer;
     public RectTransform endGameSquare;
-    public Transform player;
+    public RectTransform nemo;
     public Transform map;
     public RectTransform endWindow;
     public GameObject enemySpawner;
+    public GameObject player;
+    public Text record;
+    public Text bestRecord;
     public EGameState currentGameState;
 
     public float width
@@ -28,6 +31,7 @@ class GameManager : MonoBehaviour
     }
 
     float offset;
+    float score;
 
     #region GameManager Singleton
     private static GameManager _instance;
@@ -57,6 +61,8 @@ class GameManager : MonoBehaviour
         {
             _instance = this;
         }
+
+        currentGameState = EGameState.Normal;
     }
     #endregion 
 
@@ -98,6 +104,7 @@ class GameManager : MonoBehaviour
 
     IEnumerator NormalState()
     {
+
         while (true)
         {
             if (BattleTimer.FULL_WIDTH <= width)
@@ -149,29 +156,33 @@ class GameManager : MonoBehaviour
 
     IEnumerator EndState()
     {
-        float width = 0f;
-        float height = 0f;
+        float rectWidth = 0f;
+        float rectHeight = 0f;
         offset = 150f;
 
         EnemyManager.Instance.DisableEnemies();
+        endGameSquare.gameObject.SetActive(true);
         timer.gameObject.SetActive(false);
         enemySpawner.SetActive(false);
-        endGameSquare.gameObject.SetActive(true);
-
+        
         while (true)
         {
             // endGameSquare 확대
-            if (BattleTimer.FULL_WIDTH <= width)
+            if (BattleTimer.FULL_WIDTH <= rectWidth)
             {
                 offset = 2f;
                 Color colorAlpha = endGameSquare.GetComponent<Image>().color;
                 StartCoroutine(Rotate());
+
+                record.text = $"{(width/BattleTimer.FULL_WIDTH)*100f  : 0.00}%";
+                bestRecord.text = "16%";    // 수정 필요
 
                 // 알파값 감소
                 while (true)
                 {
                     if (colorAlpha.a <= 0)
                     {
+                        
                         endGameSquare.gameObject.SetActive(false);
                         yield return null;
                     }
@@ -182,9 +193,9 @@ class GameManager : MonoBehaviour
                 }
             }
 
-            width  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
-            height += 10.8f               * offset * Time.deltaTime;
-            endGameSquare.sizeDelta = new Vector2(width, height);
+            rectWidth  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
+            rectHeight += 10.8f                   * offset * Time.deltaTime;
+            endGameSquare.sizeDelta = new Vector2(rectWidth, rectHeight);
             yield return null;
         }
     }
@@ -192,12 +203,14 @@ class GameManager : MonoBehaviour
     IEnumerator Rotate()
     {
         float rotateSpeed = 20f;
-        player.position = Vector3.zero;
+        player.transform.position = Vector3.zero;
+        player.SetActive(false);
+        nemo.gameObject.SetActive(true);
         endWindow.gameObject.SetActive(true);
 
         while (true)
         {
-            player.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
+            nemo.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
             map.eulerAngles    -= new Vector3(0, 0, rotateSpeed * Time.deltaTime);
             yield return null;
         }

@@ -71,6 +71,8 @@ public class Player : MonoBehaviour
         {
             _instance = this;
         }
+
+        currentState = EState.Idle;
     }
     #endregion
 
@@ -200,6 +202,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        chargingEffect.Stop();
         drawLine.EndLine();
 
         if (other.gameObject.CompareTag("Enemy"))

@@ -288,6 +288,7 @@ class BattleManager : MonoBehaviour
                 {
                     enemy.SetActive(false);
                 }
+                Player.Instance.currentState = EState.Idle;
             }
         }
         else if(_state == EState.Miss)
@@ -297,6 +298,7 @@ class BattleManager : MonoBehaviour
                 var enemy = enemies[i];
                 enemies.RemoveAt(i);
             }
+            Player.Instance.currentState = EState.Idle;
         }
         else if(_state == EState.Defeat)
         {
@@ -311,7 +313,6 @@ class BattleManager : MonoBehaviour
         currentIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
-        Player.Instance.currentState = EState.Idle;
     }
 
     void BattleCameraEffect()
