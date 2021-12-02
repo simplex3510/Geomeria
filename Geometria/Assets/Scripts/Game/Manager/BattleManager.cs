@@ -324,4 +324,5 @@ class BattleManager : MonoBehaviour
         CameraManager.Instance.cameraMain.orthographicSize = CameraManager.Instance.currentZoomSize - 1;
         CameraManager.Instance.CameraZoomEffect(CameraManager.Instance.currentZoomSize, CameraManager.Instance.zoomPower);
     }
+
 }

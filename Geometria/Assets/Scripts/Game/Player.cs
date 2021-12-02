@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && currentState != EState.Battle)
+        if (Input.GetMouseButtonDown(0) && currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
         {
             if(currentState != EState.Battle)
             {
@@ -101,7 +101,7 @@ public class Player : MonoBehaviour
             chargingEffect.Play();
         }
 
-        if (Input.GetMouseButton(0) && currentState != EState.Battle)
+        if (Input.GetMouseButton(0) && currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
         {
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
@@ -139,7 +139,7 @@ public class Player : MonoBehaviour
             #endregion
         }
 
-        if (Input.GetMouseButtonUp(0) && currentState != EState.Battle)
+        if (Input.GetMouseButtonUp(0) && currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
         {
             currentState = EState.Moving;
             
@@ -187,17 +187,20 @@ public class Player : MonoBehaviour
         }
 
         // 플레이어 넉백
-        //if ((transform.position - targetTransform.position).magnitude <= 10)
-        //{
-        //    direction = new Vector2(targetTransform.position.x - transform.position.x,
-        //                            targetTransform.position.y - transform.position.y).normalized;
+        if(currentState == EState.Success && GameManager.Instance.currentGameState == EGameState.Boss)
+        {
+            if ((transform.position - targetTransform.position).magnitude <= 10)
+            {
+                direction = new Vector2(transform.position.x - targetTransform.position.x,
+                                        transform.position.y - targetTransform.position.y).normalized;
 
-        //    m_rigidbody2D.velocity = direction * speed;
-        //    if (10 <= (transform.position - targetTransform.position).magnitude)
-        //    {
-        //        m_rigidbody2D.velocity = Vector2.zero;
-        //    }
-        //}
+                m_rigidbody2D.velocity = direction * speed;
+                if (3 <= (transform.position - targetTransform.position).magnitude)
+                {
+                    m_rigidbody2D.velocity = Vector2.zero;
+                }
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

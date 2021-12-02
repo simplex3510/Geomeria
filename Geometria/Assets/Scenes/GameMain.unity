@@ -8424,7 +8424,7 @@ PrefabInstance:
       objectReference: {fileID: 3810684582054227524}
     - target: {fileID: 5174686158363029272, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: currentState
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5174686158363029272, guid: 8813848357595f945b7b3099aebefda3, type: 3}
       propertyPath: targetTransform

@@ -38,24 +38,22 @@ public class Boss : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         m_rigidbody2D = GetComponent<Rigidbody2D>();
 
-        currentState = EState.Idle;
+        currentState = EState.Charging;
         StartCoroutine(Update_FSM());
     }
 
     // Update is called once per frame
     IEnumerator Update_FSM()
     {
+        yield return new WaitForSecondsRealtime(1.5f);
         while (true)
         {
             switch (currentState)
             {
                 case EState.Idle:
-                    yield return new WaitForSecondsRealtime(1.5f);
-                    currentState = EState.Charging;
+                    yield return Pause();
                     break;
                 case EState.Charging:
-                    chargingEffect.Play();
-                    startPosition = transform.position;
                     yield return Charging();
                     break;
                 case EState.Charged:
@@ -71,8 +69,19 @@ public class Boss : MonoBehaviour
         }
     }
 
+    IEnumerator Pause()
+    {
+        while(true)
+        {
+            yield return null;
+        }
+    }
+
     IEnumerator Charging()
     {
+        chargingEffect.Play();
+        startPosition = transform.position;
+
         while (true)
         {
             #region 방향(회전) 조정
@@ -152,6 +161,16 @@ public class Boss : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             m_rigidbody2D.velocity = Vector2.zero;
+            drawLine.EndLine();
+            currentState = EState.Idle;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            currentState = EState.Charging;
         }
     }
 }
