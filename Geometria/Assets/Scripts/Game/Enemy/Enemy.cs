@@ -35,7 +35,7 @@ public class Enemy : MonoBehaviour
             {
                 yield return StartCoroutine(Pause());
             }
-            else if (Player.Instance.currentState == EState.Success || Player.Instance.currentState == EState.Defeat)
+            else if (Player.Instance.currentState == EState.Success)
             {
                 yield return StartCoroutine(Resume());
             }

@@ -9,6 +9,7 @@ public enum EState
     Charging,
     Charged,
     Moving,
+    Dash,
     Battle,
     Miss,
     Success,
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
     readonly float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
     float angle;
+    int dashCount = 4;
 
     Camera cameraMain;
     Rigidbody2D m_rigidbody2D;
@@ -86,7 +88,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
+        if (Input.GetMouseButtonDown(0) &&
+            (currentState != EState.Battle || currentState != EState.Success || currentState != EState.Miss))
         {
             if(currentState != EState.Battle)
             {
@@ -101,7 +104,8 @@ public class Player : MonoBehaviour
             chargingEffect.Play();
         }
 
-        if (Input.GetMouseButton(0) && currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
+        if (Input.GetMouseButton(0) &&
+            (currentState != EState.Battle || currentState != EState.Success || currentState != EState.Miss))
         {
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
@@ -139,7 +143,8 @@ public class Player : MonoBehaviour
             #endregion
         }
 
-        if (Input.GetMouseButtonUp(0) && currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
+        if (Input.GetMouseButtonUp(0) &&
+            (currentState != EState.Battle || currentState != EState.Success || currentState != EState.Miss))
         {
             currentState = EState.Moving;
             
@@ -176,20 +181,24 @@ public class Player : MonoBehaviour
 
         currentPosition = transform.position;
         // 이동해야 할 거리와 실재 이동 거리 비교 연산
-        if (movePosition.magnitude <= (currentPosition - startPosition).magnitude)
+        if (movePosition.magnitude <= (currentPosition - startPosition).magnitude && currentState == EState.Moving)
         {
+            movePosition = Vector3.zero;
+            startPosition = Vector3.zero;
             m_rigidbody2D.velocity = new Vector2(0, 0);
 
-            if(currentState == EState.Moving)
-            {
-                currentState = EState.Idle;
-            }
+            currentState = EState.Dash;
+        }
+
+        if(Physics2D.OverlapCircle(transform.position, 3f) && 0 <= dashCount && currentState == EState.Dash)
+        {
+            Debug.Log("Physics2D.OverlapCircle");
         }
 
         // 플레이어 넉백
         if(currentState == EState.Success || currentState == EState.Miss && GameManager.Instance.currentGameState == EGameState.Boss)
         {
-            if ((transform.position - targetTransform.position).magnitude <= 10)
+            if ((transform.position - targetTransform.position).magnitude <= 3)
             {
                 direction = new Vector2(transform.position.x - targetTransform.position.x,
                                         transform.position.y - targetTransform.position.y).normalized;
@@ -218,6 +227,7 @@ public class Player : MonoBehaviour
                 case EState.Charging:
                 case EState.Charged:
                 case EState.Moving:
+                case EState.Dash:
                     currentState = EState.Battle;
                     BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(1, 3);
@@ -240,6 +250,7 @@ public class Player : MonoBehaviour
                 case EState.Charging:
                 case EState.Charged:
                 case EState.Moving:
+                case EState.Dash:
                     currentState = EState.Battle;
                     BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(4, 6);
