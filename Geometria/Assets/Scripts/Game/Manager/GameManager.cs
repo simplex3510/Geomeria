@@ -132,7 +132,7 @@ class GameManager : MonoBehaviour
 
     IEnumerator BossState()
     {
-        offset = 3f;
+        offset = 1.5f;
         while (true)
         {
             if (width <= 0)

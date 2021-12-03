@@ -187,7 +187,7 @@ public class Player : MonoBehaviour
         }
 
         // 플레이어 넉백
-        if(currentState == EState.Success && GameManager.Instance.currentGameState == EGameState.Boss)
+        if(currentState == EState.Success || currentState == EState.Miss && GameManager.Instance.currentGameState == EGameState.Boss)
         {
             if ((transform.position - targetTransform.position).magnitude <= 10)
             {
