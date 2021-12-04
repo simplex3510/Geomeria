@@ -190,10 +190,29 @@ public class Player : MonoBehaviour
             currentState = EState.Dash;
         }
 
-        if(currentState == EState.Dash && 0 < dashCount && Physics2D.OverlapCircle(transform.position, 3f))
+        // 대쉬
+        if(currentState == EState.Dash && 0 < dashCount)
         {
-            Debug.Log("Physics2D.OverlapCircle");
-            currentState = EState.Idle;
+            var target = Physics2D.OverlapCircle(transform.position, 1f);
+            if(target != null)
+            {
+                Debug.Log("Physics2D.OverlapCircle");
+                direction = new Vector2(target.transform.position.x - transform.position.x,
+                                        target.transform.position.y - transform.position.y).normalized;
+                m_rigidbody2D.velocity = direction * speed;
+            }
+            else
+            {
+                dashCount = 4;
+                currentState = EState.Idle;                
+            }
+
+            if(dashCount == 0)
+            {
+                currentState = EState.Idle;
+
+                // dashCount = 4; // 적 충돌 시로 이관?
+            }
         }
 
         // 플레이어 넉백
