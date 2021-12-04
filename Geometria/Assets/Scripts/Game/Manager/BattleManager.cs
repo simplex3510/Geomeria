@@ -134,7 +134,6 @@ class BattleManager : MonoBehaviour
     {
         if (currentIndex < commandCount)
         {
-            // 
             var commandSprite = commandLine.GetChild(currentIndex).GetComponent<Image>();
             currentCommand = commandInput[currentIndex];
 

@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0) &&
-            (currentState != EState.Battle || currentState != EState.Success || currentState != EState.Miss))
+            currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
         {
             if(currentState != EState.Battle)
             {
@@ -105,7 +105,7 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetMouseButton(0) &&
-            (currentState != EState.Battle || currentState != EState.Success || currentState != EState.Miss))
+            currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
         {
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
@@ -144,7 +144,7 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetMouseButtonUp(0) &&
-            (currentState != EState.Battle || currentState != EState.Success || currentState != EState.Miss))
+            currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
         {
             currentState = EState.Moving;
             
@@ -190,9 +190,10 @@ public class Player : MonoBehaviour
             currentState = EState.Dash;
         }
 
-        if(Physics2D.OverlapCircle(transform.position, 3f) && 0 <= dashCount && currentState == EState.Dash)
+        if(currentState == EState.Dash && 0 < dashCount && Physics2D.OverlapCircle(transform.position, 3f))
         {
             Debug.Log("Physics2D.OverlapCircle");
+            currentState = EState.Idle;
         }
 
         // 플레이어 넉백
@@ -228,6 +229,7 @@ public class Player : MonoBehaviour
                 case EState.Charged:
                 case EState.Moving:
                 case EState.Dash:
+                    Debug.Log("배틀");
                     currentState = EState.Battle;
                     BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(1, 3);

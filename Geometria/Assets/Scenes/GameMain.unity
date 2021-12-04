@@ -870,8 +870,8 @@ MonoBehaviour:
   endWindow: {fileID: 861296544}
   enemySpawner: {fileID: 1302520173}
   player: {fileID: 1037009704}
-  record: {fileID: 18811076}
-  bestRecord: {fileID: 813162266}
+  recordText: {fileID: 18811076}
+  bestRecordText: {fileID: 813162266}
   currentGameState: 0
 --- !u!114 &388687644
 MonoBehaviour:

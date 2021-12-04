@@ -52,6 +52,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Pause()
     {
+        Debug.Log("멈춰");
         currentVelocity = m_rigidbody2D.velocity;
         m_rigidbody2D.velocity = Vector2.zero;
 
@@ -84,13 +85,14 @@ public class Enemy : MonoBehaviour
                 yield return null;
             }
         }
+        m_rigidbody2D.velocity = currentVelocity;
     }
 
     IEnumerator Move()
     {
         while (Player.Instance.currentState != EState.Battle)
         {
-            if (speed <= 0.5f)
+            if (speed <= 0.25f)
             {
                 speed = 5f;
             }

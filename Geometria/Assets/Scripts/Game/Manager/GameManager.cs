@@ -20,8 +20,8 @@ class GameManager : MonoBehaviour
     public RectTransform endWindow;
     public GameObject enemySpawner;
     public GameObject player;
-    public Text record;
-    public Text bestRecord;
+    public Text recordText;
+    public Text bestRecordText;
     public EGameState currentGameState;
 
     public float width
@@ -31,7 +31,8 @@ class GameManager : MonoBehaviour
     }
 
     float offset;
-    float score;
+    float record;
+    float bestRecord;
 
     #region GameManager Singleton
     private static GameManager _instance;
@@ -162,6 +163,9 @@ class GameManager : MonoBehaviour
 
         EnemyManager.Instance.DisableEnemies();
         endGameSquare.gameObject.SetActive(true);
+
+        Player.Instance.drawLine.EndLine();
+        GameManager.Instance.endWindow.gameObject.SetActive(false);
         timer.gameObject.SetActive(false);
         enemySpawner.SetActive(false);
         
@@ -174,15 +178,24 @@ class GameManager : MonoBehaviour
                 Color colorAlpha = endGameSquare.GetComponent<Image>().color;
                 StartCoroutine(Rotate());
 
-                record.text = $"{(width/BattleTimer.FULL_WIDTH)*100f  : 0.00}%";
-                bestRecord.text = "16%";    // 수정 필요
+                #region 점수 출력 및 저장
+                record = (width/BattleTimer.FULL_WIDTH)*100f;
+                recordText.text = $"{record:f2}%";
+
+                float bestRecord = PlayerPrefs.GetFloat("BestRecord");
+                if(bestRecord <= record)
+                {
+                    bestRecord = record;
+                    PlayerPrefs.SetFloat("BestRecord", bestRecord);
+                }
+                bestRecordText.text = $"{bestRecord:f2}%";
+                #endregion
 
                 // 알파값 감소
                 while (true)
                 {
                     if (colorAlpha.a <= 0)
                     {
-                        
                         endGameSquare.gameObject.SetActive(false);
                         yield return null;
                     }
@@ -211,7 +224,7 @@ class GameManager : MonoBehaviour
         while (true)
         {
             nemo.eulerAngles += new Vector3(0, 0, rotateSpeed * Time.deltaTime);
-            map.eulerAngles    -= new Vector3(0, 0, rotateSpeed * Time.deltaTime);
+            map.eulerAngles  -= new Vector3(0, 0, rotateSpeed * Time.deltaTime);
             yield return null;
         }
     }
