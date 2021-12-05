@@ -52,7 +52,6 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Pause()
     {
-        Debug.Log("멈춰");
         currentVelocity = m_rigidbody2D.velocity;
         m_rigidbody2D.velocity = Vector2.zero;
 

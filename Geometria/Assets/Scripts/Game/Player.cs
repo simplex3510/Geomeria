@@ -24,9 +24,9 @@ public class Player : MonoBehaviour
     public DrawLine drawLine;
     public Transform targetTransform;
     public List<Sprite> playerSprite;
-    public float speed;
     public EState currentState;
-    
+
+    readonly float SPEED = 100f;
     readonly float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
     float angle;
@@ -111,7 +111,8 @@ public class Player : MonoBehaviour
             currentPoint.z = -10f;
 
             #region 방향(회전) 조정
-            angle = Mathf.Atan2(transform.position.y - currentPoint.y, transform.position.x - currentPoint.x) * Mathf.Rad2Deg;
+            angle = Mathf.Atan2(transform.position.y - currentPoint.y,
+                                transform.position.x - currentPoint.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
             #endregion
 
@@ -160,7 +161,7 @@ public class Player : MonoBehaviour
             if (FULL_CHARGE_TIME <= currentChargeTime)
             {
                 spriteRenderer.sprite = playerSprite[0];
-                m_rigidbody2D.velocity = direction * speed;
+                m_rigidbody2D.velocity = direction * SPEED;
                 currentChargeTime = 0f;
             }
             // Charged 전에 Charging을 그만두었을 때
@@ -190,31 +191,6 @@ public class Player : MonoBehaviour
             currentState = EState.Dash;
         }
 
-        // 대쉬
-        if(currentState == EState.Dash && 0 < dashCount)
-        {
-            var target = Physics2D.OverlapCircle(transform.position, 1f);
-            if(target != null)
-            {
-                Debug.Log("Physics2D.OverlapCircle");
-                direction = new Vector2(target.transform.position.x - transform.position.x,
-                                        target.transform.position.y - transform.position.y).normalized;
-                m_rigidbody2D.velocity = direction * speed;
-            }
-            else
-            {
-                dashCount = 4;
-                currentState = EState.Idle;                
-            }
-
-            if(dashCount == 0)
-            {
-                currentState = EState.Idle;
-
-                // dashCount = 4; // 적 충돌 시로 이관?
-            }
-        }
-
         // 플레이어 넉백
         if(currentState == EState.Success || currentState == EState.Miss && GameManager.Instance.currentGameState == EGameState.Boss)
         {
@@ -223,13 +199,19 @@ public class Player : MonoBehaviour
                 direction = new Vector2(transform.position.x - targetTransform.position.x,
                                         transform.position.y - targetTransform.position.y).normalized;
 
-                m_rigidbody2D.velocity = direction * speed;
+                m_rigidbody2D.velocity = direction * SPEED;
                 if (3 <= (transform.position - targetTransform.position).magnitude)
                 {
                     m_rigidbody2D.velocity = Vector2.zero;
                 }
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 5f);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -248,7 +230,6 @@ public class Player : MonoBehaviour
                 case EState.Charged:
                 case EState.Moving:
                 case EState.Dash:
-                    Debug.Log("배틀");
                     currentState = EState.Battle;
                     BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(1, 3);
