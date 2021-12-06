@@ -25,12 +25,14 @@ public class Player : MonoBehaviour
     public Transform targetTransform;
     public List<Sprite> playerSprite;
     public EState currentState;
+    public LayerMask whatIsLayer;
+    public int dashCount = 3;
 
     readonly float SPEED = 100f;
     readonly float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
     float angle;
-    int dashCount = 4;
+    
 
     Camera cameraMain;
     Rigidbody2D m_rigidbody2D;
@@ -188,11 +190,47 @@ public class Player : MonoBehaviour
             startPosition = Vector3.zero;
             m_rigidbody2D.velocity = new Vector2(0, 0);
 
-            currentState = EState.Dash;
+            currentState = EState.Idle;
+        }
+
+        // 대쉬
+        if (currentState == EState.Dash && 0 < dashCount)
+        {
+            var dashTarget = Physics2D.OverlapCircle(transform.position, 5f, whatIsLayer);
+            if (dashTarget != null)
+            {
+                Debug.Log("Dash");
+
+                #region 방향 전환
+                angle = Mathf.Atan2(dashTarget.transform.position.y - transform.position.y,
+                                    dashTarget.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+                #endregion
+
+                #region 방향 이동
+                direction = new Vector2(dashTarget.transform.position.x - transform.position.x,
+                                        dashTarget.transform.position.y - transform.position.y).normalized;
+                m_rigidbody2D.velocity = direction * SPEED;
+                #endregion
+
+                // 적과 충돌 시 카운트 다운
+            }
+            else
+            {
+                Debug.Log("Idle");
+                currentState = EState.Idle;
+                dashCount = 3;
+            }
+        }
+        else if (currentState == EState.Dash && dashCount == 0)
+        {
+            // 에너미 넉백
+            currentState = EState.Idle;
+            dashCount = 3;
         }
 
         // 플레이어 넉백
-        if(currentState == EState.Success || currentState == EState.Miss && GameManager.Instance.currentGameState == EGameState.Boss)
+        if (currentState == EState.Success || currentState == EState.Miss && GameManager.Instance.currentGameState == EGameState.Boss)
         {
             if ((transform.position - targetTransform.position).magnitude <= 3)
             {
@@ -233,6 +271,7 @@ public class Player : MonoBehaviour
                     currentState = EState.Battle;
                     BattleManager.Instance.enemies.Add(other.gameObject);
                     BattleManager.Instance.EnterBattleMode(1, 3);
+                    dashCount--;
                     break;
                 case EState.Idle:
                     // Game Over

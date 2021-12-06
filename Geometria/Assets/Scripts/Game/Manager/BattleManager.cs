@@ -318,35 +318,6 @@ class BattleManager : MonoBehaviour
         commandInput.Clear();
     }
 
-    void Dash()
-    {
-        // 대쉬 - 배틀 매니저로(오브젝트 파괴 후)
-        if(currentState == EState.Dash && 0 < dashCount)
-        {
-            var target = Physics2D.OverlapCircle(transform.position, 5f, 6);
-            Debug.Log(target);
-            if(target != null)
-            {
-                direction = new Vector2(target.transform.position.x - transform.position.x,
-                                        target.transform.position.y - transform.position.y).normalized;
-                m_rigidbody2D.velocity = direction * SPEED;
-            }
-            else
-            {
-                dashCount = 4;
-                currentState = EState.Idle;                
-            }
-
-            if(dashCount == 0)
-            {
-                currentState = EState.Idle;
-
-                // 에너미 넉백
-                // dashCount = 4; // 적 충돌 시로 이관?
-            }
-        }
-    }
-
     void BattleCameraEffect()
     {
         CameraManager.Instance.cameraMain.orthographicSize = CameraManager.Instance.currentZoomSize - 1;

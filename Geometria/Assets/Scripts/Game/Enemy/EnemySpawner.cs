@@ -39,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
             timeAfterSpawn += Time.deltaTime;
             if (spawnRate <= timeAfterSpawn)
             {
-                int enemyIndex = Random.Range(0, 10);
+                int enemyIndex = Random.Range(0, enemys.Length);
                 if (enemys[enemyIndex].gameObject.activeSelf == false)
                 {
                     enemys[enemyIndex].transform.position = transform.position;

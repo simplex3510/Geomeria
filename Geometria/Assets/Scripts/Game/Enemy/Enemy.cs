@@ -43,6 +43,10 @@ public class Enemy : MonoBehaviour
             {
                 yield return StartCoroutine(EnemyKnockBack());
             }
+            else if (Player.Instance.currentState == EState.Dash && Player.Instance.dashCount == 0)
+            {
+                yield return StartCoroutine(EnemyKnockBack());
+            }
             else
             {
                 yield return StartCoroutine(Move());
@@ -89,7 +93,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Move()
     {
-        while (Player.Instance.currentState != EState.Battle)
+        if (Player.Instance.currentState != EState.Battle)
         {
             if (speed <= 0.25f)
             {
@@ -98,7 +102,7 @@ public class Enemy : MonoBehaviour
 
             angle = Mathf.Atan2(playerTransform.position.y - transform.position.y,
                                 playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
 
             speed = Mathf.Lerp(speed, 0, 0.05f);
             direction = new Vector2(playerTransform.position.x - transform.position.x,
