@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
         m_rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         angle = Mathf.Atan2(playerTransform.position.y - transform.position.y,
                             playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;

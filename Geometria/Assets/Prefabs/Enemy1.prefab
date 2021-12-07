@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 2880944207785955107}
   - component: {fileID: 2880944207785955133}
   - component: {fileID: -1740497825982729847}
+  - component: {fileID: 5740641517437814655}
   - component: {fileID: -2219049390104627234}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -124,6 +125,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
+  m_rigidbody2D: {fileID: 0}
+  cameraShake: {fileID: 5740641517437814655}
+--- !u!114 &5740641517437814655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880944207785955106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62fcce40d1c642840bae68b263e67b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &-2219049390104627234
 Rigidbody2D:
   serializedVersion: 4
@@ -139,9 +154,9 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4

@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2402478}
   - component: {fileID: 2402477}
+  - component: {fileID: 2402479}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -170,6 +171,7 @@ MonoBehaviour:
   - {fileID: -5013745363474156045, guid: 2e4f2fa268a07874ca4e20764dd26d1f, type: 3}
   - {fileID: -3258603586034122799, guid: 2e4f2fa268a07874ca4e20764dd26d1f, type: 3}
   enemies: []
+  cameraShake: {fileID: 2402479}
 --- !u!4 &2402478
 Transform:
   m_ObjectHideFlags: 0
@@ -200,6 +202,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2402479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2402476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62fcce40d1c642840bae68b263e67b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &18811074
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,22 +390,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -399,14 +397,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (9)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -472,26 +462,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_UseAutoMass
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -499,14 +469,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -821,22 +783,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -844,14 +790,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (16)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -1079,22 +1017,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -1102,14 +1024,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -1175,22 +1089,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -1198,14 +1096,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -1351,22 +1241,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -1374,14 +1248,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (5)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -1447,22 +1313,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -1470,14 +1320,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (14)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -1933,22 +1775,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -1956,14 +1782,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (15)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -2327,22 +2145,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -2350,14 +2152,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (7)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -2505,22 +2299,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -2528,14 +2306,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (12)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -2665,22 +2435,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -2688,14 +2442,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (11)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -2760,22 +2506,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -2783,14 +2513,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (19)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -2881,22 +2603,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -2904,14 +2610,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (10)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -8189,22 +7887,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -8212,14 +7894,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -8636,22 +8310,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -8659,14 +8317,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (13)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -9507,22 +9157,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -9530,14 +9164,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -14919,22 +14545,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -14942,14 +14552,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (8)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -15015,22 +14617,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -15038,14 +14624,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (17)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -15276,22 +14854,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -15299,14 +14861,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (20)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder
@@ -15382,22 +14936,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1421064416}
     m_Modifications:
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -2219049390104627234, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_GravityScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -1740497825982729847, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: playerTransform
       value: 
@@ -15405,14 +14943,6 @@ PrefabInstance:
     - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_Name
       value: Enemy1 (18)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2880944207785955106, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880944207785955132, guid: c767c1a90b2b1a7489b34382ac362ca7, type: 3}
       propertyPath: m_RootOrder

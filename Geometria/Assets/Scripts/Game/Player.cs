@@ -199,8 +199,6 @@ public class Player : MonoBehaviour
             var dashTarget = Physics2D.OverlapCircle(transform.position, 5f, whatIsLayer);
             if (dashTarget != null)
             {
-                Debug.Log("Dash");
-
                 #region 방향 전환
                 angle = Mathf.Atan2(dashTarget.transform.position.y - transform.position.y,
                                     dashTarget.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
@@ -215,9 +213,8 @@ public class Player : MonoBehaviour
 
                 // 적과 충돌 시 카운트 다운
             }
-            else
+            else    // 주변에 적이 없을 경우
             {
-                Debug.Log("Idle");
                 currentState = EState.Idle;
                 dashCount = 3;
             }
