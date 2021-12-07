@@ -46,6 +46,8 @@ public class Enemy : MonoBehaviour
             else if (Player.Instance.currentState == EState.Dash && Player.Instance.dashCount == 0)
             {
                 yield return StartCoroutine(EnemyKnockBack());
+                Player.Instance.dashCount = 3;
+                Player.Instance.currentState = EState.Idle;
             }
             else
             {

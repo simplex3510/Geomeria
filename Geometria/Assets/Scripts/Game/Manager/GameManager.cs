@@ -22,6 +22,7 @@ class GameManager : MonoBehaviour
     public GameObject player;
     public Text recordText;
     public Text bestRecordText;
+    public Text gameSetText;
     public EGameState currentGameState;
 
     public float width
@@ -90,11 +91,7 @@ class GameManager : MonoBehaviour
             }
             else if (currentGameState == EGameState.End)
             {
-                yield return EndState();
-            }
-            else if (currentGameState == EGameState.End)
-            {
-                yield return EndState();
+                yield return EndState(Player.Instance.currentState);
             }
             else
             {
@@ -139,6 +136,7 @@ class GameManager : MonoBehaviour
             if (width <= 0)
             {
                 currentGameState = EGameState.End;
+                Player.Instance.currentState = EState.Victory;
                 yield break;
             }
 
@@ -155,7 +153,7 @@ class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator EndState()
+    IEnumerator EndState(EState _state)
     {
         float rectWidth = 0f;
         float rectHeight = 0f;
@@ -165,9 +163,17 @@ class GameManager : MonoBehaviour
         endGameSquare.gameObject.SetActive(true);
 
         Player.Instance.drawLine.EndLine();
-        GameManager.Instance.endWindow.gameObject.SetActive(false);
         timer.gameObject.SetActive(false);
         enemySpawner.SetActive(false);
+
+        if (_state == EState.Defeat)
+        {
+            gameSetText.text = "Game Over";
+        }
+        else
+        {
+            gameSetText.text = "Game Clear";
+        }
         
         while (true)
         {

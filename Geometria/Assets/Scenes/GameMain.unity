@@ -978,6 +978,7 @@ MonoBehaviour:
   player: {fileID: 1037009704}
   recordText: {fileID: 18811076}
   bestRecordText: {fileID: 813162266}
+  gameSetText: {fileID: 1998024951}
   currentGameState: 0
 --- !u!114 &388687644
 MonoBehaviour:

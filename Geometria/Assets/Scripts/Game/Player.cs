@@ -222,12 +222,10 @@ public class Player : MonoBehaviour
                 dashCount = 3;
             }
         }
-        else if (currentState == EState.Dash && dashCount == 0)
-        {
-            // 에너미 넉백
-            currentState = EState.Idle;
-            dashCount = 3;
-        }
+        //else if (currentState == EState.Dash && dashCount == 0)
+        //{
+        //    // 에너미에서 처리
+        //}
 
         // 플레이어 넉백
         if (currentState == EState.Success || currentState == EState.Miss && GameManager.Instance.currentGameState == EGameState.Boss)
