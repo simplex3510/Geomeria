@@ -77,6 +77,7 @@ class BattleManager : MonoBehaviour
     {
         enemies = new List<GameObject>();
         commandInput = new List<ECommand>();
+
         StartCoroutine(Update_FSM());
     }
 
@@ -85,6 +86,13 @@ class BattleManager : MonoBehaviour
     {
         while (true)
         {
+            //if(Input.GetMouseButtonDown(0))
+            //{
+            //    Debug.Log("CameraShake");
+            //    StartCoroutine(cameraShake.Shake(0.5f, 0.5f));
+            //}
+            //yield return null;
+
             if (Player.Instance.currentState == EState.Success)
             {
                 yield return new WaitForSecondsRealtime(0.3f);
@@ -286,13 +294,15 @@ class BattleManager : MonoBehaviour
                     else
                     {
                         enemy.GetComponent<Boss>().battleCnt--;
-                        StartCoroutine(cameraShake.Shake(0.5f, 0.5f));  // 카메라 쉐이크
+                        Debug.Log("CameraShake");
+                        StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
                     }
                 }
                 else // if(enemy.CompareTag("Enemy"))
                 {
                     enemy.SetActive(false);
-                    StartCoroutine(cameraShake.Shake(0.5f, 0.5f));  // 카메라 쉐이크
+                    Debug.Log("CameraShake");
+                    StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
                 }
                 Player.Instance.currentState = EState.Dash;
             }
@@ -303,7 +313,7 @@ class BattleManager : MonoBehaviour
             {
                 var enemy = enemies[i];
                 enemies.RemoveAt(i);
-                StartCoroutine(cameraShake.Shake(0.5f, 0.5f));  // 카메라 쉐이크
+                StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
             }
             Player.Instance.currentState = EState.Dash;
         }
