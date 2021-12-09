@@ -264,7 +264,7 @@ public class Player : MonoBehaviour
                 case EState.Moving:
                 case EState.Dash:
                     currentState = EState.Battle;
-                    BattleManager.Instance.enemies.Add(other.gameObject);
+                    BattleManager.Instance.enemy = other.gameObject;
                     BattleManager.Instance.EnterBattleMode(1, 3);
                     dashCount--;
                     break;
@@ -288,7 +288,7 @@ public class Player : MonoBehaviour
                 case EState.Moving:
                 case EState.Dash:
                     currentState = EState.Battle;
-                    BattleManager.Instance.enemies.Add(other.gameObject);
+                    BattleManager.Instance.enemy = other.gameObject;
                     BattleManager.Instance.EnterBattleMode(4, 6);
                     break;
                 case EState.Idle:

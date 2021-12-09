@@ -71,7 +71,7 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = 1f;
+        offset = 25f;
         currentGameState = EGameState.Normal;
         StartCoroutine(Update_FSM());
     }
@@ -102,7 +102,6 @@ class GameManager : MonoBehaviour
 
     IEnumerator NormalState()
     {
-
         while (true)
         {
             if (BattleTimer.FULL_WIDTH <= width)
@@ -136,11 +135,15 @@ class GameManager : MonoBehaviour
             if (width <= 0)
             {
                 currentGameState = EGameState.End;
-                Player.Instance.currentState = EState.Victory;
                 yield break;
             }
 
             if (Player.Instance.currentState == EState.Defeat)
+            {
+                currentGameState = EGameState.End;
+                yield break;
+            }
+            else if (Player.Instance.currentState == EState.Victory)
             {
                 currentGameState = EGameState.End;
                 yield break;

@@ -27,6 +27,11 @@ public class Enemy : MonoBehaviour
         StartCoroutine(Update_FSM());
     }
 
+    private void OnDisable()
+    {
+        StopCoroutine(Update_FSM());
+    }
+
     IEnumerator Update_FSM()
     {
         while (true)

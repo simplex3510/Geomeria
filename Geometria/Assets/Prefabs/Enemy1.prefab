@@ -126,7 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
   m_rigidbody2D: {fileID: 0}
-  cameraShake: {fileID: 5740641517437814655}
 --- !u!114 &5740641517437814655
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -71,9 +71,9 @@ public class Boss : MonoBehaviour
 
     IEnumerator Pause()
     {
-        while(true)
+        while (true)
         {
-            if(currentState != EState.Idle)
+            if (currentState != EState.Idle)
             {
                 yield break;
             }
@@ -175,6 +175,7 @@ public class Boss : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             m_rigidbody2D.velocity = Vector2.zero;
+            currentChargeTime = 0f;
             drawLine.EndLine();
             currentState = EState.Idle;
         }

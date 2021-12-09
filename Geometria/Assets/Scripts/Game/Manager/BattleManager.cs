@@ -18,7 +18,7 @@ class BattleManager : MonoBehaviour
     public Sprite[] commandDrawEmpty;
     public Sprite[] commandDrawMiss;
     public Sprite[] commandDrawSuccess;
-    public List<GameObject> enemies;
+    public GameObject enemy;
     public CameraShake cameraShake;
     public ECommand currentCmd
     {
@@ -28,15 +28,15 @@ class BattleManager : MonoBehaviour
     {
         get { return commandCount; }
     }
-    public int currentIdx
+    public int currentCmdIdx
     {
-        get { return currentIndex; }
+        get { return currentCommandIndex; }
     }
 
     List<ECommand> commandInput;
     ECommand currentCommand;
     int commandCount;
-    int currentIndex;
+    int currentCommandIndex;
     int missCount;
 
     #region Singleton
@@ -75,7 +75,6 @@ class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemies = new List<GameObject>();
         commandInput = new List<ECommand>();
 
         StartCoroutine(Update_FSM());
@@ -86,13 +85,6 @@ class BattleManager : MonoBehaviour
     {
         while (true)
         {
-            //if(Input.GetMouseButtonDown(0))
-            //{
-            //    Debug.Log("CameraShake");
-            //    StartCoroutine(cameraShake.Shake(0.5f, 0.5f));
-            //}
-            //yield return null;
-
             if (Player.Instance.currentState == EState.Success)
             {
                 yield return new WaitForSecondsRealtime(0.3f);
@@ -141,33 +133,33 @@ class BattleManager : MonoBehaviour
 
     IEnumerator CBattle()
     {
-        if (currentIndex < commandCount)
+        if (currentCommandIndex < commandCount)
         {
-            var commandSprite = commandLine.GetChild(currentIndex).GetComponent<Image>();
-            currentCommand = commandInput[currentIndex];
+            var commandSprite = commandLine.GetChild(currentCommandIndex).GetComponent<Image>();
+            currentCommand = commandInput[currentCommandIndex];
 
             // 커맨드 입력
             if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
             {
-                currentIndex++;
+                currentCommandIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[0];
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
-                currentIndex++;
+                currentCommandIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[1];
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
-                currentIndex++;
+                currentCommandIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[2];
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
-                currentIndex++;
+                currentCommandIndex++;
                 BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[3];
             }
@@ -198,23 +190,23 @@ class BattleManager : MonoBehaviour
                         Debug.Log("Wrong Command");
                         break;
                 }
-                currentIndex++;
+                currentCommandIndex++;
                 BattleCameraEffect();
             }
         }
-        else if (currentIndex == commandCount && missCount == commandCount)
+        else if (currentCommandIndex == commandCount && missCount == commandCount)
         {
             Player.Instance.currentState = EState.Defeat;
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
-        else if (currentIndex == commandCount && 1 <= missCount)
+        else if (currentCommandIndex == commandCount && 1 <= missCount)
         {
             Player.Instance.currentState = EState.Miss;
             yield return new WaitForSecondsRealtime(0.3f);
             BattleCameraEffect();
         }
-        else if (currentIndex == commandCount && missCount == 0)
+        else if (currentCommandIndex == commandCount && missCount == 0)
         {
             Player.Instance.currentState = EState.Success;
             yield return new WaitForSecondsRealtime(0.3f);
@@ -281,53 +273,36 @@ class BattleManager : MonoBehaviour
 
         if(_state == EState.Success)
         {
-            for (int i = 0; enemies.Count != 0; i++)
+            if (enemy.CompareTag("Boss"))
             {
-                var enemy = enemies[i];
-                enemies.RemoveAt(i);
-                if (enemy.CompareTag("Boss"))
-                {
-                    if (enemy.GetComponent<Boss>().battleCnt == 0)
-                    {
-                        enemy.transform.parent.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        enemy.GetComponent<Boss>().battleCnt--;
-                        Debug.Log("CameraShake");
-                        StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
-                    }
-                }
-                else // if(enemy.CompareTag("Enemy"))
+                enemy.GetComponent<Boss>().battleCnt--;
+                Debug.Log("CameraShake");
+                StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
+                Player.Instance.currentState = EState.Dash;
+                
+                if (enemy.GetComponent<Boss>().battleCnt <= 0)
                 {
                     enemy.SetActive(false);
-                    Debug.Log("CameraShake");
-                    StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
+                    Player.Instance.currentState = EState.Victory;
                 }
+            }
+            else // if(enemy.CompareTag("Enemy"))
+            {
+                enemy.SetActive(false);
+                Debug.Log("CameraShake");
+                StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
                 Player.Instance.currentState = EState.Dash;
             }
         }
         else if(_state == EState.Miss)
         {
-            for (int i = 0; enemies.Count != 0; i++)
-            {
-                var enemy = enemies[i];
-                enemies.RemoveAt(i);
-                StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
-            }
+            StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
+
             Player.Instance.currentState = EState.Dash;
-        }
-        else if(_state == EState.Defeat)
-        {
-            for (int i = 0; enemies.Count != 0; i++)
-            {
-                var enemy = enemies[i];
-                enemies.RemoveAt(i);
-            }
         }
 
         missCount = 0;
-        currentIndex = 0;
+        currentCommandIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
     }

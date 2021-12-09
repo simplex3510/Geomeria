@@ -41,7 +41,7 @@ public class BattleTimer : MonoBehaviour
                 yield break;
             }
 
-            if (BattleManager.Instance.currentIdx == BattleManager.Instance.commandCnt)
+            if (BattleManager.Instance.currentCmdIdx == BattleManager.Instance.commandCnt)
             {
                 yield break;
             }

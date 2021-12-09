@@ -7,7 +7,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public Enemy[] enemies;
-    public Boss boss;
+    public GameObject boss;
 
     #region EnemyManager Singleton
     private static EnemyManager _instance;
@@ -50,11 +50,11 @@ public class EnemyManager : MonoBehaviour
     {
         if(GameManager.Instance.currentGameState == EGameState.Boss)
         {
-            boss.gameObject.SetActive(true);
+            boss.SetActive(true);
         }
         else if(GameManager.Instance.currentGameState == EGameState.End)
         {
-            boss.gameObject.SetActive(false);
+            boss.SetActive(false);
         }
         
     }
