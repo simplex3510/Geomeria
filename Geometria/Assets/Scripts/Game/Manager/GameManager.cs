@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 enum EGameState
 {
     Normal,
+    Battle,
     Boss,
     End
 }
@@ -71,7 +72,7 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = 25f;
+        offset = 1f;
         currentGameState = EGameState.Normal;
         StartCoroutine(Update_FSM());
     }
@@ -81,21 +82,23 @@ class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (currentGameState == EGameState.Normal)
+            switch (currentGameState)
             {
-                yield return NormalState();
-            }
-            else if (currentGameState == EGameState.Boss)
-            {
-                yield return BossState();
-            }
-            else if (currentGameState == EGameState.End)
-            {
-                yield return EndState(Player.Instance.currentState);
-            }
-            else
-            {
-                yield return null;
+                case EGameState.Battle:
+                    yield return null;
+                    break;
+                case EGameState.Normal:
+                    yield return NormalState();
+                    break;
+                case EGameState.Boss:
+                    yield return BossState();
+                    break;
+                case EGameState.End:
+                    yield return EndState(Player.Instance.currentState);
+                    break;
+                default:
+                    yield return null;
+                    break;
             }
         }
     }
@@ -188,7 +191,7 @@ class GameManager : MonoBehaviour
                 StartCoroutine(Rotate());
 
                 #region 점수 출력 및 저장
-                record = (width/BattleTimer.FULL_WIDTH)*100f;
+                record = (width/BattleTimer.FULL_WIDTH) * 100f;
                 recordText.text = $"{record:f2}%";
 
                 float bestRecord = PlayerPrefs.GetFloat("BestRecord");

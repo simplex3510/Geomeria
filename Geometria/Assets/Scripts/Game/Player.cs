@@ -254,6 +254,7 @@ public class Player : MonoBehaviour
 
         if (other.gameObject.CompareTag("Enemy"))
         {
+            GameManager.Instance.currentGameState = EGameState.Battle;
             CameraManager.Instance.isZoom = true;
             m_rigidbody2D.velocity = new Vector2(0, 0);
 
