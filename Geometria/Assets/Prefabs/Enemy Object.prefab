@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 2880944207785955132}
   - component: {fileID: 2880944207785955107}
   - component: {fileID: 2880944207785955133}
+  - component: {fileID: -2219049390104627234}
   - component: {fileID: -1740497825982729847}
   - component: {fileID: 5740641517437814655}
-  - component: {fileID: -2219049390104627234}
   m_Layer: 6
-  m_Name: Enemy1
+  m_Name: Enemy Object
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e187734eda25dc640941d50eb4ca7ef4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 17c6f86c77a38f546937cf808beb95ed, type: 3}
+  m_Color: {r: 1, g: 0.39215687, b: 0.39215687, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -103,7 +103,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.74, y: 1.74}
+    oldSize: {x: 1.61, y: 1.6}
     newSize: {x: 1.74, y: 1.74}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -112,6 +112,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.74, y: 1.74}
   m_EdgeRadius: 0
+--- !u!50 &-2219049390104627234
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880944207785955106}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &-1740497825982729847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,24 +159,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62fcce40d1c642840bae68b263e67b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &-2219049390104627234
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2880944207785955106}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4

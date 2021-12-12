@@ -2,3 +2,6 @@
 유닛 70
 
 유니티 이벤트 관련 공부하기
+
+파괴 이펙트 관련 영상
+https://www.youtube.com/watch?v=nT031tVrGC0

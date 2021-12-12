@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            if (GameManager.Instance.currentGameState == EGameState.Battle)
+            if (Player.Instance.currentState == EState.Battle)
             {
                 yield return StartCoroutine(Pause());
             }

@@ -84,9 +84,6 @@ class GameManager : MonoBehaviour
         {
             switch (currentGameState)
             {
-                case EGameState.Battle:
-                    yield return null;
-                    break;
                 case EGameState.Normal:
                     yield return NormalState();
                     break;
