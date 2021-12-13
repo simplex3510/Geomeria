@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public ParticleSystem destroyPaticle;
+    public GameObject destroySquare;
     public Transform playerTransform;
     public Rigidbody2D m_rigidbody2D;
 
@@ -27,9 +29,10 @@ public class Enemy : MonoBehaviour
         StartCoroutine(Update_FSM());
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        StopCoroutine(Update_FSM());
+        destroyPaticle.Play();
+        destroySquare.SetActive(true);
     }
 
     IEnumerator Update_FSM()

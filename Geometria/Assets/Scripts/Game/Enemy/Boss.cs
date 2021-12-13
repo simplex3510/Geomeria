@@ -48,6 +48,7 @@ public class Boss : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.5f);
         while (true)
         {
+            Debug.Log("FSM");
             switch (currentState)
             {
                 case EState.Idle:
@@ -73,6 +74,7 @@ public class Boss : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log("Pause");
             if (currentState != EState.Idle)
             {
                 yield break;
@@ -88,7 +90,8 @@ public class Boss : MonoBehaviour
 
         while (true)
         {
-            if(currentState != EState.Charging)
+            Debug.Log("Charging");
+            if (currentState != EState.Charging)
             {
                 chargingEffect.Stop();
                 yield break;
@@ -151,14 +154,15 @@ public class Boss : MonoBehaviour
 
         while (true)
         {
+            if (currentState != EState.Moving)
+            {
+                yield break;
+            }
+
             currentPosition = transform.position;
             // 이동해야 할 거리와 실재 이동 거리 비교 연산
             if (movePosition.magnitude <= (currentPosition - startPosition).magnitude)
             {
-                if (currentState != EState.Moving)
-                {
-                    yield break;
-                }
                 m_rigidbody2D.velocity = new Vector2(0, 0);
                 break;
             }
