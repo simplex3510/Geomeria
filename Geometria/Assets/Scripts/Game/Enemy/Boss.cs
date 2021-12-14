@@ -74,9 +74,9 @@ public class Boss : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("Pause");
             if (currentState != EState.Idle)
             {
+                StartCoroutine(BossKnockback());
                 yield break;
             }
             yield return null;
@@ -90,7 +90,6 @@ public class Boss : MonoBehaviour
 
         while (true)
         {
-            Debug.Log("Charging");
             if (currentState != EState.Charging)
             {
                 chargingEffect.Stop();
@@ -172,6 +171,26 @@ public class Boss : MonoBehaviour
         currentState = EState.Charging;
 
         yield return new WaitForSecondsRealtime(1.5f);
+    }
+
+    IEnumerator BossKnockback()
+    {
+        float backSpeed = 100f;
+        float duration = 0f;
+        direction = new Vector2(transform.position.x - playerPosition.position.x,
+                                transform.position.y - playerPosition.position.y).normalized;
+
+        m_rigidbody2D.velocity = direction * backSpeed;
+        while (true)
+        {
+            duration += Time.deltaTime;
+            if (0.12f <= duration)
+            {
+                m_rigidbody2D.velocity = Vector2.zero;
+                yield break;
+            }
+            yield return null;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

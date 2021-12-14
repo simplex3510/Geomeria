@@ -9,7 +9,7 @@ public class CameraManager : MonoBehaviour
     {
         get
         {
-            return _cameraMain;
+            return m_cameraMain;
         }
     }
     public bool isZoom
@@ -18,7 +18,7 @@ public class CameraManager : MonoBehaviour
         set;
     }
 
-    Camera _cameraMain;
+    Camera m_cameraMain;
     bool isCharge = false;
     float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
@@ -62,13 +62,36 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         isZoom = false;
-        _cameraMain = Camera.main;
+        m_cameraMain = Camera.main;
         cameraMain.orthographicSize = 5f;
         CameraZoomEffect(zoomOut, 0.001f);
+        StartCoroutine(Update_FSM());
     }
 
-    private void Update()
+    IEnumerator Update_FSM()
     {
+        while (true)
+        {
+            switch (GameManager.Instance.currentGameState)
+            {
+                case EGameState.Normal:
+                    yield return StartCoroutine(NormalState());
+                    break;
+                case EGameState.Boss:
+                    yield return StartCoroutine(BossState());
+                    break;
+                default:
+                    yield return null;
+                    break;
+            }
+        }
+
+    }
+
+    IEnumerator NormalState()
+    //void Update()
+    {
+        Debug.Log("Normal State");
         #region Player Camera View
         cameraMain.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
         #endregion
@@ -86,12 +109,12 @@ public class CameraManager : MonoBehaviour
             }
         }
 
-        if(isCharge)
+        if (isCharge)
         {
             CameraZoomEffect(zoomOut, zoomPower * 0.1f);
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             currentChargeTime = 0f;
             isCharge = false;
@@ -106,6 +129,13 @@ public class CameraManager : MonoBehaviour
         {
             CameraZoomEffect(zoomOut, zoomPower);
         }
+
+        yield return null; ;
+    }
+
+    IEnumerator BossState()
+    {
+        yield return null;
     }
 
     public void CameraZoomEffect(float _zoom, float _zoomSpeed)
