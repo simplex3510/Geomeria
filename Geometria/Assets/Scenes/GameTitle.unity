@@ -399,7 +399,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Perk Setting
+  m_Text: Option
 --- !u!222 &120939713
 CanvasRenderer:
   m_ObjectHideFlags: 0

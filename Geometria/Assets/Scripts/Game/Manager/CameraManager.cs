@@ -5,28 +5,24 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     public GameObject player;
-    public Camera cameraMain
-    {
-        get
-        {
-            return m_cameraMain;
-        }
-    }
+
+    public float currentZoomSize;
+    public float zoomIn = 10f;
+    public float zoomOut = 13f;
+    public float zoomPower = 0.1f;
+
+
     public bool isZoom
     {
         get;
         set;
     }
 
-    Camera m_cameraMain;
+    Camera cameraMain;
+    CameraShake cameraShake;
     bool isCharge = false;
     float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
-
-    public float currentZoomSize;
-    public float zoomIn = 10f;
-    public float zoomOut = 13f;
-    public float zoomPower = 0.1f;
 
     #region CameraManager Singleton
     private static CameraManager _instance;
@@ -62,9 +58,8 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         isZoom = false;
-        m_cameraMain = Camera.main;
+        cameraMain = Camera.main;
         cameraMain.orthographicSize = 5f;
-        CameraZoomEffect(zoomOut, 0.001f);
         StartCoroutine(Update_FSM());
     }
 
@@ -72,20 +67,17 @@ public class CameraManager : MonoBehaviour
     {
         while (true)
         {
-            switch (GameManager.Instance.currentGameState)
+            switch (Player.Instance.currentState)
             {
-                case EGameState.Normal:
-                    yield return StartCoroutine(NormalState());
-                    break;
-                case EGameState.Boss:
-                    yield return StartCoroutine(BossState());
+                case EState.Success:
+                case EState.Miss:
+                    yield return StartCoroutine(Shake(0.3f, 0.5f));
                     break;
                 default:
-                    yield return null;
+                    yield return StartCoroutine(NormalState());
                     break;
             }
         }
-
     }
 
     IEnumerator NormalState()
@@ -141,6 +133,27 @@ public class CameraManager : MonoBehaviour
     public void CameraZoomEffect(float _zoom, float _zoomSpeed)
     {
         cameraMain.orthographicSize = Mathf.Lerp(cameraMain.orthographicSize, _zoom, _zoomSpeed);
+    }
+    IEnumerator Shake(float duration, float magnitude)
+    {
+        Camera cameraMain = Camera.main;
+        Vector3 originalPosition = cameraMain.transform.position;
+
+        float elapsed = 0.0f;
+
+        while (elapsed <= duration)
+        {
+            float x = Random.Range(-1f, 1f) * magnitude;
+            float y = Random.Range(-1f, 1f) * magnitude;
+
+            cameraMain.transform.position = originalPosition + new Vector3(x, y, originalPosition.z);
+
+            elapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        cameraMain.transform.position = originalPosition;
     }
 
     private void OnCollisionEnter2D(Collision2D other)

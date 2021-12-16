@@ -277,7 +277,7 @@ class BattleManager : MonoBehaviour
             {
                 enemy.GetComponent<Boss>().battleCnt--;
                 Debug.Log("CameraShake");
-                StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
+                StartCoroutine(cameraShake.Shake(0.3f, 0.5f));  // 카메라 쉐이크
                 Player.Instance.currentState = EState.Dash;
                 
                 if (enemy.GetComponent<Boss>().battleCnt <= 0)
@@ -290,13 +290,13 @@ class BattleManager : MonoBehaviour
             {
                 enemy.SetActive(false);
                 Debug.Log("CameraShake");
-                StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
+                StartCoroutine(cameraShake.Shake(0.3f, 0.5f));  // 카메라 쉐이크
                 Player.Instance.currentState = EState.Dash;
             }
         }
         else if(_state == EState.Miss)
         {
-            StartCoroutine(cameraShake.Shake(0.3f, 0.3f));  // 카메라 쉐이크
+            StartCoroutine(cameraShake.Shake(0.3f, 0.5f));  // 카메라 쉐이크
 
             Player.Instance.currentState = EState.Dash;
         }
@@ -309,7 +309,7 @@ class BattleManager : MonoBehaviour
 
     void BattleCameraEffect()
     {
-        CameraManager.Instance.cameraMain.orthographicSize = CameraManager.Instance.currentZoomSize - 1;
+        Camera.main.orthographicSize = CameraManager.Instance.currentZoomSize - 1;
         CameraManager.Instance.CameraZoomEffect(CameraManager.Instance.currentZoomSize, CameraManager.Instance.zoomPower);
     }
 

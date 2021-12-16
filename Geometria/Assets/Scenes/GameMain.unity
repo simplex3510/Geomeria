@@ -940,6 +940,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 331017222}
   m_CullTransparentMesh: 1
+--- !u!1 &344518425 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6256978016052161112, guid: 7b3a5a0aeabb92c479d261050124c662, type: 3}
+  m_PrefabInstance: {fileID: 1438676767}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &388687641
 GameObject:
   m_ObjectHideFlags: 0
@@ -991,6 +996,7 @@ MonoBehaviour:
   endWindow: {fileID: 861296544}
   enemySpawner: {fileID: 1302520173}
   player: {fileID: 1037009704}
+  playerLine: {fileID: 344518425}
   recordText: {fileID: 18811076}
   bestRecordText: {fileID: 813162266}
   gameSetText: {fileID: 1998024951}
@@ -3824,7 +3830,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6256978016052161108, guid: 7b3a5a0aeabb92c479d261050124c662, type: 3}
   m_PrefabInstance: {fileID: 1438676767}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 344518425}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59e5f29df854cb947be2f1f478efcdb7, type: 3}

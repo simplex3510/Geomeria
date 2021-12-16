@@ -21,6 +21,7 @@ class GameManager : MonoBehaviour
     public RectTransform endWindow;
     public GameObject enemySpawner;
     public GameObject player;
+    public GameObject playerLine;
     public Text recordText;
     public Text bestRecordText;
     public Text gameSetText;
@@ -165,6 +166,7 @@ class GameManager : MonoBehaviour
         EnemyManager.Instance.DisableEnemies();
         endGameSquare.gameObject.SetActive(true);
 
+        //playerLine.SetActive(false);
         Player.Instance.drawLine.EndLine();
         timer.gameObject.SetActive(false);
         enemySpawner.SetActive(false);
