@@ -19,7 +19,7 @@ class BattleManager : MonoBehaviour
     public Sprite[] commandDrawMiss;
     public Sprite[] commandDrawSuccess;
     public GameObject enemy;
-    public CameraShake cameraShake;
+
     public ECommand currentCmd
     {
         get { return currentCommand; }
@@ -277,7 +277,7 @@ class BattleManager : MonoBehaviour
             {
                 enemy.GetComponent<Boss>().battleCnt--;
                 Debug.Log("CameraShake");
-                StartCoroutine(cameraShake.Shake(0.3f, 0.5f));  // 카메라 쉐이크
+                StartCoroutine(CameraManager.Instance.Shake(0.3f, 0.5f));  // 카메라 쉐이크
                 Player.Instance.currentState = EState.Dash;
                 
                 if (enemy.GetComponent<Boss>().battleCnt <= 0)
@@ -290,13 +290,13 @@ class BattleManager : MonoBehaviour
             {
                 enemy.SetActive(false);
                 Debug.Log("CameraShake");
-                StartCoroutine(cameraShake.Shake(0.3f, 0.5f));  // 카메라 쉐이크
+                StartCoroutine(CameraManager.Instance.Shake(0.3f, 0.5f));  // 카메라 쉐이크
                 Player.Instance.currentState = EState.Dash;
             }
         }
         else if(_state == EState.Miss)
         {
-            StartCoroutine(cameraShake.Shake(0.3f, 0.5f));  // 카메라 쉐이크
+            StartCoroutine(CameraManager.Instance.Shake(0.3f, 0.5f));  // 카메라 쉐이크
 
             Player.Instance.currentState = EState.Dash;
         }

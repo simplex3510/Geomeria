@@ -11,7 +11,6 @@ public class CameraManager : MonoBehaviour
     public float zoomOut = 13f;
     public float zoomPower = 0.1f;
 
-
     public bool isZoom
     {
         get;
@@ -19,8 +18,8 @@ public class CameraManager : MonoBehaviour
     }
 
     Camera cameraMain;
-    CameraShake cameraShake;
     bool isCharge = false;
+    bool isShake = false;
     float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
 
@@ -69,21 +68,25 @@ public class CameraManager : MonoBehaviour
         {
             switch (Player.Instance.currentState)
             {
-                case EState.Success:
-                case EState.Miss:
-                    yield return StartCoroutine(Shake(0.3f, 0.5f));
-                    break;
+                //case EState.Battle:
+                //case EState.Success:
+                //case EState.Miss:
+                //    yield return StartCoroutine(BattleState());
+                //    break;
                 default:
                     yield return StartCoroutine(NormalState());
                     break;
             }
+
+            yield return null;
         }
     }
 
     IEnumerator NormalState()
     //void Update()
     {
-        Debug.Log("Normal State");
+        isShake = false;
+
         #region Player Camera View
         cameraMain.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
         #endregion
@@ -125,7 +128,7 @@ public class CameraManager : MonoBehaviour
         yield return null; ;
     }
 
-    IEnumerator BossState()
+    IEnumerator BattleState()
     {
         yield return null;
     }
@@ -134,9 +137,9 @@ public class CameraManager : MonoBehaviour
     {
         cameraMain.orthographicSize = Mathf.Lerp(cameraMain.orthographicSize, _zoom, _zoomSpeed);
     }
-    IEnumerator Shake(float duration, float magnitude)
+
+    public IEnumerator Shake(float duration, float magnitude)
     {
-        Camera cameraMain = Camera.main;
         Vector3 originalPosition = cameraMain.transform.position;
 
         float elapsed = 0.0f;
