@@ -19,7 +19,6 @@ public class CameraManager : MonoBehaviour
 
     Camera cameraMain;
     bool isCharge = false;
-    bool isShake = false;
     float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
 
@@ -68,11 +67,6 @@ public class CameraManager : MonoBehaviour
         {
             switch (Player.Instance.currentState)
             {
-                //case EState.Battle:
-                //case EState.Success:
-                //case EState.Miss:
-                //    yield return StartCoroutine(BattleState());
-                //    break;
                 default:
                     yield return StartCoroutine(NormalState());
                     break;
@@ -85,8 +79,6 @@ public class CameraManager : MonoBehaviour
     IEnumerator NormalState()
     //void Update()
     {
-        isShake = false;
-
         #region Player Camera View
         cameraMain.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
         #endregion
@@ -125,7 +117,7 @@ public class CameraManager : MonoBehaviour
             CameraZoomEffect(zoomOut, zoomPower);
         }
 
-        yield return null; ;
+        yield return null;
     }
 
     IEnumerator BattleState()

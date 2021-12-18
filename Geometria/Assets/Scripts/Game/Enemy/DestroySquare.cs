@@ -6,12 +6,6 @@ public class DestroySquare : MonoBehaviour
 {
     public Transform enemyTransform;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     void OnEnable()
     {
         transform.eulerAngles = new Vector3(0, 0, Random.Range(0f, 360f));

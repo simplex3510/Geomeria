@@ -89,46 +89,26 @@ class BattleManager : MonoBehaviour
             {
                 yield return new WaitForSecondsRealtime(0.3f);
                 BattleCameraEffect();
-                yield return StartCoroutine(CWin());
+                ExitBattleMode(EState.Success);
             }
             else if (Player.Instance.currentState == EState.Miss)
             {
                 yield return new WaitForSecondsRealtime(0.3f);
                 BattleCameraEffect();
-                yield return StartCoroutine(CMiss());
+                ExitBattleMode(EState.Miss);
             }
             else if (Player.Instance.currentState == EState.Defeat)
             {
-                yield return StartCoroutine(CDefeat());
+                ExitBattleMode(EState.Defeat);
             }
             // Battle Modes
             else if (Player.Instance.currentState == EState.Battle)
             {
                 yield return StartCoroutine(CBattle());
             }
-            else
-            {
-                yield return null;
-            }
+            
+            yield return null;
         }
-    }
-
-    IEnumerator CWin()
-    {
-        ExitBattleMode(EState.Success);
-        yield break;
-    }
-
-    IEnumerator CMiss()
-    {
-        ExitBattleMode(EState.Miss);
-        yield break;
-    }
-
-    IEnumerator CDefeat()
-    {
-        ExitBattleMode(EState.Defeat);
-        yield break;
     }
 
     IEnumerator CBattle()
@@ -276,8 +256,6 @@ class BattleManager : MonoBehaviour
             if (enemy.CompareTag("Boss"))
             {
                 enemy.GetComponent<Boss>().battleCnt--;
-                Debug.Log("CameraShake");
-                StartCoroutine(CameraManager.Instance.Shake(0.3f, 0.5f));  // 카메라 쉐이크
                 Player.Instance.currentState = EState.Dash;
                 
                 if (enemy.GetComponent<Boss>().battleCnt <= 0)
@@ -289,15 +267,11 @@ class BattleManager : MonoBehaviour
             else // if(enemy.CompareTag("Enemy"))
             {
                 enemy.SetActive(false);
-                Debug.Log("CameraShake");
-                StartCoroutine(CameraManager.Instance.Shake(0.3f, 0.5f));  // 카메라 쉐이크
                 Player.Instance.currentState = EState.Dash;
             }
         }
         else if(_state == EState.Miss)
         {
-            StartCoroutine(CameraManager.Instance.Shake(0.3f, 0.5f));  // 카메라 쉐이크
-
             Player.Instance.currentState = EState.Dash;
         }
 
@@ -312,5 +286,4 @@ class BattleManager : MonoBehaviour
         Camera.main.orthographicSize = CameraManager.Instance.currentZoomSize - 1;
         CameraManager.Instance.CameraZoomEffect(CameraManager.Instance.currentZoomSize, CameraManager.Instance.zoomPower);
     }
-
 }

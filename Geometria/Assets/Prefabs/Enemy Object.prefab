@@ -145,6 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8590b9c76bb984daa367af0ea14cc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyEffect: {fileID: 7509495318246859444, guid: f039b5ef9f64b2747a4f249dcc062257, type: 3}
+  destroySquare: {fileID: 0}
   playerTransform: {fileID: 0}
   m_rigidbody2D: {fileID: 0}
 --- !u!114 &5740641517437814655
