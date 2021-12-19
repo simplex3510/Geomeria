@@ -7,9 +7,9 @@ public class CameraManager : MonoBehaviour
     public GameObject player;
 
     public float currentZoomSize;
-    public float zoomIn = 10f;
-    public float zoomOut = 13f;
-    public float zoomPower = 0.1f;
+    public readonly float ZOOM_IN = 10f;
+    public readonly float ZOOM_OUT = 13f;
+    public readonly float ZOOM_POWER = 0.1f;
 
     public bool isZoom
     {
@@ -61,6 +61,18 @@ public class CameraManager : MonoBehaviour
         StartCoroutine(Update_FSM());
     }
 
+    void Update()
+    {
+        if(Input.anyKeyDown &&
+           Player.Instance.currentState == EState.Battle &&
+           !Input.GetMouseButtonDown(0) &&
+           !Input.GetMouseButtonDown(1) &&
+           !Input.GetMouseButtonDown(2))
+        {
+            CameraZoomEffect(currentZoomSize - 1, ZOOM_POWER);
+        }    
+    }
+
     IEnumerator Update_FSM()
     {
         while (true)
@@ -86,6 +98,12 @@ public class CameraManager : MonoBehaviour
         currentZoomSize = cameraMain.orthographicSize;
 
         #region Charge Camera Effect
+        if (Input.GetMouseButtonUp(0))
+        {
+            currentChargeTime = 0f;
+            isCharge = false;
+        }
+
         if (Input.GetMouseButton(0))
         {
             currentChargeTime += Time.deltaTime;
@@ -95,42 +113,21 @@ public class CameraManager : MonoBehaviour
                 isCharge = true;
             }
         }
-
-        if (isCharge)
-        {
-            CameraZoomEffect(zoomOut, zoomPower * 0.1f);
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            currentChargeTime = 0f;
-            isCharge = false;
-        }
         #endregion
 
         if (isZoom)
         {
-            CameraZoomEffect(zoomIn, zoomPower);
+            CameraZoomEffect(ZOOM_IN, ZOOM_POWER);
         }
         else
         {
-            CameraZoomEffect(zoomOut, zoomPower);
+            CameraZoomEffect(ZOOM_OUT, ZOOM_POWER);
         }
 
         yield return null;
     }
 
-    IEnumerator BattleState()
-    {
-        yield return null;
-    }
-
-    public void CameraZoomEffect(float _zoom, float _zoomSpeed)
-    {
-        cameraMain.orthographicSize = Mathf.Lerp(cameraMain.orthographicSize, _zoom, _zoomSpeed);
-    }
-
-    public IEnumerator Shake(float duration, float magnitude)
+    public IEnumerator CameraShakeEffect(float duration, float magnitude)
     {
         Vector3 originalPosition = cameraMain.transform.position;
 
@@ -151,19 +148,8 @@ public class CameraManager : MonoBehaviour
         cameraMain.transform.position = originalPosition;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    public void CameraZoomEffect(float _zoom, float _zoomSpeed)
     {
-        if (other.gameObject.tag == "Enemy")
-        {
-            isZoom = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Enemy")
-        {
-            isZoom = false;
-        }
+        cameraMain.orthographicSize = Mathf.Lerp(cameraMain.orthographicSize, _zoom, _zoomSpeed);
     }
 }

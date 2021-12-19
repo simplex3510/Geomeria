@@ -72,7 +72,6 @@ class BattleManager : MonoBehaviour
     }
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         commandInput = new List<ECommand>();
@@ -80,31 +79,28 @@ class BattleManager : MonoBehaviour
         StartCoroutine(Update_FSM());
     }
 
-    // Update is called once per frame
     IEnumerator Update_FSM()
     {
         while (true)
         {
-            if (Player.Instance.currentState == EState.Success)
+            // Battle Modes
+            if (Player.Instance.currentState == EState.Battle)
+            {
+                yield return StartCoroutine(CBattle());
+            }
+            else if (Player.Instance.currentState == EState.Success)
             {
                 yield return new WaitForSecondsRealtime(0.3f);
-                BattleCameraEffect();
                 ExitBattleMode(EState.Success);
             }
             else if (Player.Instance.currentState == EState.Miss)
             {
                 yield return new WaitForSecondsRealtime(0.3f);
-                BattleCameraEffect();
                 ExitBattleMode(EState.Miss);
             }
             else if (Player.Instance.currentState == EState.Defeat)
             {
                 ExitBattleMode(EState.Defeat);
-            }
-            // Battle Modes
-            else if (Player.Instance.currentState == EState.Battle)
-            {
-                yield return StartCoroutine(CBattle());
             }
             
             yield return null;
@@ -122,31 +118,28 @@ class BattleManager : MonoBehaviour
             if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
             {
                 currentCommandIndex++;
-                BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[0];
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
                 currentCommandIndex++;
-                BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[1];
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
                 currentCommandIndex++;
-                BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[2];
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
                 currentCommandIndex++;
-                BattleCameraEffect();
                 commandSprite.sprite = commandDrawSuccess[3];
             }
-            // Battle 중에 마우스 차단 && 잘못된 커맨드 입력 -> miss 처리
-            else if (!Input.GetMouseButtonDown(0) &&
+            // Battle 중에 마우스 차단, 잘못된 커맨드 입력 -> miss 처리
+            else if (Input.anyKeyDown &&
+                     !Input.GetMouseButtonDown(0) &&
                      !Input.GetMouseButtonDown(1) &&
-                     !Input.GetMouseButtonDown(2) && Input.anyKeyDown)
+                     !Input.GetMouseButtonDown(2))
             {
                 switch (currentCommand)
                 {
@@ -171,27 +164,24 @@ class BattleManager : MonoBehaviour
                         break;
                 }
                 currentCommandIndex++;
-                BattleCameraEffect();
             }
         }
         else if (currentCommandIndex == commandCount && missCount == commandCount)
         {
             Player.Instance.currentState = EState.Defeat;
             yield return new WaitForSecondsRealtime(0.3f);
-            BattleCameraEffect();
         }
         else if (currentCommandIndex == commandCount && 1 <= missCount)
         {
             Player.Instance.currentState = EState.Miss;
             yield return new WaitForSecondsRealtime(0.3f);
-            BattleCameraEffect();
         }
         else if (currentCommandIndex == commandCount && missCount == 0)
         {
             Player.Instance.currentState = EState.Success;
             yield return new WaitForSecondsRealtime(0.3f);
-            BattleCameraEffect();
         }
+        
         yield return null;
     }
 
@@ -279,11 +269,5 @@ class BattleManager : MonoBehaviour
         currentCommandIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
-    }
-
-    void BattleCameraEffect()
-    {
-        Camera.main.orthographicSize = CameraManager.Instance.currentZoomSize - 1;
-        CameraManager.Instance.CameraZoomEffect(CameraManager.Instance.currentZoomSize, CameraManager.Instance.zoomPower);
     }
 }

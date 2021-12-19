@@ -34,10 +34,8 @@ public class DestroyEffect : MonoBehaviour
 
     void Effect()
     {
-        destroySquareEffect.SetActive(true);                        // 스퀘어 이펙트
-        destroyParticleEffect.Play();                               // 파티클 이펙트
-        StartCoroutine(CameraManager.Instance.Shake(0.3f, 0.5f));   // 카메라 쉐이크
+        destroySquareEffect.SetActive(true);                                    // 스퀘어 이펙트
+        destroyParticleEffect.Play();                                           // 파티클 이펙트
+        StartCoroutine(CameraManager.Instance.CameraShakeEffect(0.3f, 0.5f));   // 카메라 쉐이크
     }
-
-
 }
