@@ -117,21 +117,25 @@ class BattleManager : MonoBehaviour
             // 커맨드 입력
             if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
             {
+                Debug.Log("KeyInput");
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[0];
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
+                Debug.Log("KeyInput");
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[1];
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
+                Debug.Log("KeyInput");
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[2];
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
+                Debug.Log("KeyInput");
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[3];
             }
@@ -166,20 +170,18 @@ class BattleManager : MonoBehaviour
                 currentCommandIndex++;
             }
         }
+        // 
         else if (currentCommandIndex == commandCount && missCount == commandCount)
         {
             Player.Instance.currentState = EState.Defeat;
-            yield return new WaitForSecondsRealtime(0.3f);
         }
         else if (currentCommandIndex == commandCount && 1 <= missCount)
         {
             Player.Instance.currentState = EState.Miss;
-            yield return new WaitForSecondsRealtime(0.3f);
         }
         else if (currentCommandIndex == commandCount && missCount == 0)
         {
             Player.Instance.currentState = EState.Success;
-            yield return new WaitForSecondsRealtime(0.3f);
         }
         
         yield return null;

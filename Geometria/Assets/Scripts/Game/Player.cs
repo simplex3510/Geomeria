@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
             drawLine.RenderLine(linePoint, linePoint * -1);
             #endregion
 
-            #region 이펙트 및 이미지 로드
+            #region 파티클, 카메라 이펙트 및 이미지 로드
             currentChargeTime += Time.deltaTime;
             if (FULL_CHARGE_TIME - 0.15f <= currentChargeTime)
             {
@@ -139,6 +139,7 @@ public class Player : MonoBehaviour
                 }
 
                 chargedEffect.Play();
+                Camera.main.orthographicSize -= 1f;
                 spriteRenderer.sprite = playerSprite[1];
             Charged: 
                 currentState = EState.Charged;
