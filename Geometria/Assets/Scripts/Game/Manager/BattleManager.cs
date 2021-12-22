@@ -33,6 +33,7 @@ class BattleManager : MonoBehaviour
         get { return currentCommandIndex; }
     }
 
+    Image commandSprite;
     List<ECommand> commandInput;
     ECommand currentCommand;
     int commandCount;
@@ -86,7 +87,7 @@ class BattleManager : MonoBehaviour
             // Battle Modes
             if (Player.Instance.currentState == EState.Battle)
             {
-                yield return StartCoroutine(CBattle());
+                Battle();
             }
             else if (Player.Instance.currentState == EState.Success)
             {
@@ -107,43 +108,38 @@ class BattleManager : MonoBehaviour
         }
     }
 
-    IEnumerator CBattle()
+    void Battle()
     {
         if (currentCommandIndex < commandCount)
         {
-            var commandSprite = commandLine.GetChild(currentCommandIndex).GetComponent<Image>();
+            commandSprite = commandLine.GetChild(currentCommandIndex).GetComponent<Image>();
             currentCommand = commandInput[currentCommandIndex];
 
             // 커맨드 입력
             if (currentCommand == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
             {
-                Debug.Log("KeyInput");
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[0];
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
-                Debug.Log("KeyInput");
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[1];
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
-                Debug.Log("KeyInput");
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[2];
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
-                Debug.Log("KeyInput");
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[3];
             }
             // Battle 중에 마우스 차단, 잘못된 커맨드 입력 -> miss 처리
-            else if (Input.anyKeyDown &&
-                     !Input.GetMouseButtonDown(0) &&
+            else if (!Input.GetMouseButtonDown(0) &&
                      !Input.GetMouseButtonDown(1) &&
-                     !Input.GetMouseButtonDown(2))
+                     !Input.GetMouseButtonDown(2) && Input.anyKeyDown)
             {
                 switch (currentCommand)
                 {
@@ -183,8 +179,7 @@ class BattleManager : MonoBehaviour
         {
             Player.Instance.currentState = EState.Success;
         }
-        
-        yield return null;
+
     }
 
     public void EnterBattleMode(int _minCommand, int _maxCommand)
@@ -264,7 +259,7 @@ class BattleManager : MonoBehaviour
         }
         else if(_state == EState.Miss)
         {
-            Player.Instance.currentState = EState.Dash;
+            Player.Instance.currentState = EState.Idle;
         }
 
         missCount = 0;

@@ -24,8 +24,6 @@ public class Enemy : MonoBehaviour
         angle = Mathf.Atan2(playerTransform.position.y - transform.position.y,
                             playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-
-        StartCoroutine(Update_FSM());
     }
 
     void OnDisable()
@@ -33,51 +31,44 @@ public class Enemy : MonoBehaviour
         destroyEffect.isEffect = false;
     }
 
-    IEnumerator Update_FSM()
+    void Update()
     {
-        while (true)
+        if (Player.Instance.currentState == EState.Battle)
         {
-            if (Player.Instance.currentState == EState.Battle)
-            {
-                yield return StartCoroutine(Pause());
-            }
-            else if (Player.Instance.currentState == EState.Success)
-            {
-                yield return StartCoroutine(Resume());
-            }
-            else if (Player.Instance.currentState == EState.Miss)
-            {
-                yield return StartCoroutine(EnemyKnockBack());
-            }
-            else if (Player.Instance.currentState == EState.Dash && Player.Instance.dashCount == 0)
-            {
-                yield return StartCoroutine(EnemyKnockBack());
-                Player.Instance.dashCount = 3;
-                Player.Instance.currentState = EState.Idle;
-            }
-            else
-            {
-                yield return StartCoroutine(Move());
-            }
+            Pause();
+        }
+        else if (Player.Instance.currentState == EState.Success)
+        {
+            Resume();
+        }
+        else if (Player.Instance.currentState == EState.Miss)
+        {
+            EnemyKnockBack();
+        }
+        else if (Player.Instance.currentState == EState.Dash && Player.Instance.dashCount == 0)
+        {
+            EnemyKnockBack();
+            Player.Instance.dashCount = 3;
+            Player.Instance.currentState = EState.Idle;
+        }
+        else
+        {
+            Move();
         }
     }
 
-    IEnumerator Pause()
+    void Pause()
     {
         currentVelocity = m_rigidbody2D.velocity;
         m_rigidbody2D.velocity = Vector2.zero;
-
-        yield return null;
     }
 
-    IEnumerator Resume()
+    void Resume()
     {
         m_rigidbody2D.velocity = currentVelocity;
-
-        yield return null;
     }
 
-    IEnumerator EnemyKnockBack()
+    void EnemyKnockBack()
     {
         if ((playerTransform.position - transform.position).magnitude <= 10)
         {
@@ -87,19 +78,18 @@ public class Enemy : MonoBehaviour
 
             m_rigidbody2D.velocity = direction * backSpeed;
             while(true)
-            {
+            { 
                 if(10 <= (playerTransform.position - transform.position).magnitude)
                 {
                     m_rigidbody2D.velocity = Vector2.zero;
-                    yield break;
+                    return;
                 }
-                yield return null;
             }
         }
         m_rigidbody2D.velocity = currentVelocity;
     }
 
-    IEnumerator Move()
+    void Move()
     {
         if (Player.Instance.currentState != EState.Battle)
         {
@@ -117,7 +107,6 @@ public class Enemy : MonoBehaviour
                                     playerTransform.position.y - transform.position.y).normalized;
 
             m_rigidbody2D.velocity = direction * speed;
-            yield return null;
         }
     }
 

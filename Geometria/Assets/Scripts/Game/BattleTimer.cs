@@ -28,46 +28,41 @@ public class BattleTimer : MonoBehaviour
         commandMinusOffest = 125f / BattleManager.Instance.commandCnt;
         currentWidth = FULL_WIDTH;
         outline.sizeDelta = new Vector2(currentWidth, 10);
-        StartCoroutine(Timer());
     }
 
-    IEnumerator Timer()
+    void Update()
     {
-        while (true)
+        if (currentWidth <= 0)
         {
-            if(currentWidth <= 0)
-            {
-                Player.Instance.currentState = EState.Defeat;
-                yield break;
-            }
-
-            if (BattleManager.Instance.currentCmdIdx == BattleManager.Instance.commandCnt)
-            {
-                yield break;
-            }
-
-            if (BattleManager.Instance.currentCmd == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
-            {
-                ExtendTime();
-            }
-            else if (BattleManager.Instance.currentCmd == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
-            {
-                ExtendTime();
-            }
-            else if (BattleManager.Instance.currentCmd == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
-            {
-                ExtendTime();
-            }
-            else if (BattleManager.Instance.currentCmd == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
-            {
-                ExtendTime();
-            }
-
-            currentWidth -= (ONE_PERCENT * commandMinusOffest) * Time.deltaTime;
-            outline.sizeDelta = new Vector2(currentWidth, 10);
-
-            yield return null;
+            Player.Instance.currentState = EState.Defeat;
+            return;
         }
+
+        if (BattleManager.Instance.currentCmdIdx == BattleManager.Instance.commandCnt)
+        {
+            return;
+        }
+
+        if (BattleManager.Instance.currentCmd == ECommand.Up && Input.GetKeyDown((KeyCode)ECommand.Up))
+        {
+            ExtendTime();
+        }
+        else if (BattleManager.Instance.currentCmd == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
+        {
+            ExtendTime();
+        }
+        else if (BattleManager.Instance.currentCmd == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
+        {
+            ExtendTime();
+        }
+        else if (BattleManager.Instance.currentCmd == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
+        {
+            ExtendTime();
+        }
+
+        currentWidth -= (ONE_PERCENT * commandMinusOffest) * Time.deltaTime;
+        outline.sizeDelta = new Vector2(currentWidth, 10);
+
     }
 
     void ExtendTime()

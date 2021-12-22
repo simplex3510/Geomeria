@@ -15,10 +15,7 @@ public class CameraManager : MonoBehaviour
         set;
     }
 
-    readonly float FULL_CHARGE_TIME = 1f;
-
     Camera cameraMain;
-    bool isCharge = false;
     float currentChargeTime;
 
     #region CameraManager Singleton
@@ -57,40 +54,29 @@ public class CameraManager : MonoBehaviour
         isZoom = false;
         cameraMain = Camera.main;
         cameraMain.orthographicSize = 5f;
-        StartCoroutine(Update_FSM());
     }
 
-    IEnumerator Update_FSM()
+    void Update()
     {
-        while (true)
+        if (isZoom)
         {
-            if (isZoom)
-            {
-                CameraZoomEffect(ZOOM_IN, ZOOM_POWER);
-            }
-            else
-            {
-                CameraZoomEffect(ZOOM_OUT, ZOOM_POWER);
-            }
-
-            switch (Player.Instance.currentState)
-            {
-                default:
-                    yield return StartCoroutine(NormalState());
-                    break;
-            }
-
-            yield return null;
+            CameraZoomEffect(ZOOM_IN, ZOOM_POWER);
         }
-    }
+        else
+        {
+            CameraZoomEffect(ZOOM_OUT, ZOOM_POWER);
+        }
 
-    IEnumerator NormalState()
-    {
-        #region Player Camera View
-        cameraMain.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
-        #endregion
-
-        yield return null;
+        switch (Player.Instance.currentState)
+        {
+            case EState.Idle:
+            case EState.Moving:
+            case EState.Dash:
+                #region Player Camera View
+                cameraMain.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
+                #endregion
+                break;
+        }
     }
 
     public IEnumerator CameraShakeEffect(float duration, float magnitude)
