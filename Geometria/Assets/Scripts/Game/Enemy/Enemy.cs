@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour
                 if(10 <= (playerTransform.position - transform.position).magnitude)
                 {
                     m_rigidbody2D.velocity = Vector2.zero;
-                    return;
+                    break;
                 }
             }
         }

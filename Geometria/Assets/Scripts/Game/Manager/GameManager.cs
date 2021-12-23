@@ -86,49 +86,46 @@ class GameManager : MonoBehaviour
             switch (currentGameState)
             {
                 case EGameState.Normal:
-                    yield return NormalState();
+                    NormalState();
                     break;
                 case EGameState.Boss:
-                    yield return BossState();
+                    BossState();
                     break;
                 case EGameState.End:
-                    yield return EndState(Player.Instance.currentState);
+                    EndState(Player.Instance.currentState);
                     break;
                 default:
                     yield return null;
                     break;
             }
-        }
-    }
-
-    IEnumerator NormalState()
-    {
-        while (true)
-        {
-            if (BattleTimer.FULL_WIDTH <= width)
-            {
-                currentGameState = EGameState.Boss;
-
-                EnemyManager.Instance.DisableEnemies();
-                enemySpawner.SetActive(false);
-
-                yield break;
-            }
-
-            if (Player.Instance.currentState == EState.Defeat)
-            {
-                currentGameState = EGameState.End;
-                yield break;
-            }
-
-            width += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
-            timer.sizeDelta = new Vector2(width, 10);
 
             yield return null;
         }
     }
 
-    IEnumerator BossState()
+    void NormalState()
+    {
+        if (BattleTimer.FULL_WIDTH <= width)
+        {
+            currentGameState = EGameState.Boss;
+
+            EnemyManager.Instance.DisableEnemies();
+            enemySpawner.SetActive(false);
+
+            return;
+        }
+
+        if (Player.Instance.currentState == EState.Defeat)
+        {
+            currentGameState = EGameState.End;
+            return;
+        }
+
+        width += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
+        timer.sizeDelta = new Vector2(width, 10);
+    }
+
+    void BossState()
     {
         offset = 1.5f;
         while (true)
@@ -136,28 +133,26 @@ class GameManager : MonoBehaviour
             if (width <= 0)
             {
                 currentGameState = EGameState.End;
-                yield break;
+                return;
             }
 
             if (Player.Instance.currentState == EState.Defeat)
             {
                 currentGameState = EGameState.End;
-                yield break;
+                return;
             }
             else if (Player.Instance.currentState == EState.Victory)
             {
                 currentGameState = EGameState.End;
-                yield break;
+                return;
             }
 
             width -= BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
             timer.sizeDelta = new Vector2(width, 10);
-
-            yield return null;
         }
     }
 
-    IEnumerator EndState(EState _state)
+    void EndState(EState _state)
     {
         float rectWidth = 0f;
         float rectHeight = 0f;
@@ -166,7 +161,7 @@ class GameManager : MonoBehaviour
         EnemyManager.Instance.DisableEnemies();
         endGameSquare.gameObject.SetActive(true);
 
-        //playerLine.SetActive(false);
+        playerLine.SetActive(false);
         Player.Instance.drawLine.EndLine();
         timer.gameObject.SetActive(false);
         enemySpawner.SetActive(false);
@@ -208,19 +203,16 @@ class GameManager : MonoBehaviour
                     if (colorAlpha.a <= 0)
                     {
                         endGameSquare.gameObject.SetActive(false);
-                        yield return null;
                     }
 
                     colorAlpha.a -= offset * Time.deltaTime;
                     endGameSquare.GetComponent<Image>().color = colorAlpha;
-                    yield return null;
                 }
             }
 
             rectWidth  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
             rectHeight += 10.8f                   * offset * Time.deltaTime;
             endGameSquare.sizeDelta = new Vector2(rectWidth, rectHeight);
-            yield return null;
         }
     }
 
