@@ -36,6 +36,7 @@ class GameManager : MonoBehaviour
     float offset;
     float record;
     float bestRecord;
+    bool isEnd;
 
     #region GameManager Singleton
     private static GameManager _instance;
@@ -75,31 +76,25 @@ class GameManager : MonoBehaviour
     {
         offset = 1f;
         currentGameState = EGameState.Normal;
-        StartCoroutine(Update_FSM());
+        isEnd = false;
     }
 
     // Update is called once per frame
-    IEnumerator Update_FSM()
+    void Update()
     {
-        while (true)
+        switch (currentGameState)
         {
-            switch (currentGameState)
-            {
-                case EGameState.Normal:
-                    NormalState();
-                    break;
-                case EGameState.Boss:
-                    BossState();
-                    break;
-                case EGameState.End:
-                    EndState(Player.Instance.currentState);
-                    break;
-                default:
-                    yield return null;
-                    break;
-            }
-
-            yield return null;
+            case EGameState.Normal:
+                NormalState();
+                break;
+            case EGameState.Boss:
+                BossState();
+                break;
+            case EGameState.End:
+                EndState(Player.Instance.currentState);
+                break;
+            default:
+                break;
         }
     }
 
@@ -161,7 +156,7 @@ class GameManager : MonoBehaviour
         EnemyManager.Instance.DisableEnemies();
         endGameSquare.gameObject.SetActive(true);
 
-        playerLine.SetActive(false);
+        // playerLine.SetActive(false);
         Player.Instance.drawLine.EndLine();
         timer.gameObject.SetActive(false);
         enemySpawner.SetActive(false);
@@ -177,11 +172,10 @@ class GameManager : MonoBehaviour
         
         while (true)
         {
-            // endGameSquare 확대
-            if (BattleTimer.FULL_WIDTH <= rectWidth)
+            if (isEnd == false && BattleTimer.FULL_WIDTH <= rectWidth)
             {
                 offset = 2f;
-                Color colorAlpha = endGameSquare.GetComponent<Image>().color;
+                var colorAlpha = endGameSquare.GetComponent<Image>().color;
                 StartCoroutine(Rotate());
 
                 #region 점수 출력 및 저장
@@ -203,14 +197,17 @@ class GameManager : MonoBehaviour
                     if (colorAlpha.a <= 0)
                     {
                         endGameSquare.gameObject.SetActive(false);
+                        isEnd = true;
+                        return;
                     }
 
                     colorAlpha.a -= offset * Time.deltaTime;
-                    endGameSquare.GetComponent<Image>().color = colorAlpha;
+                    // endGameSquare.GetComponent<Image>().color = colorAlpha;
                 }
             }
 
-            rectWidth  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
+            // endGameSquare 확대
+            rectWidth += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
             rectHeight += 10.8f                   * offset * Time.deltaTime;
             endGameSquare.sizeDelta = new Vector2(rectWidth, rectHeight);
         }
