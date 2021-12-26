@@ -36,6 +36,8 @@ class GameManager : MonoBehaviour
     float offset;
     float record;
     float bestRecord;
+    float endRectWidth = 0f;
+    float endRectHeight = 0f;
     bool isEnd;
 
     #region GameManager Singleton
@@ -123,9 +125,8 @@ class GameManager : MonoBehaviour
     void BossState()
     {
         offset = 1.5f;
-        while (true)
-        {
-            if (width <= 0)
+        
+        if (width <= 0)
             {
                 currentGameState = EGameState.End;
                 return;
@@ -144,13 +145,15 @@ class GameManager : MonoBehaviour
 
             width -= BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
             timer.sizeDelta = new Vector2(width, 10);
-        }
     }
 
     void EndState(EState _state)
     {
-        float rectWidth = 0f;
-        float rectHeight = 0f;
+        if (isEnd == true)
+        {
+            return;
+        }
+        
         offset = 150f;
 
         EnemyManager.Instance.DisableEnemies();
@@ -172,7 +175,7 @@ class GameManager : MonoBehaviour
         
         while (true)
         {
-            if (isEnd == false && BattleTimer.FULL_WIDTH <= rectWidth)
+            if (isEnd == false && BattleTimer.FULL_WIDTH <= endRectWidth)
             {
                 offset = 2f;
                 var colorAlpha = endGameSquare.GetComponent<Image>().color;
@@ -207,9 +210,9 @@ class GameManager : MonoBehaviour
             }
 
             // endGameSquare 확대
-            rectWidth += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
-            rectHeight += 10.8f                   * offset * Time.deltaTime;
-            endGameSquare.sizeDelta = new Vector2(rectWidth, rectHeight);
+            endRectWidth  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
+            endRectHeight += 10.8f                   * offset * Time.deltaTime;
+            endGameSquare.sizeDelta = new Vector2(endRectWidth, endRectHeight);
         }
     }
 
