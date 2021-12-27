@@ -90,7 +90,7 @@ public class CameraManager : MonoBehaviour
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
-            cameraMain.transform.position = originalPosition + new Vector3(x, y, originalPosition.z);
+            cameraMain.transform.position = originalPosition + new Vector3(x, y, 0);
 
             elapsed += Time.deltaTime;
 

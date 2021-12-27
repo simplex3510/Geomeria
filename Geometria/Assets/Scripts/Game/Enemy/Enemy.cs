@@ -70,23 +70,18 @@ public class Enemy : MonoBehaviour
 
     void EnemyKnockBack()
     {
-        if ((playerTransform.position - transform.position).magnitude <= 10)
+        if ((transform.position - playerTransform.position).magnitude <= 5)
         {
             backSpeed = 100f;
             direction = new Vector2(transform.position.x - playerTransform.position.x,
                                     transform.position.y - playerTransform.position.y).normalized;
 
             m_rigidbody2D.velocity = direction * backSpeed;
-            while(true)
-            { 
-                if(10 <= (playerTransform.position - transform.position).magnitude)
-                {
-                    m_rigidbody2D.velocity = Vector2.zero;
-                    break;
-                }
+            if (5 <= (transform.position - playerTransform.position).magnitude)
+            {
+                m_rigidbody2D.velocity = Vector2.zero;
             }
         }
-        m_rigidbody2D.velocity = currentVelocity;
     }
 
     void Move()

@@ -33,12 +33,16 @@ class GameManager : MonoBehaviour
         set;
     }
 
+    Color rectColor;
+
     float offset;
     float record;
     float bestRecord;
     float endRectWidth = 0f;
     float endRectHeight = 0f;
     bool isEnd;
+    bool isEndInit;
+    bool hasRotate;
 
     #region GameManager Singleton
     private static GameManager _instance;
@@ -79,6 +83,8 @@ class GameManager : MonoBehaviour
         offset = 1f;
         currentGameState = EGameState.Normal;
         isEnd = false;
+        isEndInit = false;
+        hasRotate = false;
     }
 
     // Update is called once per frame
@@ -125,26 +131,26 @@ class GameManager : MonoBehaviour
     void BossState()
     {
         offset = 1.5f;
-        
+
         if (width <= 0)
-            {
-                currentGameState = EGameState.End;
-                return;
-            }
+        {
+            currentGameState = EGameState.End;
+            return;
+        }
 
-            if (Player.Instance.currentState == EState.Defeat)
-            {
-                currentGameState = EGameState.End;
-                return;
-            }
-            else if (Player.Instance.currentState == EState.Victory)
-            {
-                currentGameState = EGameState.End;
-                return;
-            }
+        if (Player.Instance.currentState == EState.Defeat)
+        {
+            currentGameState = EGameState.End;
+            return;
+        }
+        else if (Player.Instance.currentState == EState.Victory)
+        {
+            currentGameState = EGameState.End;
+            return;
+        }
 
-            width -= BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
-            timer.sizeDelta = new Vector2(width, 10);
+        width -= BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
+        timer.sizeDelta = new Vector2(width, 10);
     }
 
     void EndState(EState _state)
@@ -153,40 +159,46 @@ class GameManager : MonoBehaviour
         {
             return;
         }
-        
-        offset = 150f;
 
-        EnemyManager.Instance.DisableEnemies();
-        endGameSquare.gameObject.SetActive(true);
-
-        // playerLine.SetActive(false);
-        Player.Instance.drawLine.EndLine();
-        timer.gameObject.SetActive(false);
-        enemySpawner.SetActive(false);
-
-        if (_state == EState.Defeat)
+        if(isEndInit == false)
         {
-            gameSetText.text = "Game Over";
+            offset = 150f;
+
+            EnemyManager.Instance.DisableEnemies();
+            endGameSquare.gameObject.SetActive(true);
+
+            
+            // playerLine.SetActive(false);
+            Player.Instance.drawLine.EndLine();
+            timer.gameObject.SetActive(false);
+            enemySpawner.SetActive(false);
+
+            if (_state == EState.Defeat)
+            {
+                gameSetText.text = "Game Over";
+            }
+            else
+            {
+                gameSetText.text = "Game Clear";
+            }
+
+            
+            isEndInit = true;
         }
-        else
+
+        if (BattleTimer.FULL_WIDTH <= endRectWidth)
         {
-            gameSetText.text = "Game Clear";
-        }
-        
-        while (true)
-        {
-            if (isEnd == false && BattleTimer.FULL_WIDTH <= endRectWidth)
+            if(hasRotate == false)
             {
                 offset = 2f;
-                var colorAlpha = endGameSquare.GetComponent<Image>().color;
-                StartCoroutine(Rotate());
+                rectColor = endGameSquare.GetComponent<Image>().color;
 
                 #region 점수 출력 및 저장
-                record = (width/BattleTimer.FULL_WIDTH) * 100f;
+                record = (width / BattleTimer.FULL_WIDTH) * 100f;
                 recordText.text = $"{record:f2}%";
 
                 float bestRecord = PlayerPrefs.GetFloat("BestRecord");
-                if(bestRecord <= record)
+                if (bestRecord <= record)
                 {
                     bestRecord = record;
                     PlayerPrefs.SetFloat("BestRecord", bestRecord);
@@ -194,26 +206,28 @@ class GameManager : MonoBehaviour
                 bestRecordText.text = $"{bestRecord:f2}%";
                 #endregion
 
-                // 알파값 감소
-                while (true)
-                {
-                    if (colorAlpha.a <= 0)
-                    {
-                        endGameSquare.gameObject.SetActive(false);
-                        isEnd = true;
-                        return;
-                    }
+                Camera.main.transform.position = new Vector3(0, 0, -10f);
 
-                    colorAlpha.a -= offset * Time.deltaTime;
-                    // endGameSquare.GetComponent<Image>().color = colorAlpha;
-                }
+                StartCoroutine(Rotate());
+                hasRotate = true;
             }
 
-            // endGameSquare 확대
-            endRectWidth  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
-            endRectHeight += 10.8f                   * offset * Time.deltaTime;
-            endGameSquare.sizeDelta = new Vector2(endRectWidth, endRectHeight);
+            // 알파값 감소
+            if (rectColor.a <= 0)
+            {
+                endGameSquare.gameObject.SetActive(false);
+                isEnd = true;
+                return;
+            }
+
+            rectColor.a -= offset * Time.deltaTime;
+            endGameSquare.GetComponent<Image>().color = rectColor;
         }
+
+        // endGameSquare 확대
+        endRectWidth  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
+        endRectHeight += 10.8f * offset * Time.deltaTime;
+        endGameSquare.sizeDelta = new Vector2(endRectWidth, endRectHeight);
     }
 
     IEnumerator Rotate()
