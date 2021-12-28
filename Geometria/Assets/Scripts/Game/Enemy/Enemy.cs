@@ -70,14 +70,15 @@ public class Enemy : MonoBehaviour
 
     void EnemyKnockBack()
     {
-        if ((transform.position - playerTransform.position).magnitude <= 5)
+        Debug.Log((transform.position - playerTransform.position).magnitude.ToString());
+        if ((transform.position - playerTransform.position).magnitude <= 10)
         {
             backSpeed = 100f;
             direction = new Vector2(transform.position.x - playerTransform.position.x,
                                     transform.position.y - playerTransform.position.y).normalized;
 
             m_rigidbody2D.velocity = direction * backSpeed;
-            if (5 <= (transform.position - playerTransform.position).magnitude)
+            if (10 <= (transform.position - playerTransform.position).magnitude)
             {
                 m_rigidbody2D.velocity = Vector2.zero;
             }
