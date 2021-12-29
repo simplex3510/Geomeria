@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum EState
+public enum EPlayerState
 {
     Idle = 0,
     Charging,
@@ -11,10 +11,6 @@ public enum EState
     Moving,
     Dash,
     Battle,
-    Miss,
-    Success,
-    Defeat,
-    Victory
 }
 
 public class Player : MonoBehaviour
@@ -24,7 +20,7 @@ public class Player : MonoBehaviour
     public DrawLine drawLine;
     public Transform targetTransform;
     public List<Sprite> playerSprite;
-    public EState currentState;
+    public EPlayerState currentState;
     public LayerMask whatIsLayer;
     public int dashCount = 3;
 
@@ -76,26 +72,25 @@ public class Player : MonoBehaviour
             _instance = this;
         }
 
-        currentState = EState.Idle;
+        currentState = EPlayerState.Idle;
     }
     #endregion
 
     void Start()
     {
         cameraMain = Camera.main;
-        currentState = EState.Idle;
+        currentState = EPlayerState.Idle;
         m_rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) &&
-            currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
+        if (Input.GetMouseButtonDown(0) && currentState != EPlayerState.Battle)
         {
-            if(currentState != EState.Battle)
+            if(currentState != EPlayerState.Battle)
             {
-                currentState = EState.Charging;
+                currentState = EPlayerState.Charging;
             }
             
             startPosition = transform.position;
@@ -106,8 +101,7 @@ public class Player : MonoBehaviour
             chargingEffect.Play();
         }
 
-        if (Input.GetMouseButton(0) &&
-            currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
+        if (Input.GetMouseButton(0) && currentState != EPlayerState.Battle)
         {
             currentPoint = cameraMain.ScreenToWorldPoint(Input.mousePosition);
             currentPoint.z = -10f;
@@ -133,7 +127,7 @@ public class Player : MonoBehaviour
             if (FULL_CHARGE_TIME <= currentChargeTime)
             {
                 // 한 번만 실행
-                if (currentState == EState.Charged)
+                if (currentState == EPlayerState.Charged)
                 {
                     goto Charged;
                 }
@@ -142,15 +136,14 @@ public class Player : MonoBehaviour
                 Camera.main.orthographicSize -= 1f;
                 spriteRenderer.sprite = playerSprite[1];
             Charged: 
-                currentState = EState.Charged;
+                currentState = EPlayerState.Charged;
             }
             #endregion
         }
 
-        if (Input.GetMouseButtonUp(0) &&
-            currentState != EState.Battle && currentState != EState.Success && currentState != EState.Miss)
+        if (Input.GetMouseButtonUp(0) && currentState != EPlayerState.Battle)
         {
-            currentState = EState.Moving;
+            currentState = EPlayerState.Moving;
             
             endPoint = currentPoint;
 
@@ -170,9 +163,9 @@ public class Player : MonoBehaviour
             // Charged 전에 Charging을 그만두었을 때
             else
             {
-                if (currentState != EState.Battle)
+                if (currentState != EPlayerState.Battle)
                 {
-                    currentState = EState.Idle;
+                    currentState = EPlayerState.Idle;
                 }
                 chargingEffect.Stop();
                 currentChargeTime = 0f;
@@ -185,17 +178,17 @@ public class Player : MonoBehaviour
 
         currentPosition = transform.position;
         // 이동해야 할 거리와 실재 이동 거리 비교 연산
-        if (movePosition.magnitude <= (currentPosition - startPosition).magnitude && currentState == EState.Moving)
+        if (movePosition.magnitude <= (currentPosition - startPosition).magnitude && currentState == EPlayerState.Moving)
         {
             movePosition = Vector3.zero;
             startPosition = Vector3.zero;
             m_rigidbody2D.velocity = new Vector2(0, 0);
 
-            currentState = EState.Idle;
+            currentState = EPlayerState.Idle;
         }
 
         // 대쉬
-        if (currentState == EState.Dash && 0 < dashCount)
+        if (currentState == EPlayerState.Dash && 0 < dashCount)
         {
             var dashTarget = Physics2D.OverlapCircle(transform.position, 5f, whatIsLayer);
             if (dashTarget != null)
@@ -216,30 +209,30 @@ public class Player : MonoBehaviour
             }
             else    // 주변에 적이 없을 경우
             {
-                currentState = EState.Idle;
+                currentState = EPlayerState.Idle;
                 dashCount = 3;
             }
         }
-        //else if (currentState == EState.Dash && dashCount == 0)
+        //else if (currentState == EPlayerState.Dash && dashCount == 0)
         //{
         //    // 에너미에서 처리
         //}
 
         // 플레이어 넉백
-        if (currentState == EState.Success || currentState == EState.Miss && GameManager.Instance.currentGameState == EGameState.Boss)
-        {
-            if ((transform.position - targetTransform.position).magnitude <= 3)
-            {
-                direction = new Vector2(transform.position.x - targetTransform.position.x,
-                                        transform.position.y - targetTransform.position.y).normalized;
+        //if (currentState == EPlayerState.Success || currentState == EPlayerState.Miss && GameManager.Instance.currentGamePlayerState == EGamePlayerState.Boss)
+        //{
+        //    if ((transform.position - targetTransform.position).magnitude <= 3)
+        //    {
+        //        direction = new Vector2(transform.position.x - targetTransform.position.x,
+        //                                transform.position.y - targetTransform.position.y).normalized;
 
-                m_rigidbody2D.velocity = direction * SPEED;
-                if (3 <= (transform.position - targetTransform.position).magnitude)
-                {
-                    m_rigidbody2D.velocity = Vector2.zero;
-                }
-            }
-        }
+        //        m_rigidbody2D.velocity = direction * SPEED;
+        //        if (3 <= (transform.position - targetTransform.position).magnitude)
+        //        {
+        //            m_rigidbody2D.velocity = Vector2.zero;
+        //        }
+        //    }
+        //}
     }
 
     private void OnDrawGizmos()
@@ -260,18 +253,18 @@ public class Player : MonoBehaviour
 
             switch (currentState)
             {
-                case EState.Charging:
-                case EState.Charged:
-                case EState.Moving:
-                case EState.Dash:
-                    currentState = EState.Battle;
+                case EPlayerState.Charging:
+                case EPlayerState.Charged:
+                case EPlayerState.Moving:
+                case EPlayerState.Dash:
+                    currentState = EPlayerState.Battle;
                     BattleManager.Instance.enemy = other.gameObject;
                     BattleManager.Instance.EnterBattleMode(1, 3);
                     dashCount--;
                     break;
-                case EState.Idle:
+                case EPlayerState.Idle:
                     // Game Over
-                    currentState = EState.Defeat;
+                    GameManager.Instance.currentGameState = EGameState.Defeat;
                     break;
                 default:
                     break;
@@ -284,17 +277,17 @@ public class Player : MonoBehaviour
 
             switch (currentState)
             {
-                case EState.Charging:
-                case EState.Charged:
-                case EState.Moving:
-                case EState.Dash:
-                    currentState = EState.Battle;
+                case EPlayerState.Charging:
+                case EPlayerState.Charged:
+                case EPlayerState.Moving:
+                case EPlayerState.Dash:
+                    currentState = EPlayerState.Battle;
                     BattleManager.Instance.enemy = other.gameObject;
                     BattleManager.Instance.EnterBattleMode(4, 6);
                     break;
-                case EState.Idle:
+                case EPlayerState.Idle:
                     // Game Over
-                    currentState = EState.Defeat;
+                    GameManager.Instance.currentGameState = EGameState.Defeat;
                     break;
                 default:
                     break;

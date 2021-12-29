@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5230789188ca049a40c22bbfe6e4c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentBattleState: 0
   commandWindow: {fileID: 1563256383}
   commandLine: {fileID: 1405903796}
   commandDrawEmpty:
@@ -171,7 +172,6 @@ MonoBehaviour:
   - {fileID: -5013745363474156045, guid: 2e4f2fa268a07874ca4e20764dd26d1f, type: 3}
   - {fileID: -3258603586034122799, guid: 2e4f2fa268a07874ca4e20764dd26d1f, type: 3}
   enemy: {fileID: 0}
-  cameraShake: {fileID: 2402479}
 --- !u!4 &2402478
 Transform:
   m_ObjectHideFlags: 0
@@ -3740,11 +3740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f97d64ca61403140ace2090bceba380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1037009704}
-  currentZoomSize: 0
-  zoomIn: 10
-  zoomOut: 13
-  zoomPower: 0.1
+  playerTransform: {fileID: 786474586}
 --- !u!4 &1437863909
 Transform:
   m_ObjectHideFlags: 0

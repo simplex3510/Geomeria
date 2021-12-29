@@ -50,7 +50,7 @@ public class EnemyManager : MonoBehaviour
         {
             boss.SetActive(true);
         }
-        else if(GameManager.Instance.currentGameState == EGameState.End)
+        else
         {
             boss.SetActive(false);
         }

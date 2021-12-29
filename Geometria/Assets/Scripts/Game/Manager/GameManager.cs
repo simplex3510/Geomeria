@@ -9,7 +9,8 @@ enum EGameState
     Normal,
     Battle,
     Boss,
-    End
+    Defeat,
+    Victory
 }
 
 class GameManager : MonoBehaviour
@@ -98,8 +99,9 @@ class GameManager : MonoBehaviour
             case EGameState.Boss:
                 BossState();
                 break;
-            case EGameState.End:
-                EndState(Player.Instance.currentState);
+            case EGameState.Defeat:
+            case EGameState.Victory:
+                EndState();
                 break;
             default:
                 break;
@@ -118,9 +120,9 @@ class GameManager : MonoBehaviour
             return;
         }
 
-        if (Player.Instance.currentState == EState.Defeat)
+        if (BattleManager.Instance.currentBattleState == EBattleState.Defeat)
         {
-            currentGameState = EGameState.End;
+            currentGameState = EGameState.Defeat;
             return;
         }
 
@@ -134,18 +136,7 @@ class GameManager : MonoBehaviour
 
         if (width <= 0)
         {
-            currentGameState = EGameState.End;
-            return;
-        }
-
-        if (Player.Instance.currentState == EState.Defeat)
-        {
-            currentGameState = EGameState.End;
-            return;
-        }
-        else if (Player.Instance.currentState == EState.Victory)
-        {
-            currentGameState = EGameState.End;
+            currentGameState = EGameState.Defeat;
             return;
         }
 
@@ -153,7 +144,7 @@ class GameManager : MonoBehaviour
         timer.sizeDelta = new Vector2(width, 10);
     }
 
-    void EndState(EState _state)
+    void EndState()
     {
         if (isEnd == true)
         {
@@ -173,7 +164,7 @@ class GameManager : MonoBehaviour
             timer.gameObject.SetActive(false);
             enemySpawner.SetActive(false);
 
-            if (_state == EState.Defeat)
+            if (currentGameState == EGameState.Defeat)
             {
                 gameSetText.text = "Game Over";
             }

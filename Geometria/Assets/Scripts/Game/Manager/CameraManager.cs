@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public GameObject player;
+    public Transform playerTransform;
     public readonly float ZOOM_IN = 10f;
     public readonly float ZOOM_OUT = 13f;
     public readonly float ZOOM_POWER = 0.1f;
@@ -17,6 +17,7 @@ public class CameraManager : MonoBehaviour
 
     Camera cameraMain;
     float currentChargeTime;
+    bool hasCameraShake;
 
     #region CameraManager Singleton
     private static CameraManager _instance;
@@ -52,6 +53,7 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         isZoom = false;
+        hasCameraShake = false;
         cameraMain = Camera.main;
         cameraMain.orthographicSize = 5f;
     }
@@ -67,20 +69,19 @@ public class CameraManager : MonoBehaviour
             CameraZoomEffect(ZOOM_OUT, ZOOM_POWER);
         }
 
-        switch (Player.Instance.currentState)
+        if(hasCameraShake == true)
         {
-            case EState.Idle:
-            case EState.Moving:
-            case EState.Dash:
-                #region Player Camera View
-                cameraMain.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
-                #endregion
-                break;
+            return;
+        }
+        else
+        {
+            cameraMain.transform.position = new Vector3(playerTransform.position.x, playerTransform.position.y, -10f);
         }
     }
 
     public IEnumerator CameraShakeEffect(float duration, float magnitude)
     {
+        hasCameraShake = true;
         Vector3 originalPosition = cameraMain.transform.position;
 
         float elapsed = 0.0f;
@@ -98,6 +99,7 @@ public class CameraManager : MonoBehaviour
         }
 
         cameraMain.transform.position = originalPosition;
+        hasCameraShake = false;
     }
 
     public void CameraZoomEffect(float _zoom, float _zoomSpeed)

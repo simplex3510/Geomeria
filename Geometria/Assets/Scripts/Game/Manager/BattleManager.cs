@@ -11,8 +11,18 @@ enum ECommand
     Right = 'd',
 }
 
+enum EBattleState
+{
+    Normal,
+    Miss,
+    Success,
+    Defeat,
+    Victory
+}
+
 class BattleManager : MonoBehaviour
 {
+    public EBattleState currentBattleState;
     public GameObject commandWindow;
     public RectTransform commandLine;
     public Sprite[] commandDrawEmpty;
@@ -33,6 +43,7 @@ class BattleManager : MonoBehaviour
         get { return currentCommandIndex; }
     }
 
+    
     Image commandSprite;
     List<ECommand> commandInput;
     ECommand currentCommand;
@@ -75,6 +86,7 @@ class BattleManager : MonoBehaviour
 
     void Start()
     {
+        currentBattleState = EBattleState.Normal;
         commandInput = new List<ECommand>();
 
         StartCoroutine(Update_FSM());
@@ -85,23 +97,23 @@ class BattleManager : MonoBehaviour
         while (true)
         {
             // Battle Modes
-            if (Player.Instance.currentState == EState.Battle)
+            if (Player.Instance.currentState == EPlayerState.Battle)
             {
                 Battle();
             }
-            else if (Player.Instance.currentState == EState.Success)
+            else if (currentBattleState == EBattleState.Success)
             {
                 yield return new WaitForSecondsRealtime(0.3f);
-                ExitBattleMode(EState.Success);
+                ExitBattleMode(EBattleState.Success);
             }
-            else if (Player.Instance.currentState == EState.Miss)
+            else if (currentBattleState == EBattleState.Miss)
             {
                 yield return new WaitForSecondsRealtime(0.3f);
-                ExitBattleMode(EState.Miss);
+                ExitBattleMode(EBattleState.Miss);
             }
-            else if (Player.Instance.currentState == EState.Defeat)
+            else if (currentBattleState == EBattleState.Defeat)
             {
-                ExitBattleMode(EState.Defeat);
+                ExitBattleMode(EBattleState.Defeat);
             }
             
             yield return null;
@@ -169,15 +181,17 @@ class BattleManager : MonoBehaviour
         // 
         else if (currentCommandIndex == commandCount && missCount == commandCount)
         {
-            Player.Instance.currentState = EState.Defeat;
+            currentBattleState = EBattleState.Defeat;
         }
         else if (currentCommandIndex == commandCount && 1 <= missCount)
         {
-            Player.Instance.currentState = EState.Miss;
+            Player.Instance.currentState = EPlayerState.Idle;
+            currentBattleState = EBattleState.Miss;
         }
         else if (currentCommandIndex == commandCount && missCount == 0)
         {
-            Player.Instance.currentState = EState.Success;
+            Player.Instance.currentState = EPlayerState.Dash;
+            currentBattleState = EBattleState.Success;
         }
 
     }
@@ -214,7 +228,7 @@ class BattleManager : MonoBehaviour
         #endregion
     }
 
-    void ExitBattleMode(EState _state)
+    void ExitBattleMode(EBattleState _state)
     {
         while (0 < commandLine.childCount)
         {
@@ -238,33 +252,35 @@ class BattleManager : MonoBehaviour
             commandLine.GetChild(0).SetParent(transform);
         }
 
-        if(_state == EState.Success)
+        if(_state == EBattleState.Success)
         {
             if (enemy.CompareTag("Boss"))
             {
                 enemy.GetComponent<Boss>().battleCnt--;
-                Player.Instance.currentState = EState.Dash;
+                Player.Instance.currentState = EPlayerState.Dash;
                 
                 if (enemy.GetComponent<Boss>().battleCnt <= 0)
                 {
                     enemy.SetActive(false);
-                    Player.Instance.currentState = EState.Victory;
+                    currentBattleState = EBattleState.Victory;
                 }
             }
             else // if(enemy.CompareTag("Enemy"))
             {
                 enemy.SetActive(false);
-                Player.Instance.currentState = EState.Dash;
+                Player.Instance.currentState = EPlayerState.Dash;
             }
+            currentBattleState = EBattleState.Normal;
         }
-        else if(_state == EState.Miss)
+        else if(_state == EBattleState.Miss)
         {
-            Player.Instance.currentState = EState.Idle;
+            Player.Instance.currentState = EPlayerState.Idle;
         }
 
         missCount = 0;
         currentCommandIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
+        
     }
 }

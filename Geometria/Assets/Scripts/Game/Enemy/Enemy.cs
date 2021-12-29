@@ -33,28 +33,29 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (Player.Instance.currentState == EState.Battle)
+        if (Player.Instance.currentState == EPlayerState.Battle)
         {
             Pause();
         }
-        else if (Player.Instance.currentState == EState.Success)
+        else if (BattleManager.Instance.currentBattleState == EBattleState.Success)
         {
             Resume();
         }
-        else if (Player.Instance.currentState == EState.Miss)
-        {
-            EnemyKnockBack();
-        }
-        else if (Player.Instance.currentState == EState.Dash && Player.Instance.dashCount == 0)
-        {
-            EnemyKnockBack();
-            Player.Instance.dashCount = 3;
-            Player.Instance.currentState = EState.Idle;
-        }
-        else
+        else if (BattleManager.Instance.currentBattleState == EBattleState.Normal)
         {
             Move();
         }
+        else if (BattleManager.Instance.currentBattleState == EBattleState.Miss)
+        {
+            EnemyKnockBack();
+        }
+        else if (Player.Instance.currentState == EPlayerState.Dash && Player.Instance.dashCount == 0)
+        {
+            EnemyKnockBack();
+            Player.Instance.dashCount = 3;
+            Player.Instance.currentState = EPlayerState.Idle;
+        }
+        
     }
 
     void Pause()
@@ -87,7 +88,7 @@ public class Enemy : MonoBehaviour
 
     void Move()
     {
-        if (Player.Instance.currentState != EState.Battle)
+        if (Player.Instance.currentState != EPlayerState.Battle)
         {
             if (speed <= 0.25f)
             {

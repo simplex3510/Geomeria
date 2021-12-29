@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EBossState
+{
+    Idle = 0,
+    Charging,
+    Charged,
+    Moving,
+    Dash,
+    Battle,
+}
+
 public class Boss : MonoBehaviour
 {
     public Transform playerPosition;
@@ -25,7 +35,7 @@ public class Boss : MonoBehaviour
     Vector3 movePosition;
     Vector3 linePoint;
     Vector3 direction;
-    EState currentState;
+    EBossState currentState;
 
     float currentChargeTime;
     float speed = 100f;
@@ -38,7 +48,7 @@ public class Boss : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         m_rigidbody2D = GetComponent<Rigidbody2D>();
 
-        currentState = EState.Charging;
+        currentState = EBossState.Charging;
         StartCoroutine(Update_FSM());
     }
 
@@ -51,16 +61,16 @@ public class Boss : MonoBehaviour
             Debug.Log("FSM");
             switch (currentState)
             {
-                case EState.Idle:
+                case EBossState.Idle:
                     yield return Pause();
                     break;
-                case EState.Charging:
+                case EBossState.Charging:
                     yield return Charging();
                     break;
-                case EState.Charged:
-                    currentState = EState.Moving;
+                case EBossState.Charged:
+                    currentState = EBossState.Moving;
                     break;
-                case EState.Moving:
+                case EBossState.Moving:
                     yield return Move();
                     break;
                 default:
@@ -74,7 +84,7 @@ public class Boss : MonoBehaviour
     {
         while (true)
         {
-            if (currentState != EState.Idle)
+            if (currentState != EBossState.Idle)
             {
                 StartCoroutine(BossKnockback());
                 yield break;
@@ -90,7 +100,7 @@ public class Boss : MonoBehaviour
 
         while (true)
         {
-            if (currentState != EState.Charging)
+            if (currentState != EBossState.Charging)
             {
                 chargingEffect.Stop();
                 yield break;
@@ -115,7 +125,7 @@ public class Boss : MonoBehaviour
             if (FULL_CHARGE_TIME <= currentChargeTime)
             {
                 // 한 번만 실행
-                if (currentState == EState.Charged)
+                if (currentState == EBossState.Charged)
                 {
                     yield return new WaitForSecondsRealtime(0.5f);
                     yield break;
@@ -124,7 +134,7 @@ public class Boss : MonoBehaviour
                 endPosition = playerPosition.position;
                 chargedEffect.Play();
                 spriteRenderer.sprite = bossSprites[1];
-                currentState = EState.Charged;
+                currentState = EBossState.Charged;
             }
 
             yield return null;
@@ -153,7 +163,7 @@ public class Boss : MonoBehaviour
 
         while (true)
         {
-            if (currentState != EState.Moving)
+            if (currentState != EBossState.Moving)
             {
                 yield break;
             }
@@ -168,7 +178,7 @@ public class Boss : MonoBehaviour
             yield return null;
         }
 
-        currentState = EState.Charging;
+        currentState = EBossState.Charging;
 
         yield return new WaitForSecondsRealtime(1.5f);
     }
@@ -200,7 +210,7 @@ public class Boss : MonoBehaviour
             m_rigidbody2D.velocity = Vector2.zero;
             currentChargeTime = 0f;
             drawLine.EndLine();
-            currentState = EState.Idle;
+            currentState = EBossState.Idle;
         }
     }
 
@@ -208,7 +218,7 @@ public class Boss : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            currentState = EState.Charging;
+            currentState = EBossState.Charging;
         }
     }
 }
