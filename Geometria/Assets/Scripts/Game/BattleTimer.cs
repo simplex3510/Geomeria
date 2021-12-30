@@ -34,6 +34,7 @@ public class BattleTimer : MonoBehaviour
     {
         if (currentWidth <= 0)
         {
+            BattleManager.Instance.currentBattleState = EBattleState.Defeat;
             GameManager.Instance.currentGameState = EGameState.Defeat;
             return;
         }
@@ -62,7 +63,6 @@ public class BattleTimer : MonoBehaviour
 
         currentWidth -= (ONE_PERCENT * commandMinusOffest) * Time.deltaTime;
         outline.sizeDelta = new Vector2(currentWidth, 10);
-
     }
 
     void ExtendTime()

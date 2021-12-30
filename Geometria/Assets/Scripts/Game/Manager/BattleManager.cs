@@ -178,9 +178,10 @@ class BattleManager : MonoBehaviour
                 currentCommandIndex++;
             }
         }
-        // 
+        // 판정
         else if (currentCommandIndex == commandCount && missCount == commandCount)
         {
+            Player.Instance.currentState = EPlayerState.Idle;
             currentBattleState = EBattleState.Defeat;
         }
         else if (currentCommandIndex == commandCount && 1 <= missCount)
@@ -268,13 +269,13 @@ class BattleManager : MonoBehaviour
             else // if(enemy.CompareTag("Enemy"))
             {
                 enemy.SetActive(false);
-                Player.Instance.currentState = EPlayerState.Dash;
             }
             currentBattleState = EBattleState.Normal;
         }
         else if(_state == EBattleState.Miss)
         {
             Player.Instance.currentState = EPlayerState.Idle;
+            currentBattleState = EBattleState.Normal;
         }
 
         missCount = 0;

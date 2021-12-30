@@ -173,7 +173,6 @@ class GameManager : MonoBehaviour
                 gameSetText.text = "Game Clear";
             }
 
-            
             isEndInit = true;
         }
 

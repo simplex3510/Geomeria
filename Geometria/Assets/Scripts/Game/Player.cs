@@ -28,11 +28,12 @@ public class Player : MonoBehaviour
     readonly float FULL_CHARGE_TIME = 1f;
     float currentChargeTime;
     float angle;
-    
+    bool isColide = false;
 
     Camera cameraMain;
     Rigidbody2D m_rigidbody2D;
     SpriteRenderer spriteRenderer;
+    Collider2D dashTarget;
 
     Vector3 startPosition;
     Vector3 movePosition;
@@ -178,7 +179,7 @@ public class Player : MonoBehaviour
 
         currentPosition = transform.position;
         // 이동해야 할 거리와 실재 이동 거리 비교 연산
-        if (movePosition.magnitude <= (currentPosition - startPosition).magnitude && currentState == EPlayerState.Moving)
+        if (currentState == EPlayerState.Moving && movePosition.magnitude <= (currentPosition - startPosition).magnitude)
         {
             movePosition = Vector3.zero;
             startPosition = Vector3.zero;
@@ -188,35 +189,45 @@ public class Player : MonoBehaviour
         }
 
         // 대쉬
-        if (currentState == EPlayerState.Dash && 0 < dashCount)
+        if (currentState == EPlayerState.Dash)
         {
-            var dashTarget = Physics2D.OverlapCircle(transform.position, 5f, whatIsLayer);
-            if (dashTarget != null)
+            if (0 < dashCount)
             {
-                #region 방향 전환
-                angle = Mathf.Atan2(dashTarget.transform.position.y - transform.position.y,
-                                    dashTarget.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
-                #endregion
+                dashTarget = Physics2D.OverlapCircle(transform.position, 5f, whatIsLayer);
+                if(isColide == true)
+                {
+                    m_rigidbody2D.velocity = Vector2.zero;
+                }
+                else if (dashTarget != null)
+                {
+                    #region 방향 전환
+                    angle = Mathf.Atan2(dashTarget.transform.position.y - transform.position.y,
+                                        dashTarget.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+                    #endregion
 
-                #region 방향 이동
-                direction = new Vector2(dashTarget.transform.position.x - transform.position.x,
-                                        dashTarget.transform.position.y - transform.position.y).normalized;
-                m_rigidbody2D.velocity = direction * SPEED;
-                #endregion
+                    #region 방향 이동
+                    direction = new Vector2(dashTarget.transform.position.x - transform.position.x,
+                                            dashTarget.transform.position.y - transform.position.y).normalized;
+                    m_rigidbody2D.velocity = direction * SPEED;
+                    #endregion
 
-                // 적과 충돌 시 카운트 다운
+                    // 적과 충돌 시 카운트 다운
+                }
+                // 주변에 적이 없을 경우
+                else
+                {
+                    dashCount = 3;
+                    currentState = EPlayerState.Idle;
+                }
             }
-            else    // 주변에 적이 없을 경우
+            // 대쉬 카운트가 0일 경우
+            else
             {
-                currentState = EPlayerState.Idle;
                 dashCount = 3;
+                currentState = EPlayerState.Idle;
             }
         }
-        //else if (currentState == EPlayerState.Dash && dashCount == 0)
-        //{
-        //    // 에너미에서 처리
-        //}
 
         // 플레이어 넉백
         //if (currentState == EPlayerState.Success || currentState == EPlayerState.Miss && GameManager.Instance.currentGamePlayerState == EGamePlayerState.Boss)
@@ -243,6 +254,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        isColide = true;
         chargingEffect.Stop();
         drawLine.EndLine();
 
@@ -253,20 +265,15 @@ public class Player : MonoBehaviour
 
             switch (currentState)
             {
-                case EPlayerState.Charging:
-                case EPlayerState.Charged:
-                case EPlayerState.Moving:
-                case EPlayerState.Dash:
-                    currentState = EPlayerState.Battle;
-                    BattleManager.Instance.enemy = other.gameObject;
-                    BattleManager.Instance.EnterBattleMode(1, 3);
-                    dashCount--;
-                    break;
                 case EPlayerState.Idle:
                     // Game Over
                     GameManager.Instance.currentGameState = EGameState.Defeat;
                     break;
                 default:
+                    currentState = EPlayerState.Battle;
+                    BattleManager.Instance.enemy = other.gameObject;
+                    BattleManager.Instance.EnterBattleMode(1, 3);
+                    dashCount--;
                     break;
             }
         }
@@ -277,19 +284,15 @@ public class Player : MonoBehaviour
 
             switch (currentState)
             {
-                case EPlayerState.Charging:
-                case EPlayerState.Charged:
-                case EPlayerState.Moving:
-                case EPlayerState.Dash:
-                    currentState = EPlayerState.Battle;
-                    BattleManager.Instance.enemy = other.gameObject;
-                    BattleManager.Instance.EnterBattleMode(4, 6);
-                    break;
                 case EPlayerState.Idle:
                     // Game Over
                     GameManager.Instance.currentGameState = EGameState.Defeat;
                     break;
                 default:
+                    currentState = EPlayerState.Battle;
+                    BattleManager.Instance.enemy = other.gameObject;
+                    BattleManager.Instance.EnterBattleMode(1, 3);
+                    dashCount--;
                     break;
             }
         }
@@ -297,6 +300,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
+        isColide = false;
         if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("Boss"))
         {
             CameraManager.Instance.isZoom = false;

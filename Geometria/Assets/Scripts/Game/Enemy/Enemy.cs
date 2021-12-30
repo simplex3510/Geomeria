@@ -49,11 +49,9 @@ public class Enemy : MonoBehaviour
         {
             EnemyKnockBack();
         }
-        else if (Player.Instance.currentState == EPlayerState.Dash && Player.Instance.dashCount == 0)
+        else if (Player.Instance.dashCount == 0)
         {
             EnemyKnockBack();
-            Player.Instance.dashCount = 3;
-            Player.Instance.currentState = EPlayerState.Idle;
         }
         
     }
@@ -79,10 +77,10 @@ public class Enemy : MonoBehaviour
                                     transform.position.y - playerTransform.position.y).normalized;
 
             m_rigidbody2D.velocity = direction * backSpeed;
-            if (10 <= (transform.position - playerTransform.position).magnitude)
-            {
-                m_rigidbody2D.velocity = Vector2.zero;
-            }
+        }
+        else
+        {
+            m_rigidbody2D.velocity = Vector2.zero;
         }
     }
 
