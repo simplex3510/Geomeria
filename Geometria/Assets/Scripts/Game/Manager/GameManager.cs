@@ -36,7 +36,7 @@ class GameManager : MonoBehaviour
 
     Color rectColor;
 
-    float offset;
+    float timeOffset;
     float record;
     float bestRecord;
     float endRectWidth = 0f;
@@ -81,7 +81,7 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        offset = 1f;
+        timeOffset = 1f;
         currentGameState = EGameState.Normal;
         isEnd = false;
         isEndInit = false;
@@ -126,13 +126,13 @@ class GameManager : MonoBehaviour
             return;
         }
 
-        width += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
+        width += BattleTimer.ONE_PERCENT * timeOffset * Time.deltaTime;
         timer.sizeDelta = new Vector2(width, 10);
     }
 
     void BossState()
     {
-        offset = 1.5f;
+        timeOffset = 1.5f;
 
         if (width <= 0)
         {
@@ -140,7 +140,7 @@ class GameManager : MonoBehaviour
             return;
         }
 
-        width -= BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
+        width -= BattleTimer.ONE_PERCENT * timeOffset * Time.deltaTime;
         timer.sizeDelta = new Vector2(width, 10);
     }
 
@@ -153,7 +153,7 @@ class GameManager : MonoBehaviour
 
         if(isEndInit == false)
         {
-            offset = 150f;
+            timeOffset = 150f;
 
             EnemyManager.Instance.DisableEnemies();
             endGameSquare.gameObject.SetActive(true);
@@ -180,7 +180,7 @@ class GameManager : MonoBehaviour
         {
             if(hasRotate == false)
             {
-                offset = 2f;
+                timeOffset = 2f;
                 rectColor = endGameSquare.GetComponent<Image>().color;
 
                 #region 점수 출력 및 저장
@@ -210,13 +210,13 @@ class GameManager : MonoBehaviour
                 return;
             }
 
-            rectColor.a -= offset * Time.deltaTime;
+            rectColor.a -= timeOffset * Time.deltaTime;
             endGameSquare.GetComponent<Image>().color = rectColor;
         }
 
         // endGameSquare 확대
-        endRectWidth  += BattleTimer.ONE_PERCENT * offset * Time.deltaTime;
-        endRectHeight += 10.8f * offset * Time.deltaTime;
+        endRectWidth  += BattleTimer.ONE_PERCENT * timeOffset * Time.deltaTime;
+        endRectHeight += 10.8f * timeOffset * Time.deltaTime;
         endGameSquare.sizeDelta = new Vector2(endRectWidth, endRectHeight);
     }
 

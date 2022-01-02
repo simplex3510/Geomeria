@@ -101,6 +101,11 @@ class BattleManager : MonoBehaviour
             {
                 Battle();
             }
+            else if (currentBattleState == EBattleState.Defeat)
+            {
+                yield return new WaitForSecondsRealtime(0.3f);
+                ExitBattleMode(EBattleState.Defeat);
+            }
             else if (currentBattleState == EBattleState.Success)
             {
                 yield return new WaitForSecondsRealtime(0.3f);
@@ -110,10 +115,6 @@ class BattleManager : MonoBehaviour
             {
                 yield return new WaitForSecondsRealtime(0.3f);
                 ExitBattleMode(EBattleState.Miss);
-            }
-            else if (currentBattleState == EBattleState.Defeat)
-            {
-                ExitBattleMode(EBattleState.Defeat);
             }
             
             yield return null;
@@ -282,6 +283,5 @@ class BattleManager : MonoBehaviour
         currentCommandIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
-        
     }
 }
