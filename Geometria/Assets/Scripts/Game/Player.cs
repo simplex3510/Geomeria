@@ -228,22 +228,28 @@ public class Player : MonoBehaviour
                 currentState = EPlayerState.Idle;
             }
         }
+    }
 
-        // 플레이어 넉백
-        //if (currentState == EPlayerState.Success || currentState == EPlayerState.Miss && GameManager.Instance.currentGamePlayerState == EGamePlayerState.Boss)
-        //{
-        //    if ((transform.position - targetTransform.position).magnitude <= 3)
-        //    {
-        //        direction = new Vector2(transform.position.x - targetTransform.position.x,
-        //                                transform.position.y - targetTransform.position.y).normalized;
+    public IEnumerator PlayerKnockBack()
+    {
+        while(true)
+        {
+            // 플레이어 넉백
+            if ((transform.position - targetTransform.position).magnitude <= 3)
+            {
+                direction = new Vector2(transform.position.x - targetTransform.position.x,
+                                        transform.position.y - targetTransform.position.y).normalized;
 
-        //        m_rigidbody2D.velocity = direction * SPEED;
-        //        if (3 <= (transform.position - targetTransform.position).magnitude)
-        //        {
-        //            m_rigidbody2D.velocity = Vector2.zero;
-        //        }
-        //    }
-        //}
+                m_rigidbody2D.velocity = direction * SPEED;
+                if (3 <= (transform.position - targetTransform.position).magnitude)
+                {
+                    m_rigidbody2D.velocity = Vector2.zero;
+                    yield break;
+                }
+            }
+
+            yield return null;
+        }
     }
 
     private void OnDrawGizmos()
@@ -291,7 +297,7 @@ public class Player : MonoBehaviour
                 default:
                     currentState = EPlayerState.Battle;
                     BattleManager.Instance.enemy = other.gameObject;
-                    BattleManager.Instance.EnterBattleMode(1, 3);
+                    BattleManager.Instance.EnterBattleMode(4, 6);
                     dashCount--;
                     break;
             }

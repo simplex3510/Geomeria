@@ -34,6 +34,7 @@ public class BattleTimer : MonoBehaviour
     {
         if (currentWidth <= 0)
         {
+            Player.Instance.currentState = EPlayerState.Idle;
             BattleManager.Instance.currentBattleState = EBattleState.Defeat;
             GameManager.Instance.currentGameState = EGameState.Defeat;
             return;

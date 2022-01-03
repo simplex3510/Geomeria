@@ -22,7 +22,6 @@ class GameManager : MonoBehaviour
     public RectTransform endWindow;
     public GameObject enemySpawner;
     public GameObject player;
-    public GameObject playerLine;
     public Text recordText;
     public Text bestRecordText;
     public Text gameSetText;
@@ -81,7 +80,7 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeOffset = 1f;
+        timeOffset = 25f;
         currentGameState = EGameState.Normal;
         isEnd = false;
         isEndInit = false;
@@ -158,8 +157,6 @@ class GameManager : MonoBehaviour
             EnemyManager.Instance.DisableEnemies();
             endGameSquare.gameObject.SetActive(true);
 
-            
-            // playerLine.SetActive(false);
             Player.Instance.drawLine.EndLine();
             timer.gameObject.SetActive(false);
             enemySpawner.SetActive(false);
