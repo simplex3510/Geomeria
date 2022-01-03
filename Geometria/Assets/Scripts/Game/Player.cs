@@ -241,8 +241,10 @@ public class Player : MonoBehaviour
                                         transform.position.y - targetTransform.position.y).normalized;
 
                 m_rigidbody2D.velocity = direction * SPEED;
+                
                 if (3 <= (transform.position - targetTransform.position).magnitude)
                 {
+                    Debug.Log("플레이어 넉백 스톱");
                     m_rigidbody2D.velocity = Vector2.zero;
                     yield break;
                 }

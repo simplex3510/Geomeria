@@ -259,7 +259,6 @@ class BattleManager : MonoBehaviour
             {
                 enemy.GetComponent<Boss>().battleCnt--;
                 StartCoroutine(Player.Instance.PlayerKnockBack());
-                Player.Instance.currentState = EPlayerState.Dash;
 
                 if (enemy.GetComponent<Boss>().battleCnt <= 0)
                 {
