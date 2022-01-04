@@ -8,7 +8,6 @@ public enum EBossState
     Charging,
     Charged,
     Moving,
-    Dash,
     Battle,
 }
 
@@ -58,7 +57,6 @@ public class Boss : MonoBehaviour
         yield return new WaitForSecondsRealtime(1.5f);
         while (true)
         {
-            Debug.Log("FSM");
             switch (currentState)
             {
                 case EBossState.Idle:
@@ -84,7 +82,7 @@ public class Boss : MonoBehaviour
     {
         while (true)
         {
-            if (currentState != EBossState.Idle)
+            if (BattleManager.Instance.currentBattleState == EBattleState.Success)
             {
                 StartCoroutine(BossKnockback());
                 yield break;

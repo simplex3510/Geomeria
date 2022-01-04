@@ -258,7 +258,7 @@ class BattleManager : MonoBehaviour
             if (enemy.CompareTag("Boss"))
             {
                 enemy.GetComponent<Boss>().battleCnt--;
-                StartCoroutine(Player.Instance.PlayerKnockBack());
+                StartCoroutine(Player.Instance.PlayerKnockback());
 
                 if (enemy.GetComponent<Boss>().battleCnt <= 0)
                 {

@@ -228,28 +228,29 @@ public class Player : MonoBehaviour
                 currentState = EPlayerState.Idle;
             }
         }
+        // else if (currentState == EPlayerState.Battle)
+        // {
+        //     if(BattleManager.Instance.currentBattleState == )
+        // }
+    
     }
 
-    public IEnumerator PlayerKnockBack()
+    public IEnumerator PlayerKnockback()
     {
-        while(true)
+        float backSpeed = 100f;
+        float duration = 0f;
+        direction = new Vector2(transform.position.x - targetTransform.position.x,
+                                transform.position.y - targetTransform.position.y).normalized;
+
+        m_rigidbody2D.velocity = direction * backSpeed;
+        while (true)
         {
-            // 플레이어 넉백
-            if ((transform.position - targetTransform.position).magnitude <= 3)
+            duration += Time.deltaTime;
+            if (0.12f <= duration)
             {
-                direction = new Vector2(transform.position.x - targetTransform.position.x,
-                                        transform.position.y - targetTransform.position.y).normalized;
-
-                m_rigidbody2D.velocity = direction * SPEED;
-                
-                if (3 <= (transform.position - targetTransform.position).magnitude)
-                {
-                    Debug.Log("플레이어 넉백 스톱");
-                    m_rigidbody2D.velocity = Vector2.zero;
-                    yield break;
-                }
+                m_rigidbody2D.velocity = Vector2.zero;
+                yield break;
             }
-
             yield return null;
         }
     }
