@@ -274,6 +274,7 @@ class BattleManager : MonoBehaviour
         }
         else if (_state == EBattleState.Miss)
         {
+            StartCoroutine(Player.Instance.PlayerKnockback());
             Player.Instance.currentState = EPlayerState.Idle;
             currentBattleState = EBattleState.Normal;
         }

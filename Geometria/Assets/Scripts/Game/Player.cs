@@ -228,10 +228,6 @@ public class Player : MonoBehaviour
                 currentState = EPlayerState.Idle;
             }
         }
-        // else if (currentState == EPlayerState.Battle)
-        // {
-        //     if(BattleManager.Instance.currentBattleState == )
-        // }
     
     }
 

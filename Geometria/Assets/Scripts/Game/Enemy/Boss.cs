@@ -51,6 +51,11 @@ public class Boss : MonoBehaviour
         StartCoroutine(Update_FSM());
     }
 
+    void OnDisable()
+    {
+        GameManager.Instance.currentGameState = EGameState.Victory;
+    }
+
     // Update is called once per frame
     IEnumerator Update_FSM()
     {
@@ -183,6 +188,8 @@ public class Boss : MonoBehaviour
 
     IEnumerator BossKnockback()
     {
+        StartCoroutine(Player.Instance.PlayerKnockback());
+
         float backSpeed = 100f;
         float duration = 0f;
         direction = new Vector2(transform.position.x - playerPosition.position.x,
