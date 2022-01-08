@@ -1,4 +1,4 @@
-using System.Collections;
+   using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +34,9 @@ class GameManager : MonoBehaviour
     }
 
     Color rectColor;
+
+    readonly float ONE_PERCENT = 19.2f;
+    readonly int FULL_WIDTH = 1920;
 
     float timeOffset;
     float record;
@@ -109,8 +112,9 @@ class GameManager : MonoBehaviour
 
     void NormalState()
     {
-        if (BattleTimer.FULL_WIDTH <= width)
+        if (FULL_WIDTH - (ONE_PERCENT * 10) <= width)
         {
+            width = FULL_WIDTH - (ONE_PERCENT * 10);
             currentGameState = EGameState.Boss;
 
             EnemyManager.Instance.DisableEnemies();
@@ -125,22 +129,13 @@ class GameManager : MonoBehaviour
             return;
         }
 
-        width += BattleTimer.ONE_PERCENT * timeOffset * Time.deltaTime;
+        width += ONE_PERCENT * timeOffset * Time.deltaTime;
         timer.sizeDelta = new Vector2(width, 10);
     }
 
     void BossState()
     {
-        timeOffset = 1.5f;
 
-        if (width <= 0)
-        {
-            currentGameState = EGameState.Defeat;
-            return;
-        }
-
-        width -= BattleTimer.ONE_PERCENT * timeOffset * Time.deltaTime;
-        timer.sizeDelta = new Vector2(width, 10);
     }
 
     void EndState()
@@ -173,7 +168,7 @@ class GameManager : MonoBehaviour
             isEndInit = true;
         }
 
-        if (BattleTimer.FULL_WIDTH <= endRectWidth)
+        if (FULL_WIDTH <= endRectWidth)
         {
             if(hasRotate == false)
             {
@@ -181,7 +176,7 @@ class GameManager : MonoBehaviour
                 rectColor = endGameSquare.GetComponent<Image>().color;
 
                 #region 점수 출력 및 저장
-                record = (width / BattleTimer.FULL_WIDTH) * 100f;
+                record = (width / FULL_WIDTH) * 100f;
                 recordText.text = $"{record:f2}%";
 
                 float bestRecord = PlayerPrefs.GetFloat("BestRecord");
@@ -212,11 +207,16 @@ class GameManager : MonoBehaviour
         }
 
         // endGameSquare 확대
-        endRectWidth  += BattleTimer.ONE_PERCENT * timeOffset * Time.deltaTime;
+        endRectWidth  += ONE_PERCENT * timeOffset * Time.deltaTime;
         endRectHeight += 10.8f * timeOffset * Time.deltaTime;
         endGameSquare.sizeDelta = new Vector2(endRectWidth, endRectHeight);
     }
 
+    public void ExtendTime()
+    {
+        width += ONE_PERCENT * 2;
+        timer.sizeDelta = new Vector2(width, 10);
+    }
     IEnumerator Rotate()
     {
         float rotateSpeed = 20f;
