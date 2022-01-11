@@ -83,7 +83,7 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeOffset = 25f;
+        timeOffset = 1f;
         currentGameState = EGameState.Normal;
         isEnd = false;
         isEndInit = false;

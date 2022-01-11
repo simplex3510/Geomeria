@@ -132,21 +132,25 @@ class BattleManager : MonoBehaviour
             {
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[0];
+                CameraEffect();
             }
             else if (currentCommand == ECommand.Down && Input.GetKeyDown((KeyCode)ECommand.Down))
             {
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[1];
+                CameraEffect();
             }
             else if (currentCommand == ECommand.Left && Input.GetKeyDown((KeyCode)ECommand.Left))
             {
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[2];
+                CameraEffect();
             }
             else if (currentCommand == ECommand.Right && Input.GetKeyDown((KeyCode)ECommand.Right))
             {
                 currentCommandIndex++;
                 commandSprite.sprite = commandDrawSuccess[3];
+                CameraEffect();
             }
             // Battle 중에 마우스 차단, 잘못된 커맨드 입력 -> miss 처리
             else if (!Input.GetMouseButtonDown(0) &&
@@ -158,18 +162,22 @@ class BattleManager : MonoBehaviour
                     case ECommand.Up:
                         missCount++;
                         commandSprite.sprite = commandDrawMiss[0];
+                        CameraEffect();
                         break;
                     case ECommand.Down:
                         missCount++;
                         commandSprite.sprite = commandDrawMiss[1];
+                        CameraEffect();
                         break;
                     case ECommand.Left:
                         missCount++;
                         commandSprite.sprite = commandDrawMiss[2];
+                        CameraEffect();
                         break;
                     case ECommand.Right:
                         missCount++;
                         commandSprite.sprite = commandDrawMiss[3];
+                        CameraEffect();
                         break;
                     default:
                         Debug.Log("Wrong Command");
@@ -288,5 +296,10 @@ class BattleManager : MonoBehaviour
         currentCommandIndex = 0;
         commandWindow.SetActive(false);
         commandInput.Clear();
+    }
+
+    void CameraEffect()
+    {
+        Camera.main.orthographicSize = 8.5f;
     }
 }
